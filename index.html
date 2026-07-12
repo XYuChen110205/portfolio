@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Seeyu 个人作品集 - AI & 全栈开发者的项目展示">
+<title>Seeyu · 个人作品集</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'base',
+    themeVariables: {
+      primaryColor: '#eef2ff',
+      primaryTextColor: '#1e293b',
+      primaryBorderColor: '#c7d2fe',
+      lineColor: '#6366f1',
+      secondaryColor: '#f0f9ff',
+      tertiaryColor: '#faf5ff',
+      fontSize: '13px',
+      fontFamily: '-apple-system,BlinkMacSystemFont,"Noto Sans SC",sans-serif'
+    },
+    flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }
+  });
+</script>
+</head>
+<body>
+
+<!-- ===== Background colorful circles ===== -->
+<div class="bg-decoration" id="bgDecoration"></div>
+
+<!-- ===== Top Navbar ===== -->
+<header class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="#home" class="nav-logo">&lt;Seeyu/&gt;</a>
+
+    <nav class="nav-menu" id="navMenu">
+      <a href="#home" class="nav-link active" data-section="home"><span class="nav-label">首页</span></a>
+      <a href="#projects" class="nav-link" data-section="projects"><span class="nav-label">项目作品集</span></a>
+      <a href="#skills" class="nav-link" data-section="skills"><span class="nav-label">技术技能</span></a>
+      <a href="#about" class="nav-link" data-section="about"><span class="nav-label">关于我</span></a>
+      <a href="#contact" class="nav-link" data-section="contact"><span class="nav-label">联系方式</span></a>
+    </nav>
+
+    <div class="nav-actions">
+      <div class="lang-switch" id="langSwitch">
+        <svg class="lang-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <select class="lang-select" id="langSelect" aria-label="Language">
+          <option value="zh">简体中文</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="en">English</option>
+          <option value="ja">日本語</option>
+          <option value="ko">한국어</option>
+          <option value="it">Italiano</option>
+          <option value="fr">Français</option>
+        </select>
+      </div>
+      <a href="#contact" class="btn btn-primary nav-cta" id="navCta">联系我</a>
+      <button class="nav-toggle" id="sidebarToggle" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+  <span class="nav-role" id="sidebarRole">AI &amp; Full-Stack Developer</span>
+</header>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ===== Main Content ===== -->
+<div class="main-content">
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="home">
+
+  <!-- Draggable floating images -->
+  <div class="hero-float" id="heroFloat">
+    <div class="float-img-wrap" data-id="mascot" style="right:10%;bottom:18%">
+      <img src="images/suolvtu/伴生偶.png" alt="伴生偶" draggable="false">
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-greeting">你好，我是</p>
+    <h1 class="hero-name"><span class="grad" id="typewriter"></span></h1>
+    <p class="hero-title">AI &amp; 全栈开发者 / 计算机视觉工程师</p>
+    <p class="hero-desc">专注于人工智能、计算机视觉与Web全栈技术的交叉融合。<br>热爱将前沿AI技术落地为实用产品，探索技术边界。</p>
+    <div class="hero-stats-row">
+      <div class="hero-stat"><div class="hero-stat-val" id="countProjects">21</div><div class="hero-stat-lbl">项目作品</div></div>
+      <div class="hero-stat"><div class="hero-stat-val" id="countTech">40+</div><div class="hero-stat-lbl">技术栈</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">3+</div><div class="hero-stat-lbl">年开发经验</div></div>
+    </div>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-primary">查看项目</a>
+      <a href="#about" class="btn btn-outline">了解更多</a>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator">
+    <span>滚动探索</span>
+    <span style="font-size:1.2rem">&#8595;</span>
+  </div>
+</section>
+
+<!-- ===== Projects ===== -->
+<section class="section" id="projects">
+  <div class="section-header fade-in">
+    <div class="section-badge"><span class="dot"></span> Portfolio</div>
+    <h2 class="section-title">项目作品集</h2>
+    <p class="section-desc">涵盖 AI Agent、深度学习、计算机视觉、Web全栈、桌面应用 等多个领域。点击项目卡片查看详细架构设计与技术分析。</p>
+  </div>
+  <div class="filter-bar fade-in" id="filterBar"></div>
+  <div class="projects-grid" id="projectsGrid"></div>
+</section>
+
+<!-- ===== Detail Panel (Slide-in) ===== -->
+<div class="detail-overlay" id="detailOverlay"></div>
+<div class="detail-panel" id="detailPanel"></div>
+
+<!-- ===== Skills ===== -->
+<section class="section" id="skills">
+  <div class="section-header fade-in">
+    <div class="section-badge"><span class="dot"></span> Skills</div>
+    <h2 class="section-title">技术技能</h2>
+    <p class="section-desc">持续积累的技术栈与工具链</p>
+  </div>
+  <div class="skills-grid fade-in" id="skillsGrid"></div>
+</section>
+
+<!-- ===== About ===== -->
+<section class="section" id="about">
+  <div class="section-header fade-in">
+    <div class="section-badge"><span class="dot"></span> About</div>
+    <h2 class="section-title">关于我</h2>
+    <p class="section-desc">技术成长历程</p>
+  </div>
+
+  <div class="about-media-row fade-in">
+    <div class="about-photo-card">
+      <img src="images/suolvtu/专业感真人本人图.png" alt="专业照" class="about-photo">
+      <span>专业照</span>
+    </div>
+    <div class="about-photo-card">
+      <img src="images/suolvtu/生活图.png" alt="生活照" class="about-photo">
+      <span>生活照</span>
+    </div>
+  </div>
+
+  <div class="timeline fade-in">
+    <div class="tl-item">
+      <div class="tl-period">2024 – 至今</div>
+      <div class="tl-title">AI Agent开发 &amp; 深度学习科研</div>
+      <div class="tl-desc">深入AI Agent多智能体协作（LangChain/LangGraph）、计算机视觉（YOLO系列）、NLP等前沿领域。参与挑战杯项目、黑客松比赛，将AI技术落地于法律咨询、光伏检测、英语学习等实际场景，积累端到端的AI产品开发经验。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-period">2023 – 2024</div>
+      <div class="tl-title">Web全栈 &amp; 深度学习入门</div>
+      <div class="tl-desc">系统学习Vue3/React前端框架、FastAPI/Django后端框架，掌握YOLOv8、PyTorch、OpenCV等深度学习与计算机视觉工具。构建多个Web全栈项目和机器视觉应用，从单体应用到微服务架构逐步演进。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-period">2022 – 2023</div>
+      <div class="tl-title">编程基础构建期</div>
+      <div class="tl-desc">系统学习Python、HTML/CSS/JavaScript、C/C++等编程语言，掌握数据结构与算法核心知识。完成多个小型练手项目，初步建立软件工程思维。通过爬虫、GUI、Web等项目实践，快速积累开发经验。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-period">2021</div>
+      <div class="tl-title">编程启蒙</div>
+      <div class="tl-desc">从Hello World起步，开启技术探索之旅。对计算机世界产生浓厚兴趣，确立以AI与Web技术为核心的发展方向。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Contact ===== -->
+<section class="section" id="contact">
+  <div class="section-header fade-in">
+    <div class="section-badge"><span class="dot"></span> Contact</div>
+    <h2 class="section-title">联系方式</h2>
+    <p class="section-desc">欢迎技术交流与合作探讨</p>
+  </div>
+  <div class="contact-grid fade-in" id="contactGrid"></div>
+</section>
+
+</div><!-- /main-content -->
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <p><span class="fb-pre"></span> <span class="heart"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15" style="vertical-align:middle"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span> <span class="fb-post"></span></p>
+  <p style="margin-top:6px;font-size:0.78rem">Mermaid.js for architecture diagrams | 全部项目为独立开发完成</p>
+</footer>
+
+<script src="js/icons.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/projects.js"></script>
+<script src="js/projects-i18n.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
