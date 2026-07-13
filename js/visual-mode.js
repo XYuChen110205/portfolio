@@ -60,25 +60,15 @@ function renderVisualMode() {
         <div class="vm-track" id="vmTrack">
           ${vmSlides.map((s, i) => `
             <div class="vm-slide" data-index="${i}" onclick="vmClickSlide(${s.id})">
-              <div class="vm-slide-inner" data-img="${s.img}">
-                <img src="${s.img}" alt="${s.name}" class="vm-slide-img">
+              <div class="vm-slide-inner">
+                <img src="${s.img}" alt="" class="vm-slide-img">
               </div>
             </div>
           `).join('')}
         </div>
-        <svg class="vm-mask-svg" viewBox="0 0 800 300" preserveAspectRatio="none">
-          <defs>
-            <clipPath id="smileClip">
-              <path d="M 0,150 C 100,30 300,20 400,30 C 500,20 700,30 800,150 L 800,300 L 0,300 Z"/>
-            </clipPath>
-          </defs>
-        </svg>
       </div>
       <button class="vm-nav vm-prev" onclick="vmPrev()">&#10094;</button>
       <button class="vm-nav vm-next" onclick="vmNext()">&#10095;</button>
-      <div class="vm-dots" id="vmDots">
-        ${vmSlides.map((_, i) => `<span class="vm-dot${i === 0 ? ' active' : ''}" data-index="${i}" onclick="vmGoTo(${i})"></span>`).join('')}
-      </div>
     </div>
   `
   section.appendChild(container)
@@ -93,7 +83,7 @@ function buildSlides() {
   projectsData.forEach(p => {
     const img = p.thumbs ? p.thumbs[0] : (p.thumb || null)
     if (!img) return
-    vmSlides.push({ id: p.id, name: p.name, img, icon: p.icon })
+    vmSlides.push({ id: p.id, img })
   })
 }
 
