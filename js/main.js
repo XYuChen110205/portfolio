@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   animateStats();
   initFadeIn();
   initLangSwitch();
+  initVisualMode();
 });
 
 // ========== Language Switch ==========
