@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Seeyu - More Projects">
+<title>More Works · Seeyu</title>
+<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({ startOnLoad:false, theme:'base',
+    themeVariables:{ primaryColor:'#eef2ff', primaryTextColor:'#1e293b', primaryBorderColor:'#c7d2fe', lineColor:'#2d6a4f', secondaryColor:'#f0f9ff', tertiaryColor:'#faf5ff', fontSize:'13px', fontFamily:'-apple-system,BlinkMacSystemFont,"Noto Sans SC",sans-serif' },
+    flowchart:{ useMaxWidth:true, htmlLabels:true, curve:'basis' }
+  });
+</script>
+<style>
+  :root {
+    --bg:#f8f7f4; --surface:#ffffff; --border:#e5e5e0; --border-light:#efeee9;
+    --text:#1a1a1a; --text2:#555; --text3:#999; --accent:#2d6a4f;
+    --font-serif:"Noto Serif SC",Georgia,serif;
+    --shadow-sm:0 2px 12px rgba(0,0,0,.04);
+    --shadow-md:0 8px 32px rgba(0,0,0,.07);
+    --transition:0.35s cubic-bezier(.4,0,.2,1);
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","PingFang SC",sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:#40916c}
+
+  /* Back Bar */
+  .back-bar{
+    position:fixed;top:0;left:0;right:0;z-index:1000;height:60px;
+    background:rgba(255,255,255,.78);backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border-light);
+    display:flex;align-items:center;padding:0 28px;
+  }
+  .back-link{
+    display:inline-flex;align-items:center;gap:8px;font-size:.88rem;
+    font-weight:600;color:var(--text2);transition:color .2s;
+    font-family:var(--font-serif);
+  }
+  .back-link:hover{color:var(--accent)}
+  .back-link svg{width:18px;height:18px}
+
+  /* Page */
+  .page-wrapper{max-width:1080px;margin:0 auto;padding:100px 28px 80px}
+
+  .page-header{margin-bottom:56px;text-align:center}
+  .page-num{
+    font-family:var(--font-serif);font-size:6rem;font-weight:900;
+    color:var(--border-light);line-height:1;display:block;
+    margin-bottom:-28px;letter-spacing:-2px;opacity:.6;
+  }
+  .page-label-en{
+    font-family:var(--font-serif);font-size:2rem;font-weight:900;
+    color:var(--text);letter-spacing:2px;text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .page-label-cn{
+    font-family:var(--font-serif);font-size:1.05rem;
+    color:var(--text3);font-weight:400;
+  }
+
+  /* Grid */
+  .works-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+    gap:20px;max-width:960px;margin:0 auto;
+  }
+  .work-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:4px;overflow:hidden;cursor:pointer;
+    transition:all var(--transition);box-shadow:var(--shadow-sm);
+  }
+  .work-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+  .work-thumb{
+    width:100%;aspect-ratio:16/10;background:linear-gradient(160deg,#eef2ff 0%,#e8ecef 100%);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+  }
+  .work-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .work-card:hover .work-thumb img{transform:scale(1.04)}
+  .work-thumb .thumb-icon{opacity:.35;color:var(--accent)}
+  .work-thumb .thumb-icon svg{width:48px;height:48px}
+  .work-info{padding:16px 18px}
+  .work-info h3{font-family:var(--font-serif);font-size:.95rem;font-weight:700;color:var(--text);line-height:1.4}
+  .work-info .work-tag{
+    display:inline-block;padding:2px 8px;border-radius:2px;
+    font-size:.64rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;
+    background:rgba(45,106,79,.08);color:var(--accent);margin-bottom:6px;
+  }
+
+  footer{
+    text-align:center;padding:28px;border-top:1px solid var(--border-light);
+    color:var(--text3);font-size:.78rem;background:var(--surface);
+  }
+
+  @media(max-width:700px){
+    .page-wrapper{padding:80px 18px 60px}
+    .works-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+  }
+</style>
+</head>
+<body>
+
+<!-- Back Bar -->
+<div class="back-bar">
+  <a href="index.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    <span id="backLabel">Back to Portfolio</span>
+  </a>
+</div>
+
+<!-- Content -->
+<div class="page-wrapper">
+  <div class="page-header">
+    <span class="page-num">99</span>
+    <h1 class="page-label-en">MORE WORKS</h1>
+    <p class="page-label-cn" id="moreTitle">其他项目</p>
+  </div>
+  <div class="works-grid" id="worksGrid"></div>
+</div>
+
+<footer>
+  <p>AI Assisted · Independent Work · © 2026 Seeyu</p>
+</footer>
+
+<script src="js/icons.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/projects.js"></script>
+<script src="js/projects-i18n.js"></script>
+<script>
+(function(){
+  var FEATURED_IDS = [1, 2, 3, 5, 6, 8, 10, 11];
+  document.getElementById('backLabel').textContent = '← ' + (t('nav_home') || 'Home');
+  document.getElementById('moreTitle').textContent = t('sec_more_title');
+
+  function ptext(id, field) {
+    var loc = (typeof projLocale !== 'undefined') && projLocale[currentLang] && projLocale[currentLang][id];
+    if (loc && loc[field] !== undefined && loc[field] !== null &&
+        !(Array.isArray(loc[field]) && loc[field].length === 0)) return loc[field];
+    var p = projectsData.find(function(x){return x.id === id;});
+    if (!p) return field === 'name' ? '' : '';
+    if (field === 'name') return p.name;
+    return p.detail ? p.detail[field] : undefined;
+  }
+
+  function getImg(p) {
+    if (p.thumbs && p.thumbs.length) return p.thumbs[0];
+    if (p.thumb) return p.thumb;
+    return null;
+  }
+
+  var others = projectsData.filter(function(p) { return FEATURED_IDS.indexOf(p.id) === -1; });
+  var grid = document.getElementById('worksGrid');
+  grid.innerHTML = others.map(function(p) {
+    var img = getImg(p);
+    var name = ptext(p.id, 'name');
+    var badge = p.badge || '';
+    var iconSvg = (typeof svg === 'function' && p.icon) ? svg(p.icon, 36) : '';
+    return '<div class="work-card" onclick="window.location.href=\'project-detail.html?id='+p.id+'\'">' +
+      '<div class="work-thumb">' +
+        (img ? '<img src="'+img+'" alt="'+name+'" loading="lazy">' :
+         '<div class="thumb-icon">'+iconSvg+'</div>') +
+      '</div>' +
+      '<div class="work-info">' +
+        (badge ? '<span class="work-tag">'+badge+'</span>' : '') +
+        '<h3>'+name+'</h3>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

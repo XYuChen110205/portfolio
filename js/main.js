@@ -10,16 +10,40 @@ document.addEventListener('DOMContentLoaded', function() {
   initMobileNav();
   initScrollSpy();
   initLangSwitch();
+  initTypewriter();
   initHometownCarousel();
   initSchoolCarousel();
   renderFeaturedProjects();
-  renderMoreProjects();
   renderChallengesInterests();
   renderTimeline();
   renderContacts();
   applyTexts();
   initFadeIn();
 });
+
+// ========== Typewriter ==========
+function initTypewriter() {
+  var el = document.getElementById('typewriter');
+  if (!el) return;
+  var roles = (typeof i18nMap !== 'undefined' && i18nMap[currentLang] && i18nMap[currentLang].tw_roles_v2)
+    || ['AI探索者', '计算机视觉', 'Web 开发者'];
+  var texts = ['Seeyu'].concat(roles);
+  var ti = 0, ci = 0, deleting = false;
+  function tick() {
+    var t = texts[ti];
+    if (!deleting) {
+      el.textContent = t.substring(0, ci + 1);
+      ci++;
+      if (ci === t.length) { deleting = true; setTimeout(tick, 2000); return; }
+    } else {
+      el.textContent = t.substring(0, ci - 1);
+      ci--;
+      if (ci === 0) { deleting = false; ti = (ti + 1) % texts.length; }
+    }
+    setTimeout(tick, deleting ? 50 : 100);
+  }
+  tick();
+}
 
 // ========== Background Circles ==========
 function initBgCircles() {
@@ -98,36 +122,50 @@ function initLangSwitch() {
   });
 }
 
-// ========== Text ==========
+// ========== Text — Full i18n coverage ==========
 function applyTexts() {
+  // Nav links (all 5)
+  var navIds = ['navHome','navHometown','navSchool','navChallenges','navPortfolio'];
+  var navKeys = ['nav_home','nav_hometown','nav_school','nav_challenges','nav_portfolio'];
+  for (var i=0; i<navIds.length; i++) {
+    var el = document.getElementById(navIds[i]);
+    if (el) el.textContent = t(navKeys[i]);
+  }
+
+  // Hero
   document.getElementById('heroSubtitle').textContent = t('hero_title_v2');
   document.getElementById('heroDesc').textContent = t('hero_desc_v2');
   document.getElementById('heroYears').textContent = t('hero_stat_years_v2');
+  document.getElementById('heroStatProjects').textContent = t('hero_stat_projects');
   document.getElementById('heroToolsLabel').textContent = t('hero_tools_label');
   document.getElementById('heroToolsDesc').textContent = t('hero_tools_desc');
+  var scrollEl = document.getElementById('heroScroll');
+  if (scrollEl) scrollEl.textContent = t('hero_scroll');
+
+  // Section labels
   document.getElementById('hometownCn').textContent = t('sec_hometown_title');
   document.getElementById('hometownDesc').textContent = t('sec_hometown_desc');
   document.getElementById('schoolCn').textContent = t('sec_school_title');
   document.getElementById('schoolDesc').textContent = t('sec_school_desc');
   document.getElementById('portfolioCn').textContent = t('sec_portfolio_title');
   document.getElementById('portfolioDesc').textContent = t('sec_portfolio_desc');
-  document.getElementById('moreCn').textContent = t('sec_more_title');
-  document.getElementById('moreDesc').textContent = t('sec_more_desc');
   document.getElementById('challengesCn').textContent = t('sec_challenges_title');
   document.getElementById('challengesDesc').textContent = t('sec_challenges_desc');
+  var aboutCn = document.getElementById('aboutCn');
+  if (aboutCn) aboutCn.textContent = t('nav_about');
   document.getElementById('contactCn').textContent = t('sec_contact_title');
   document.getElementById('contactDesc').textContent = t('sec_contact_desc');
+
+  // Footer + meta
   document.getElementById('footerText').innerHTML = t('footer_built_v2');
   document.title = t('page_title_v2');
   var metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) metaDesc.setAttribute('content', t('page_desc_v2'));
   document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : currentLang;
 
-  // Nav links
-  var navAs = document.querySelectorAll('#navLinks a');
-  if (navAs[1]) navAs[1].textContent = t('nav_hometown');
-  if (navAs[2]) navAs[2].textContent = t('nav_school');
-  if (navAs[4]) navAs[4].textContent = t('nav_challenges');
+  // View all button
+  var viewAll = document.querySelector('.btn-view-all');
+  if (viewAll) viewAll.textContent = t('view_all_projects') + ' →';
 }
 
 function ptext(id, field) {
@@ -151,7 +189,7 @@ function createSkewCarousel(containerId, images) {
     container.classList.add('single');
     var el = document.createElement('div');
     el.className = 'carousel-track';
-    el.innerHTML = '<div class="carousel-slide" style="position:relative;width:100%;max-width:500px;height:320px;margin:0 auto;cursor:default;">' +
+    el.innerHTML = '<div class="carousel-slide" style="position:relative;width:100%;max-width:500px;height:320px;margin:0 auto;cursor:default;border-radius:8px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.12);">' +
       '<img src="'+images[0]+'" alt="" style="width:100%;height:100%;object-fit:cover;">' +
       '</div>';
     container.appendChild(el);
@@ -198,7 +236,6 @@ function createSkewCarousel(containerId, images) {
 
     for (var i = 0; i < N; i++) {
       var offset = i - active;
-      // Wrap for circular
       if (offset > N/2) offset -= N;
       if (offset < -N/2) offset += N;
       var absOff = Math.abs(offset);
@@ -228,15 +265,12 @@ function createSkewCarousel(containerId, images) {
     }, 1800);
   }
 
-  // Initialize
   positionSlides();
   resetTimer();
 
-  // Pause on hover
   track.addEventListener('mouseenter', function() { if (timer) clearInterval(timer); });
   track.addEventListener('mouseleave', function() { resetTimer(); });
 
-  // Resize
   window.addEventListener('resize', function() {
     clearTimeout(window._carouselResizeTO);
     window._carouselResizeTO = setTimeout(function() { positionSlides(); }, 200);
@@ -283,10 +317,11 @@ function renderFeaturedProjects() {
     var name = ptext(p.id, 'name');
     var link = p.link || '';
     var badge = p.badge || '';
+    var iconSvg = (typeof svg === 'function' && p.icon) ? svg(p.icon, 48) : '';
     return '<div class="project-item fade-in" onclick="window.location.href=\'project-detail.html?id='+p.id+'\'">' +
-      '<div class="project-thumb">' +
+      '<div class="project-thumb'+(img ? ' has-img' : '')+'">' +
         (img ? '<img src="'+img+'" alt="'+name+'" loading="lazy">' :
-         '<div class="no-img">'+t('proj_no_image')+'</div>') +
+         '<div class="thumb-icon">'+iconSvg+'</div>') +
       '</div>' +
       '<div class="project-info">' +
         (badge ? '<span class="project-tag">'+badge+'</span>' : '') +
@@ -295,24 +330,6 @@ function renderFeaturedProjects() {
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>' +
           t('proj_demo_link')+'</a>' : '') +
       '</div>' +
-    '</div>';
-  }).join('');
-}
-
-// ========== More Projects ==========
-function renderMoreProjects() {
-  var grid = document.getElementById('moreProjects');
-  if (!grid) return;
-  var others = projectsData.filter(function(p) { return FEATURED_IDS.indexOf(p.id) === -1; });
-  grid.innerHTML = others.map(function(p) {
-    var img = getProjectImg(p);
-    var name = ptext(p.id, 'name');
-    return '<div class="more-item fade-in" onclick="window.location.href=\'project-detail.html?id='+p.id+'\'">' +
-      '<div class="more-thumb">' +
-        (img ? '<img src="'+img+'" alt="'+name+'" loading="lazy">' :
-         '<div style="font-size:0.7rem;color:#999;text-align:center;padding:10px;">No Img</div>') +
-      '</div>' +
-      '<div class="more-name">'+name+'</div>' +
     '</div>';
   }).join('');
 }
@@ -384,8 +401,8 @@ function renderContacts() {
   var grid = document.getElementById('contactGrid');
   if (!grid) return;
   var contacts = [
-    {icon:'github', name:'GitHub', desc:'XYuChen110205', link:'https://github.com/XYuChen110205', linkText:'github.com/XYuChen110205'},
-    {icon:'mail', name:'Email', desc:t('contact_github_desc'), link:'https://github.com/XYuChen110205', linkText:t('contact_github_link')},
+    {icon:'github', name:t('contact_github'), desc:'XYuChen110205', link:'https://github.com/XYuChen110205', linkText:'github.com/XYuChen110205'},
+    {icon:'mail', name:t('contact_mail'), desc:t('contact_github_desc'), link:'https://github.com/XYuChen110205', linkText:t('contact_github_link')},
     {icon:'star', name:t('contact_about'), desc:t('contact_about_desc')}
   ];
   grid.innerHTML = contacts.map(function(c) {

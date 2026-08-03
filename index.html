@@ -27,11 +27,11 @@
   <div class="nav-inner">
     <a href="#home" class="nav-logo">SEE<span>YU</span></a>
     <nav class="nav-links" id="navLinks">
-      <a href="#home" class="active" data-section="home">Home</a>
-      <a href="#hometown" data-section="hometown">Hometown</a>
-      <a href="#school" data-section="school">School</a>
-      <a href="#portfolio" data-section="portfolio">Portfolio</a>
-      <a href="#challenges" data-section="challenges">Challenges</a>
+      <a href="#home" class="active" data-section="home" id="navHome">Home</a>
+      <a href="#hometown" data-section="hometown" id="navHometown">Hometown</a>
+      <a href="#school" data-section="school" id="navSchool">School</a>
+      <a href="#challenges" data-section="challenges" id="navChallenges">Challenges</a>
+      <a href="#portfolio" data-section="portfolio" id="navPortfolio">Portfolio</a>
     </nav>
     <div class="nav-actions">
       <div class="lang-switch" id="langSwitch">
@@ -47,14 +47,14 @@
 <!-- Main Content -->
 <div class="main-content">
 
-<!-- ===== Home ===== -->
+<!-- ===== 01. Home ===== -->
 <section class="hero" id="home">
   <span class="hero-num">01</span>
-  <h1 class="hero-name">Seeyu</h1>
+  <h1 class="hero-name"><span class="grad" id="typewriter">Seeyu</span></h1>
   <p class="hero-subtitle" id="heroSubtitle">AI Assisted Creator</p>
   <p class="hero-desc" id="heroDesc">在 AI 辅助下，探索计算机视觉、深度学习与 Web 技术的交叉地带。</p>
   <div class="hero-stats-row">
-    <div class="hero-stat"><div class="hero-stat-val" id="countProjects">21</div><div class="hero-stat-lbl">Projects</div></div>
+    <div class="hero-stat"><div class="hero-stat-val" id="countProjects">21</div><div class="hero-stat-lbl" id="heroStatProjects">Projects</div></div>
     <div class="hero-stat"><div class="hero-stat-val">3+</div><div class="hero-stat-lbl" id="heroYears">年探索</div></div>
   </div>
   <div class="hero-tools">
@@ -62,11 +62,11 @@
     <p class="hero-tools-desc" id="heroToolsDesc">探索 Python · PyTorch · YOLO · FastAPI · Vue 等技术，在 AI 辅助下完成多个实战项目。</p>
   </div>
   <div class="hero-scroll">
-    <span>Scroll</span><span>↓</span>
+    <span id="heroScroll">Scroll</span><span>↓</span>
   </div>
 </section>
 
-<!-- ===== Hometown ===== -->
+<!-- ===== 02. Hometown ===== -->
 <section class="section" id="hometown">
   <div class="section-head fade-in">
     <span class="section-num">02</span>
@@ -77,7 +77,7 @@
   <div class="skew-carousel fade-in" id="hometownCarousel"></div>
 </section>
 
-<!-- ===== School ===== -->
+<!-- ===== 03. School ===== -->
 <section class="section" id="school">
   <div class="section-head fade-in">
     <span class="section-num">03</span>
@@ -88,32 +88,10 @@
   <div class="skew-carousel fade-in" id="schoolCarousel"></div>
 </section>
 
-<!-- ===== Portfolio ===== -->
-<section class="section" id="portfolio">
-  <div class="section-head fade-in">
-    <span class="section-num">04</span>
-    <h2 class="section-label-en">PORTFOLIO</h2>
-    <p class="section-label-cn" id="portfolioCn">项目作品集</p>
-    <p class="section-desc" id="portfolioDesc">在 AI 辅助下完成的计算机视觉与全栈项目。点击图片查看详情。</p>
-  </div>
-  <div class="projects-grid fade-in" id="featuredProjects"></div>
-</section>
-
-<!-- ===== More Works ===== -->
-<section class="section" id="more-works">
-  <div class="section-head fade-in">
-    <span class="section-num">05</span>
-    <h2 class="section-label-en">MORE WORKS</h2>
-    <p class="section-label-cn" id="moreCn">其他项目</p>
-    <p class="section-desc" id="moreDesc">更多练手项目与实验作品。</p>
-  </div>
-  <div class="more-grid fade-in" id="moreProjects"></div>
-</section>
-
-<!-- ===== Challenges & Interests ===== -->
+<!-- ===== 04. Challenges & Interests ===== -->
 <section class="section" id="challenges">
   <div class="section-head fade-in">
-    <span class="section-num">06</span>
+    <span class="section-num">04</span>
     <h2 class="section-label-en">CHALLENGES<br>&amp; INTERESTS</h2>
     <p class="section-label-cn" id="challengesCn">兴趣与挑战</p>
     <p class="section-desc" id="challengesDesc">学习之外的探索与实践。</p>
@@ -121,20 +99,34 @@
   <div class="ci-layout fade-in" id="ciLayout"></div>
 </section>
 
-<!-- ===== About ===== -->
+<!-- ===== 05. Portfolio ===== -->
+<section class="section" id="portfolio">
+  <div class="section-head fade-in">
+    <span class="section-num">05</span>
+    <h2 class="section-label-en">PORTFOLIO</h2>
+    <p class="section-label-cn" id="portfolioCn">项目作品集</p>
+    <p class="section-desc" id="portfolioDesc">在 AI 辅助下完成的计算机视觉与全栈项目。点击图片查看详情。</p>
+  </div>
+  <div class="projects-grid fade-in" id="featuredProjects"></div>
+  <div style="text-align:center;margin-top:48px;">
+    <a href="more-works.html" class="btn-view-all">View All Projects →</a>
+  </div>
+</section>
+
+<!-- ===== 06. About ===== -->
 <section class="section" id="about">
   <div class="section-head fade-in">
-    <span class="section-num">07</span>
+    <span class="section-num">06</span>
     <h2 class="section-label-en">ABOUT</h2>
-    <p class="section-label-cn">关于我</p>
+    <p class="section-label-cn" id="aboutCn">关于我</p>
   </div>
   <div class="timeline fade-in" id="timeline"></div>
 </section>
 
-<!-- ===== Contact ===== -->
+<!-- ===== 07. Contact ===== -->
 <section class="section" id="contact">
   <div class="section-head fade-in">
-    <span class="section-num">08</span>
+    <span class="section-num">07</span>
     <h2 class="section-label-en">CONTACT</h2>
     <p class="section-label-cn" id="contactCn">联系方式</p>
     <p class="section-desc" id="contactDesc">欢迎交流与合作。</p>

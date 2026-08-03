@@ -121,6 +121,16 @@ img { display:block; max-width:100%; }
   font-weight:900; color:var(--ink); line-height:1.05;
   margin-bottom:8px; letter-spacing:-1px;
 }
+.hero-name .grad {
+  background:linear-gradient(135deg, var(--g1) 0%, var(--g2) 45%, var(--g3) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  position:relative;
+}
+.hero-name .grad::after {
+  content:'|'; position:absolute; right:-8px; color:var(--accent);
+  animation:cursor-blink 1s step-end infinite; -webkit-text-fill-color:var(--accent);
+}
+@keyframes cursor-blink { 0%,100%{opacity:1} 50%{opacity:0} }
 .hero-subtitle {
   font-size:0.9rem; font-weight:600; text-transform:uppercase;
   letter-spacing:3px; color: var(--accent); margin-bottom:24px;
@@ -267,6 +277,11 @@ img { display:block; max-width:100%; }
   font-family:var(--font-serif); font-size:0.85rem; color:var(--text3);
   text-align:center; padding:20px;
 }
+.thumb-icon {
+  display:flex; align-items:center; justify-content:center;
+  opacity:0.35; color:var(--accent);
+}
+.thumb-icon svg { width:64px; height:64px; }
 .project-info { padding:22px 24px; }
 .project-info h3 {
   font-family:var(--font-serif); font-size:1.1rem; font-weight:700;
@@ -382,6 +397,16 @@ img { display:block; max-width:100%; }
 }
 .footer .heart { color:#e74c3c; display:inline-block; animation:heartbeat 1.2s infinite; }
 @keyframes heartbeat { 0%,100%{transform:scale(1)} 50%{transform:scale(1.25)} }
+
+/* ===== View All Button ===== */
+.btn-view-all {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:12px 28px; border:1.5px solid var(--accent);
+  border-radius:4px; font-family:var(--font-serif); font-size:0.9rem;
+  font-weight:700; color:var(--accent); letter-spacing:1px;
+  transition:all var(--transition-fast);
+}
+.btn-view-all:hover { background:var(--accent); color:#fff; gap:10px; }
 
 /* ===== Fade In Animation ===== */
 .fade-in {
