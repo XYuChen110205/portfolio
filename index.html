@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="description" content="Seeyu 个人主页 — 计算机视觉探索者">
+<meta name="description" content="Seeyu 个人主页 �?计算机视觉探索�?>
 <title>Seeyu · 个人主页</title>
 <link rel="stylesheet" href="css/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,9 +36,9 @@
     <div class="nav-actions">
       <div class="lang-switch" id="langSwitch">
         <svg class="lang-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <select class="lang-select" id="langSelect"><option value="zh">中</option><option value="zh-TW">繁</option><option value="en">EN</option><option value="ja">日</option><option value="ko">한</option><option value="it">IT</option><option value="fr">FR</option></select>
+        <select class="lang-select" id="langSelect"><option value="zh">�?/option><option value="zh-TW">�?/option><option value="en">EN</option><option value="ja">�?/option><option value="ko">�?/option><option value="it">IT</option><option value="fr">FR</option></select>
       </div>
-      <button class="nav-toggle" id="navToggle">☰</button>
+      <button class="nav-toggle" id="navToggle">�?/button>
     </div>
   </div>
 </header>
@@ -49,87 +49,99 @@
 
 <!-- ===== 01. Home ===== -->
 <section class="hero" id="home">
+  <!-- Video Background -->
+  <div class="hero-video-wrap" id="heroVideoWrap">
+    <video id="heroVideo0" class="hero-video active" muted autoplay loop playsinline preload="metadata">
+      <source src="../images/背景/背景图书馆门�?mp4" type="video/mp4">
+    </video>
+    <video id="heroVideo1" class="hero-video" muted autoplay loop playsinline preload="metadata">
+      <source src="../images/背景/盛夏摇曳.mp4" type="video/mp4">
+    </video>
+    <div class="hero-video-overlay"></div>
+    <div class="video-drag-hint">Drag to adjust view</div>
+  </div>
+  <!-- Hero Content -->
   <span class="hero-num">01</span>
   <h1 class="hero-name"><span class="grad" id="typewriter">Seeyu</span></h1>
   <p class="hero-subtitle" id="heroSubtitle">AI Assisted Creator</p>
-  <p class="hero-desc" id="heroDesc">在 AI 辅助下，探索计算机视觉、深度学习与 Web 技术的交叉地带。</p>
+  <p class="hero-desc" id="heroDesc">�?AI 辅助下，探索计算机视觉、深度学习与 Web 技术的交叉地带�?/p>
   <div class="hero-stats-row">
     <div class="hero-stat"><div class="hero-stat-val" id="countProjects">21</div><div class="hero-stat-lbl" id="heroStatProjects">Projects</div></div>
-    <div class="hero-stat"><div class="hero-stat-val">3+</div><div class="hero-stat-lbl" id="heroYears">年探索</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">3+</div><div class="hero-stat-lbl" id="heroYears">年探�?/div></div>
   </div>
   <div class="hero-tools">
     <p class="hero-tools-label" id="heroToolsLabel">Tools &amp; Playground</p>
-    <p class="hero-tools-desc" id="heroToolsDesc">探索 Python · PyTorch · YOLO · FastAPI · Vue 等技术，在 AI 辅助下完成多个实战项目。</p>
+    <p class="hero-tools-desc" id="heroToolsDesc">探索 Python · PyTorch · YOLO · FastAPI · Vue 等技术，�?AI 辅助下完成多个实战项目�?/p>
   </div>
   <div class="hero-scroll">
-    <span id="heroScroll">Scroll</span><span>↓</span>
+    <span id="heroScroll">Scroll</span><span>�?/span>
   </div>
 </section>
 
 <!-- ===== 02. Hometown ===== -->
 <section class="section" id="hometown">
-  <div class="section-head fade-in">
+  <div class="section-head fade-in stagger">
     <span class="section-num">02</span>
     <h2 class="section-label-en">HOMETOWN</h2>
     <p class="section-label-cn" id="hometownCn">我的家乡 · 梧州</p>
-    <p class="section-desc" id="hometownDesc">梧州，一座被江水环绕的千年古城。龙母文化源远流长，骑楼老街见证岁月变迁。</p>
+    <p class="section-desc" id="hometownDesc">梧州，一座被江水环绕的千年古城。龙母文化源远流长，骑楼老街见证岁月变迁�?/p>
   </div>
-  <div class="skew-carousel fade-in" id="hometownCarousel"></div>
+  <div class="focus-carousel fade-in" id="hometownCarousel"></div>
 </section>
 
 <!-- ===== 03. School ===== -->
 <section class="section" id="school">
-  <div class="section-head fade-in">
+  <div class="section-head fade-in stagger">
     <span class="section-num">03</span>
     <h2 class="section-label-en">ALMA MATER</h2>
-    <p class="section-label-cn" id="schoolCn">北部湾大学</p>
-    <p class="section-desc" id="schoolDesc">坐落于钦州湾畔，晚霞、湖泊与格桑花海交织出最美的大学时光。</p>
+    <p class="section-label-cn" id="schoolCn">北部湾大�?/p>
+    <p class="section-desc" id="schoolDesc">坐落于钦州湾畔，晚霞、湖泊与格桑花海交织出最美的大学时光�?/p>
   </div>
-  <div class="skew-carousel fade-in" id="schoolCarousel"></div>
+  <div class="focus-carousel fade-in" id="schoolCarousel"></div>
 </section>
 
 <!-- ===== 04. Challenges & Interests ===== -->
 <section class="section" id="challenges">
-  <div class="section-head fade-in">
+  <div class="section-head fade-in stagger">
     <span class="section-num">04</span>
     <h2 class="section-label-en">CHALLENGES<br>&amp; INTERESTS</h2>
-    <p class="section-label-cn" id="challengesCn">兴趣与挑战</p>
-    <p class="section-desc" id="challengesDesc">学习之外的探索与实践。</p>
+    <p class="section-label-cn" id="challengesCn">兴趣与挑�?/p>
+    <p class="section-desc" id="challengesDesc">学习之外的探索与实践�?/p>
   </div>
   <div class="ci-layout fade-in" id="ciLayout"></div>
 </section>
 
 <!-- ===== 05. Portfolio ===== -->
 <section class="section" id="portfolio">
-  <div class="section-head fade-in">
+  <div class="section-head fade-in stagger">
     <span class="section-num">05</span>
     <h2 class="section-label-en">PORTFOLIO</h2>
-    <p class="section-label-cn" id="portfolioCn">项目作品集</p>
-    <p class="section-desc" id="portfolioDesc">在 AI 辅助下完成的计算机视觉与全栈项目。点击图片查看详情。</p>
+    <p class="section-label-cn" id="portfolioCn">项目作品�?/p>
+    <p class="section-desc" id="portfolioDesc">�?AI 辅助下完成的计算机视觉与全栈项目。点击图片查看详情�?/p>
   </div>
-  <div class="projects-grid fade-in" id="featuredProjects"></div>
+  <div class="projects-grid fade-in stagger" id="featuredProjects"></div>
   <div style="text-align:center;margin-top:48px;">
-    <a href="more-works.html" class="btn-view-all">View All Projects →</a>
+    <a href="more-works.html" class="btn-view-all">View All Projects �?/a>
   </div>
 </section>
 
 <!-- ===== 06. About ===== -->
 <section class="section" id="about">
-  <div class="section-head fade-in">
+  <div class="section-head fade-in stagger">
     <span class="section-num">06</span>
     <h2 class="section-label-en">ABOUT</h2>
-    <p class="section-label-cn" id="aboutCn">关于我</p>
+    <p class="section-label-cn" id="aboutCn">关于�?/p>
   </div>
   <div class="timeline fade-in" id="timeline"></div>
 </section>
 
 <!-- ===== 07. Contact ===== -->
 <section class="section" id="contact">
-  <div class="section-head fade-in">
+  <div class="section-head fade-in stagger">
     <span class="section-num">07</span>
     <h2 class="section-label-en">CONTACT</h2>
     <p class="section-label-cn" id="contactCn">联系方式</p>
-    <p class="section-desc" id="contactDesc">欢迎交流与合作。</p>
+    <p class="section-desc" id="contactDesc">欢迎交流与合作�?/p>
   </div>
   <div class="contact-grid fade-in" id="contactGrid"></div>
 </section>
@@ -137,8 +149,11 @@
 </div><!-- /main-content -->
 
 <footer class="footer">
-  <p id="footerText">AI Assisted · 独立开发 · <span class="heart">♥</span> · © 2026 Seeyu</p>
+  <p id="footerText">AI Assisted · 独立开�?· <span class="heart">�?/span> · © 2026 Seeyu</p>
 </footer>
+
+<!-- Zoom overlay for carousel -->
+<div class="carousel-zoom-bg" id="carouselZoomBg"></div>
 
 <script src="js/icons.js"></script>
 <script src="js/i18n.js"></script>
