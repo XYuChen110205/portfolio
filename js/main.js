@@ -419,23 +419,23 @@ function createFocusCarousel(containerId, images) {
 }
 
 function initHometownCarousel() {
-  var imgs = ['../images/梧州/龙母庙.jpg'];
+  var imgs = ['images/梧州/龙母庙.jpg'];
   createFocusCarousel('hometownCarousel', imgs);
   addWaterfall('hometownCarousel', imgs);
 }
 
 function initSchoolCarousel() {
   var imgs = [
-    '../images/BeiBuGulfUniversity/晚霞.jpg',
-    '../images/BeiBuGulfUniversity/学校的湖.jpg',
-    '../images/BeiBuGulfUniversity/校园图.jpg',
-    '../images/BeiBuGulfUniversity/非常美丽的晚霞，三年只见过一次.jpg',
-    '../images/BeiBuGulfUniversity/树.jpg',
-    '../images/BeiBuGulfUniversity/蓝调时刻.jpg',
-    '../images/BeiBuGulfUniversity/校园一角.jpg',
-    '../images/BeiBuGulfUniversity/night.jpg',
-    '../images/BeiBuGulfUniversity/flowersea-格桑.jpg',
-    '../images/BeiBuGulfUniversity/sky.jpg'
+    'images/BeiBuGulfUniversity/晚霞.jpg',
+    'images/BeiBuGulfUniversity/学校的湖.jpg',
+    'images/BeiBuGulfUniversity/校园图.jpg',
+    'images/BeiBuGulfUniversity/非常美丽的晚霞，三年只见过一次.jpg',
+    'images/BeiBuGulfUniversity/树.jpg',
+    'images/BeiBuGulfUniversity/蓝调时刻.jpg',
+    'images/BeiBuGulfUniversity/校园一角.jpg',
+    'images/BeiBuGulfUniversity/night.jpg',
+    'images/BeiBuGulfUniversity/flowersea-格桑.jpg',
+    'images/BeiBuGulfUniversity/sky.jpg'
   ];
   createFocusCarousel('schoolCarousel', imgs);
   addWaterfall('schoolCarousel', imgs);
@@ -519,19 +519,19 @@ function renderChallengesInterests() {
   if (!layout) return;
 
   var challengeImgs = [
-    {src:'../images/chanllenge/焊接.png', label:'焊接'},
-    {src:'../images/chanllenge/磨铁.png', label:'磨铁'},
-    {src:'../images/chanllenge/焊接电路.jpg', label:'焊接电路'},
-    {src:'../images/chanllenge/时间继电器.jpg', label:'时间继电器'},
-    {src:'../images/chanllenge/电子版本控制线路接线图.jpg', label:'控制线路'},
-    {src:'../images/chanllenge/线图图接线-控制线路.jpg', label:'接线练习'},
-    {src:'../images/chanllenge/电工接线练习.jpg', label:'电工接线'},
-    {src:'../images/chanllenge/英语竞赛合照.jpg', label:'英语竞赛'},
-    {src:'../images/chanllenge/electri-合照.jpg', label:'竞赛合照'}
+    {src:'images/chanllenge/焊接.png', label:'焊接'},
+    {src:'images/chanllenge/磨铁.png', label:'磨铁'},
+    {src:'images/chanllenge/焊接电路.jpg', label:'焊接电路'},
+    {src:'images/chanllenge/时间继电器.jpg', label:'时间继电器'},
+    {src:'images/chanllenge/电子版本控制线路接线图.jpg', label:'控制线路'},
+    {src:'images/chanllenge/线图图接线-控制线路.jpg', label:'接线练习'},
+    {src:'images/chanllenge/电工接线练习.jpg', label:'电工接线'},
+    {src:'images/chanllenge/英语竞赛合照.jpg', label:'英语竞赛'},
+    {src:'images/chanllenge/electri-合照.jpg', label:'竞赛合照'}
   ];
 
   var interestImgs = [
-    {src:'../images/interesting/book1.jpg', label:'阅读'}
+    {src:'images/interesting/book1.jpg', label:'阅读'}
   ];
 
   function imgGrid(list) {
