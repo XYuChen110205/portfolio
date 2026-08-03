@@ -95,9 +95,10 @@
     <p class="section-desc" id="portfolioDesc">在 AI 辅助下完成的计算机视觉与全栈项目。点击图片查看详情。</p>
   </div>
   <div class="projects-grid fade-in stagger" id="featuredProjects"></div>
-  <div style="text-align:center;margin-top:48px;">
-    <a href="more-works.html" class="btn-view-all">View All Projects &rarr;</a>
+  <div style="text-align:center;margin-top:32px;">
+    <button class="btn-view-all" id="btnViewAll" onclick="toggleMoreProjects()">View All Projects &#9660;</button>
   </div>
+  <div class="more-grid fade-in" id="expandedProjects" style="display:none;margin-top:32px;"></div>
 </section>
 
 <section class="section" id="about">

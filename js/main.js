@@ -20,7 +20,36 @@ document.addEventListener('DOMContentLoaded', function() {
   applyTexts();
   initFadeIn();
   initImageSkeletons();
+  renderExpandedProjects();
 });
+
+function toggleMoreProjects() {
+  var grid = document.getElementById('expandedProjects');
+  var btn = document.getElementById('btnViewAll');
+  if (!grid || !btn) return;
+  var open = grid.style.display === 'none' || !grid.style.display;
+  grid.style.display = open ? 'grid' : 'none';
+  btn.textContent = open ? 'Collapse \u25B2' : 'View All Projects \u25BC';
+  if (open) { setTimeout(function(){ grid.classList.add('visible'); }, 50); }
+}
+
+function renderExpandedProjects() {
+  var grid = document.getElementById('expandedProjects');
+  if (!grid) return;
+  var others = projectsData.filter(function(p) { return FEATURED_IDS.indexOf(p.id) === -1; });
+  grid.innerHTML = others.map(function(p) {
+    var img = getProjectImg(p);
+    var name = ptext(p.id, 'name');
+    var badge = p.badge || '';
+    var iconSvg = (typeof svg === 'function' && p.icon) ? svg(p.icon, 40) : '';
+    return '<div class="more-item fade-in" onclick="window.location.href=\'project-detail.html?id='+p.id+'\'">' +
+      '<div class="more-thumb">' +
+        (img ? '<img src="'+img+'" alt="'+name+'" loading="lazy">' : '<div class="thumb-icon">'+iconSvg+'</div>') +
+      '</div>' +
+      '<div class="more-name">'+name+'</div>' +
+    '</div>';
+  }).join('');
+}
 
 // ========== Hero Video — pan & scan on single video ==========
 function initHeroVideo() {
@@ -323,16 +352,6 @@ function createFocusCarousel(containerId, images) {
     if (!activeSlide) return;
     activeSlide.classList.add('zoomed');
     if (zoomBg) zoomBg.classList.add('show');
-    var rect = activeSlide.getBoundingClientRect();
-    var vw = window.innerWidth, vh = window.innerHeight;
-    var zoomW = vw * 0.8, zoomH = vh * 0.8;
-    if (vw < 900) { zoomW = vw * 0.88; zoomH = vh * 0.7; }
-    if (vw < 600) { zoomW = vw * 0.92; zoomH = vh * 0.55; }
-    var tx = (vw - zoomW) / 2 - rect.left;
-    var ty = (vh - zoomH) / 2 - rect.top + (rect.height - zoomH) / 2;
-    activeSlide.style.transform = 'translate('+tx.toFixed(0)+'px,'+ty.toFixed(0)+'px) scale(1)';
-    activeSlide.style.width = zoomW + 'px';
-    activeSlide.style.height = zoomH + 'px';
   }
 
   function unzoom() {
