@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
   initLangSwitch();
   initHeroVideo();
   initTypewriter();
+  initHeroGlow();
+  initParallax();
   initHometownCarousel();
   initSchoolCarousel();
   renderFeaturedProjects();
@@ -20,6 +22,12 @@ document.addEventListener('DOMContentLoaded', function() {
   renderContacts();
   applyTexts();
   initFadeIn();
+  initImageSkeletons();
+  animateCounters();
+  // Remove skeleton phase
+  setTimeout(function() {
+    document.body.classList.add('content-loaded');
+  }, 400);
 });
 
 // ========== Hero Video — interactive pan & scan + alternating ==========
@@ -411,13 +419,13 @@ function createFocusCarousel(containerId, images) {
 }
 
 function initHometownCarousel() {
-  createFocusCarousel('hometownCarousel', [
-    '../images/梧州/龙母庙.jpg'
-  ]);
+  var imgs = ['../images/梧州/龙母庙.jpg'];
+  createFocusCarousel('hometownCarousel', imgs);
+  addWaterfall('hometownCarousel', imgs);
 }
 
 function initSchoolCarousel() {
-  createFocusCarousel('schoolCarousel', [
+  var imgs = [
     '../images/BeiBuGulfUniversity/晚霞.jpg',
     '../images/BeiBuGulfUniversity/学校的湖.jpg',
     '../images/BeiBuGulfUniversity/校园图.jpg',
@@ -428,7 +436,45 @@ function initSchoolCarousel() {
     '../images/BeiBuGulfUniversity/night.jpg',
     '../images/BeiBuGulfUniversity/flowersea-格桑.jpg',
     '../images/BeiBuGulfUniversity/sky.jpg'
-  ]);
+  ];
+  createFocusCarousel('schoolCarousel', imgs);
+  addWaterfall('schoolCarousel', imgs);
+}
+
+// ========== Waterfall Masonry for carousel sections ==========
+function addWaterfall(carouselId, images) {
+  var container = document.getElementById(carouselId);
+  if (!container) return;
+  if (images.length < 3) return; // 只有 ≥3 张才显示瀑布流按钮
+
+  var section = container.closest('.section') || container.parentElement;
+
+  // Toggle button
+  var toggleWrap = document.createElement('div');
+  toggleWrap.className = 'waterfall-toggle';
+  var btn = document.createElement('button');
+  btn.textContent = '▦ ' + t('view_all_photos');
+  toggleWrap.appendChild(btn);
+
+  // Waterfall container
+  var wf = document.createElement('div');
+  wf.className = 'waterfall-container';
+  wf.innerHTML = images.map(function(src, i) {
+    return '<div class="waterfall-item">' +
+      '<img src="'+src+'" alt="Photo '+(i+1)+'" loading="lazy">' +
+      '<div class="wf-label">'+(i+1)+' / '+images.length+'</div>' +
+    '</div>';
+  }).join('');
+
+  var open = false;
+  btn.addEventListener('click', function() {
+    open = !open;
+    wf.classList.toggle('show', open);
+    btn.textContent = open ? '▤ ' + t('collapse_photos') : '▦ ' + t('view_all_photos');
+  });
+
+  container.parentElement.insertBefore(wf, container.nextSibling);
+  container.parentElement.insertBefore(toggleWrap, wf);
 }
 
 // ========== Featured Projects ==========
@@ -557,4 +603,80 @@ function initFadeIn() {
       if (r.top < window.innerHeight * 0.88) el.classList.add('visible');
     });
   });
+}
+
+// ========== Hero Glow — mouse tracking ==========
+function initHeroGlow() {
+  var glow = document.createElement('div');
+  glow.className = 'hero-glow';
+  document.body.appendChild(glow);
+  var hero = document.getElementById('home');
+  var visible = false;
+
+  hero.addEventListener('mouseenter', function() { visible = true; glow.classList.add('visible'); });
+  hero.addEventListener('mouseleave', function() { visible = false; glow.classList.remove('visible'); });
+  document.addEventListener('mousemove', function(e) {
+    if (!visible) return;
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+  });
+}
+
+// ========== Parallax — hero video scroll ==========
+function initParallax() {
+  var videoWrap = document.getElementById('heroVideoWrap');
+  if (!videoWrap) return;
+  window.addEventListener('scroll', function() {
+    var scrollY = window.scrollY || window.pageYOffset;
+    if (scrollY > window.innerHeight) return;
+    videoWrap.style.transform = 'translateY(' + (scrollY * 0.35) + 'px)';
+  });
+}
+
+// ========== Image skeletons — shimmer until loaded ==========
+function initImageSkeletons() {
+  document.querySelectorAll('.project-thumb img, .ci-grid img, .carousel-slide img').forEach(function(img) {
+    if (img.complete && img.naturalWidth > 0) {
+      img.parentElement.classList.add('loaded');
+      return;
+    }
+    img.parentElement.classList.add('img-skeleton');
+    img.addEventListener('load', function() {
+      img.parentElement.classList.add('loaded');
+    });
+    img.addEventListener('error', function() {
+      img.parentElement.classList.add('loaded');
+    });
+  });
+  // Observe dynamically added images
+  if (window.MutationObserver) {
+    var obs = new MutationObserver(function() {
+      initImageSkeletons();
+    });
+    obs.observe(document.body, { childList: true, subtree: true });
+  }
+}
+
+// ========== Animated counters ==========
+function animateCounters() {
+  var el = document.getElementById('countProjects');
+  if (!el) return;
+  var target = projectsData.length;
+  var count = 0;
+  var speed = Math.max(20, Math.floor(800 / target));
+  var started = false;
+  function check() {
+    if (started) return;
+    var rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+      started = true;
+      var iv = setInterval(function() {
+        count++;
+        el.textContent = count;
+        if (count >= target) clearInterval(iv);
+      }, speed);
+    }
+  }
+  window.addEventListener('scroll', check);
+  check();
 }
