@@ -1,0 +1,10 @@
+# 规划/笔记文档，不随站点发布
+*.md
+*.txt
+*.bak
+
+# OS
+Thumbs.db
+.DS_Store
+
+.vercel

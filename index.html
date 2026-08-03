@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Seeyu 个人主页 — 计算机视觉探索者">
+<title>Seeyu · 个人主页</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({ startOnLoad:false, theme:'base',
+    themeVariables:{ primaryColor:'#eef2ff', primaryTextColor:'#1e293b', primaryBorderColor:'#c7d2fe', lineColor:'#6366f1', secondaryColor:'#f0f9ff', tertiaryColor:'#faf5ff', fontSize:'13px', fontFamily:'-apple-system,BlinkMacSystemFont,"Noto Sans SC",sans-serif' },
+    flowchart:{ useMaxWidth:true, htmlLabels:true, curve:'basis' }
+  });
+</script>
+</head>
+<body>
+
+<!-- Background Circles -->
+<div class="bg-decoration" id="bgDecoration"></div>
+
+<!-- Navbar -->
+<header class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo">SEE<span>YU</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#home" class="active" data-section="home">Home</a>
+      <a href="#hometown" data-section="hometown">Hometown</a>
+      <a href="#school" data-section="school">School</a>
+      <a href="#portfolio" data-section="portfolio">Portfolio</a>
+      <a href="#challenges" data-section="challenges">Challenges</a>
+    </nav>
+    <div class="nav-actions">
+      <div class="lang-switch" id="langSwitch">
+        <svg class="lang-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <select class="lang-select" id="langSelect"><option value="zh">中</option><option value="zh-TW">繁</option><option value="en">EN</option><option value="ja">日</option><option value="ko">한</option><option value="it">IT</option><option value="fr">FR</option></select>
+      </div>
+      <button class="nav-toggle" id="navToggle">☰</button>
+    </div>
+  </div>
+</header>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Main Content -->
+<div class="main-content">
+
+<!-- ===== Home ===== -->
+<section class="hero" id="home">
+  <span class="hero-num">01</span>
+  <h1 class="hero-name">Seeyu</h1>
+  <p class="hero-subtitle" id="heroSubtitle">AI Assisted Creator</p>
+  <p class="hero-desc" id="heroDesc">在 AI 辅助下，探索计算机视觉、深度学习与 Web 技术的交叉地带。</p>
+  <div class="hero-stats-row">
+    <div class="hero-stat"><div class="hero-stat-val" id="countProjects">21</div><div class="hero-stat-lbl">Projects</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">3+</div><div class="hero-stat-lbl" id="heroYears">年探索</div></div>
+  </div>
+  <div class="hero-tools">
+    <p class="hero-tools-label" id="heroToolsLabel">Tools &amp; Playground</p>
+    <p class="hero-tools-desc" id="heroToolsDesc">探索 Python · PyTorch · YOLO · FastAPI · Vue 等技术，在 AI 辅助下完成多个实战项目。</p>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span><span>↓</span>
+  </div>
+</section>
+
+<!-- ===== Hometown ===== -->
+<section class="section" id="hometown">
+  <div class="section-head fade-in">
+    <span class="section-num">02</span>
+    <h2 class="section-label-en">HOMETOWN</h2>
+    <p class="section-label-cn" id="hometownCn">我的家乡 · 梧州</p>
+    <p class="section-desc" id="hometownDesc">梧州，一座被江水环绕的千年古城。龙母文化源远流长，骑楼老街见证岁月变迁。</p>
+  </div>
+  <div class="skew-carousel fade-in" id="hometownCarousel"></div>
+</section>
+
+<!-- ===== School ===== -->
+<section class="section" id="school">
+  <div class="section-head fade-in">
+    <span class="section-num">03</span>
+    <h2 class="section-label-en">ALMA MATER</h2>
+    <p class="section-label-cn" id="schoolCn">北部湾大学</p>
+    <p class="section-desc" id="schoolDesc">坐落于钦州湾畔，晚霞、湖泊与格桑花海交织出最美的大学时光。</p>
+  </div>
+  <div class="skew-carousel fade-in" id="schoolCarousel"></div>
+</section>
+
+<!-- ===== Portfolio ===== -->
+<section class="section" id="portfolio">
+  <div class="section-head fade-in">
+    <span class="section-num">04</span>
+    <h2 class="section-label-en">PORTFOLIO</h2>
+    <p class="section-label-cn" id="portfolioCn">项目作品集</p>
+    <p class="section-desc" id="portfolioDesc">在 AI 辅助下完成的计算机视觉与全栈项目。点击图片查看详情。</p>
+  </div>
+  <div class="projects-grid fade-in" id="featuredProjects"></div>
+</section>
+
+<!-- ===== More Works ===== -->
+<section class="section" id="more-works">
+  <div class="section-head fade-in">
+    <span class="section-num">05</span>
+    <h2 class="section-label-en">MORE WORKS</h2>
+    <p class="section-label-cn" id="moreCn">其他项目</p>
+    <p class="section-desc" id="moreDesc">更多练手项目与实验作品。</p>
+  </div>
+  <div class="more-grid fade-in" id="moreProjects"></div>
+</section>
+
+<!-- ===== Challenges & Interests ===== -->
+<section class="section" id="challenges">
+  <div class="section-head fade-in">
+    <span class="section-num">06</span>
+    <h2 class="section-label-en">CHALLENGES<br>&amp; INTERESTS</h2>
+    <p class="section-label-cn" id="challengesCn">兴趣与挑战</p>
+    <p class="section-desc" id="challengesDesc">学习之外的探索与实践。</p>
+  </div>
+  <div class="ci-layout fade-in" id="ciLayout"></div>
+</section>
+
+<!-- ===== About ===== -->
+<section class="section" id="about">
+  <div class="section-head fade-in">
+    <span class="section-num">07</span>
+    <h2 class="section-label-en">ABOUT</h2>
+    <p class="section-label-cn">关于我</p>
+  </div>
+  <div class="timeline fade-in" id="timeline"></div>
+</section>
+
+<!-- ===== Contact ===== -->
+<section class="section" id="contact">
+  <div class="section-head fade-in">
+    <span class="section-num">08</span>
+    <h2 class="section-label-en">CONTACT</h2>
+    <p class="section-label-cn" id="contactCn">联系方式</p>
+    <p class="section-desc" id="contactDesc">欢迎交流与合作。</p>
+  </div>
+  <div class="contact-grid fade-in" id="contactGrid"></div>
+</section>
+
+</div><!-- /main-content -->
+
+<footer class="footer">
+  <p id="footerText">AI Assisted · 独立开发 · <span class="heart">♥</span> · © 2026 Seeyu</p>
+</footer>
+
+<script src="js/icons.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/projects.js"></script>
+<script src="js/projects-i18n.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Project Detail · Seeyu</title>
+<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({ startOnLoad:false, theme:'base',
+    themeVariables:{ primaryColor:'#eef2ff', primaryTextColor:'#1e293b', primaryBorderColor:'#c7d2fe', lineColor:'#2d6a4f', secondaryColor:'#f0f9ff', tertiaryColor:'#faf5ff', fontSize:'13px', fontFamily:'-apple-system,BlinkMacSystemFont,"Noto Sans SC",sans-serif' },
+    flowchart:{ useMaxWidth:true, htmlLabels:true, curve:'basis' }
+  });
+</script>
+<style>
+  :root {
+    --bg:#f8f7f4; --surface:#ffffff; --border:#e5e5e0; --border-light:#efeee9;
+    --text:#1a1a1a; --text2:#555; --text3:#999; --accent:#2d6a4f;
+    --accent-warm:#b33939; --shadow-sm:0 2px 12px rgba(0,0,0,.04);
+    --shadow-md:0 8px 32px rgba(0,0,0,.07);
+    --font-serif:"Noto Serif SC",Georgia,serif;
+    --transition:0.35s cubic-bezier(.4,0,.2,1);
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","PingFang SC",sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:#40916c}
+
+  /* Back Bar */
+  .back-bar{
+    position:fixed;top:0;left:0;right:0;z-index:1000;height:60px;
+    background:rgba(255,255,255,.78);backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border-light);
+    display:flex;align-items:center;padding:0 28px;
+  }
+  .back-link{
+    display:inline-flex;align-items:center;gap:8px;font-size:.88rem;
+    font-weight:600;color:var(--text2);transition:color .2s;
+    font-family:var(--font-serif);
+  }
+  .back-link:hover{color:var(--accent)}
+  .back-link svg{width:18px;height:18px}
+
+  /* Detail Wrapper */
+  .detail-wrapper{max-width:860px;margin:0 auto;padding:100px 28px 80px}
+
+  /* Header */
+  .detail-header{margin-bottom:48px}
+  .detail-breadcrumb{
+    font-family:var(--font-serif);font-size:.78rem;color:var(--text3);
+    letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;
+  }
+  .detail-header h1{
+    font-family:var(--font-serif);font-size:clamp(1.6rem,4vw,2.4rem);
+    font-weight:900;color:var(--text);line-height:1.25;margin-bottom:12px;
+  }
+  .detail-header .badge{
+    display:inline-block;padding:4px 12px;border-radius:2px;
+    font-size:.72rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+    background:rgba(45,106,79,.08);color:var(--accent);margin-bottom:10px;
+  }
+  .detail-header .stars{
+    display:flex;gap:2px;align-items:center;margin-bottom:16px;
+  }
+  .star{font-size:.82rem;color:#d7dbe8}
+  .star.filled{color:#f59e0b}
+  .difficulty-label{font-size:.72rem;color:var(--text3);margin-left:6px}
+  .detail-demo{
+    display:inline-flex;align-items:center;gap:6px;padding:10px 22px;
+    border:1.5px solid var(--accent);border-radius:4px;font-size:.9rem;
+    font-weight:600;color:var(--accent);transition:all .2s;
+  }
+  .detail-demo:hover{background:var(--accent);color:#fff}
+
+  /* Blocks */
+  .detail-block{margin-bottom:40px}
+  .detail-block h2{
+    font-family:var(--font-serif);font-size:1.15rem;font-weight:800;
+    margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);
+    color:var(--text);display:flex;align-items:center;gap:8px;
+  }
+  .detail-block h2 .h-icon{display:inline-flex;align-items:center}
+  .detail-block h2 .h-icon svg{width:18px;height:18px}
+  .detail-block p,.detail-block li{color:var(--text2);font-size:.92rem;line-height:1.85}
+  .detail-block ul{padding-left:20px;margin:8px 0}
+  .detail-block ul li{margin-bottom:4px}
+
+  /* Diagram */
+  .diagram-box{
+    background:var(--surface);border:1px solid var(--border);
+    padding:24px;margin:16px 0;overflow-x:auto;border-radius:4px;
+  }
+  .diagram-box .mermaid{display:flex;justify-content:center;font-size:13px}
+  .diagram-box .mermaid svg{max-width:100%;height:auto}
+  .diagram-caption{text-align:center;color:var(--text3);font-size:.78rem;margin-top:8px;font-style:italic}
+
+  /* Tech Grid */
+  .tech-grid{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+  .tech-item{
+    padding:6px 14px;border-radius:2px;font-size:.8rem;font-weight:500;
+    background:rgba(45,106,79,.06);border:1px solid rgba(45,106,79,.12);
+    color:var(--accent);
+  }
+
+  /* Gallery */
+  .detail-gallery{margin-bottom:40px}
+  .detail-cover{
+    width:100%;max-height:480px;object-fit:cover;border-radius:4px;
+    border:1px solid var(--border);
+  }
+
+  footer{
+    text-align:center;padding:28px;border-top:1px solid var(--border-light);
+    color:var(--text3);font-size:.78rem;background:var(--surface);
+  }
+
+  @media(max-width:700px){
+    .detail-wrapper{padding:80px 18px 60px}
+  }
+</style>
+</head>
+<body>
+
+<!-- Back Bar -->
+<div class="back-bar">
+  <a href="index.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    Back to Portfolio
+  </a>
+</div>
+
+<!-- Detail Content -->
+<div class="detail-wrapper" id="detailContent">
+  <p style="text-align:center;padding:60px 0;color:var(--text3);">Loading...</p>
+</div>
+
+<footer>
+  <p>AI Assisted · Independent Work · © 2026 Seeyu</p>
+</footer>
+
+<script src="js/icons.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/projects.js"></script>
+<script src="js/projects-i18n.js"></script>
+<script>
+(function(){
+  var urlParams = new URLSearchParams(window.location.search);
+  var id = parseInt(urlParams.get('id'));
+  if (!id || isNaN(id)) {
+    document.getElementById('detailContent').innerHTML =
+      '<div style="text-align:center;padding:80px 0"><h2 style="font-family:var(--font-serif);font-size:2rem;margin-bottom:16px">Project Not Found</h2><p style="color:var(--text2)">No project ID specified.</p><a href="index.html" style="display:inline-block;margin-top:20px;padding:10px 24px;border:1.5px solid var(--accent);border-radius:4px;font-weight:600">← Back</a></div>';
+    return;
+  }
+
+  var p = projectsData.find(function(x){return x.id === id;});
+  if (!p) {
+    document.getElementById('detailContent').innerHTML =
+      '<div style="text-align:center;padding:80px 0"><h2 style="font-family:var(--font-serif);font-size:2rem;margin-bottom:16px">Project Not Found</h2><p style="color:var(--text2)">Project #'+id+' does not exist.</p><a href="index.html" style="display:inline-block;margin-top:20px;padding:10px 24px;border:1.5px solid var(--accent);border-radius:4px;font-weight:600">← Back</a></div>';
+    return;
+  }
+
+  function ptext(id, field) {
+    var loc = (typeof projLocale !== 'undefined') && projLocale[currentLang] && projLocale[currentLang][id];
+    if (loc && loc[field] !== undefined && loc[field] !== null &&
+        !(Array.isArray(loc[field]) && loc[field].length === 0)) return loc[field];
+    if (field === 'name') return p.name;
+    return p.detail ? p.detail[field] : undefined;
+  }
+
+  function renderStars(n) {
+    var h = '';
+    for (var i=1;i<=5;i++) h += '<span class="star'+(i<=n?' filled':'')+'">&#9733;</span>';
+    return h;
+  }
+
+  function getDiffLabel(n) {
+    var labels = {1:'入门',2:'基础',3:'中等',4:'进阶',5:'复杂'};
+    return labels[n] || '';
+  }
+
+  var d = p.detail;
+  var pName = ptext(id, 'name');
+  var pOverview = ptext(id, 'overview');
+  var pBackground = ptext(id, 'background');
+  var pFeatures = ptext(id, 'features') || [];
+  var pInnovation = ptext(id, 'innovation') || [];
+  var pLink = p.link || '';
+  var coverImg = p.thumbs ? p.thumbs[0] : (p.thumb || null);
+
+  var iconSvg = (typeof svg === 'function') ? svg(p.icon, 22) : '';
+
+  var html =
+    '<div class="detail-breadcrumb">PORTFOLIO / PROJECT NO.'+id+'</div>' +
+    '<div class="detail-header">' +
+      '<span class="badge">'+p.badge+'</span>' +
+      '<h1>'+iconSvg+' '+pName+'</h1>' +
+      '<div class="stars">'+renderStars(p.difficulty)+'<span class="difficulty-label">'+getDiffLabel(p.difficulty)+'</span></div>' +
+      (pLink ? '<a href="'+pLink+'" target="_blank" rel="noopener" class="detail-demo">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>' +
+        'Online Demo</a>' : '') +
+    '</div>';
+
+  if (coverImg) html += '<div class="detail-gallery"><img src="'+(d.cover || coverImg)+'" alt="'+pName+'" class="detail-cover"></div>';
+
+  html +=
+    '<div class="detail-block"><h2><span class="h-icon">'+((typeof svg === 'function')?svg('info',18):'')+'</span> Overview</h2><p>'+pOverview+'</p></div>';
+
+  if (pBackground) html +=
+    '<div class="detail-block"><h2><span class="h-icon">'+((typeof svg === 'function')?svg('target',18):'')+'</span> Background</h2><p>'+pBackground+'</p></div>';
+
+  if (d.architecture) html +=
+    '<div class="detail-block"><h2><span class="h-icon">'+((typeof svg === 'function')?svg('layers',18):'')+'</span> System Architecture</h2>' +
+    '<div class="diagram-box"><div class="mermaid">'+d.architecture+'</div></div>' +
+    '<div class="diagram-caption">Architecture: '+pName+'</div></div>';
+
+  if (d.flowchart) html +=
+    '<div class="detail-block"><h2><span class="h-icon">'+((typeof svg === 'function')?svg('refresh',18):'')+'</span> Core Workflow</h2>' +
+    '<div class="diagram-box"><div class="mermaid">'+d.flowchart+'</div></div>' +
+    '<div class="diagram-caption">Workflow: '+pName+'</div></div>';
+
+  if (pFeatures.length) html +=
+    '<div class="detail-block"><h2><span class="h-icon">'+((typeof svg === 'function')?svg('star',18):'')+'</span> Key Features</h2><ul>'+pFeatures.map(function(f){return'<li>'+f+'</li>';}).join('')+'</ul></div>';
+
+  if (d.techStack && d.techStack.length) html +=
+    '<div class="detail-block"><h2><span class="h-icon">'+((typeof svg === 'function')?svg('settings',18):'')+'</span> Tech Stack</h2>' +
+    '<div class="tech-grid">'+d.techStack.map(function(t){return'<span class="tech-item">'+t+'</span>';}).join('')+'</div></div>';
+
+  if (pInnovation.length) html +=
+    '<div class="detail-block"><h2><span class="h-icon">'+((typeof svg === 'function')?svg('lightbulb',18):'')+'</span> Innovation &amp; Highlights</h2><ul>'+pInnovation.map(function(f){return'<li>'+f+'</li>';}).join('')+'</ul></div>';
+
+  document.getElementById('detailContent').innerHTML = html;
+
+  setTimeout(function() {
+    try {
+      if (typeof mermaid !== 'undefined') {
+        mermaid.run({ querySelector: '.mermaid' });
+      }
+    } catch(e) { console.log('Mermaid:', e.message); }
+  }, 200);
+})();
+</script>
+</body>
+</html>
