@@ -635,23 +635,32 @@ function initParallax() {
 
 // ========== Image skeletons — shimmer until loaded ==========
 function initImageSkeletons() {
-  document.querySelectorAll('.project-thumb img, .ci-grid img, .carousel-slide img').forEach(function(img) {
-    if (img.complete && img.naturalWidth > 0) {
-      img.parentElement.classList.add('loaded');
-      return;
-    }
-    img.parentElement.classList.add('img-skeleton');
-    img.addEventListener('load', function() {
-      img.parentElement.classList.add('loaded');
+  var processed = new WeakSet();
+  function process() {
+    document.querySelectorAll('.project-thumb img, .ci-grid img, .carousel-slide img').forEach(function(img) {
+      if (processed.has(img)) return;
+      processed.add(img);
+      var parent = img.parentElement;
+      if (img.complete && img.naturalWidth > 0) {
+        if (parent) parent.classList.add('loaded');
+        return;
+      }
+      if (parent) parent.classList.add('img-skeleton');
+      img.addEventListener('load', function() {
+        if (parent) parent.classList.add('loaded');
+      });
+      img.addEventListener('error', function() {
+        if (parent) parent.classList.add('loaded');
+      });
     });
-    img.addEventListener('error', function() {
-      img.parentElement.classList.add('loaded');
-    });
-  });
-  // Observe dynamically added images
+  }
+  process();
+  // Observe for dynamically added images, but debounced
+  var obsTO = null;
   if (window.MutationObserver) {
     var obs = new MutationObserver(function() {
-      initImageSkeletons();
+      if (obsTO) return;
+      obsTO = setTimeout(function() { obsTO = null; process(); }, 300);
     });
     obs.observe(document.body, { childList: true, subtree: true });
   }
