@@ -11,9 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
   initScrollSpy();
   initLangSwitch();
   initHeroVideo();
-  initTypewriter();
-  initHeroGlow();
-  initParallax();
   initHometownCarousel();
   initSchoolCarousel();
   renderFeaturedProjects();
@@ -23,41 +20,28 @@ document.addEventListener('DOMContentLoaded', function() {
   applyTexts();
   initFadeIn();
   initImageSkeletons();
-  animateCounters();
-  // Remove skeleton phase
-  setTimeout(function() {
-    document.body.classList.add('content-loaded');
-  }, 400);
 });
 
-// ========== Hero Video — interactive pan & scan + alternating ==========
+// ========== Hero Video — pan & scan on single video ==========
 function initHeroVideo() {
-  var videos = [document.getElementById('heroVideo0'), document.getElementById('heroVideo1')];
+  var video = document.getElementById('heroVideo');
   var wrap = document.getElementById('heroVideoWrap');
-  if (!videos[0] || !videos[1] || !wrap) return;
+  if (!video || !wrap) return;
   var hint = wrap.querySelector('.video-drag-hint');
 
-  var activeIdx = 0;
   var posKey = 'hero_video_pos';
   var saved = null;
   try { saved = JSON.parse(localStorage.getItem(posKey)); } catch(e){}
   var posX = (saved && saved.x) || 50;
   var posY = (saved && saved.y) || 50;
+  video.style.objectPosition = posX + '% ' + posY + '%';
 
-  function applyPos() {
-    var val = posX + '% ' + posY + '%';
-    videos[0].style.objectPosition = val;
-    videos[1].style.objectPosition = val;
-  }
-  applyPos();
-
-  // Pan & Scan drag
   var dragging = false, startX, startY, origX, origY;
   wrap.addEventListener('mousedown', function(e) {
     if (e.target.tagName !== 'VIDEO') return;
     dragging = true; origX = posX; origY = posY;
     startX = e.clientX; startY = e.clientY;
-    videos.forEach(function(v){v.classList.add('grabbing');});
+    video.classList.add('grabbing');
     if (hint) hint.style.opacity = '0';
     e.preventDefault();
   });
@@ -67,15 +51,13 @@ function initHeroVideo() {
     var dy = (e.clientY - startY) / wrap.clientHeight * 100;
     posX = Math.max(0, Math.min(100, origX - dx));
     posY = Math.max(0, Math.min(100, origY - dy));
-    applyPos();
+    video.style.objectPosition = posX + '% ' + posY + '%';
   });
   document.addEventListener('mouseup', function() {
     if (!dragging) return;
-    dragging = false;
-    videos.forEach(function(v){v.classList.remove('grabbing');});
+    dragging = false; video.classList.remove('grabbing');
     localStorage.setItem(posKey, JSON.stringify({x: Math.round(posX), y: Math.round(posY)}));
   });
-  // Touch
   wrap.addEventListener('touchstart', function(e) {
     if (e.target.tagName !== 'VIDEO') return;
     dragging = true; origX = posX; origY = posY;
@@ -88,24 +70,14 @@ function initHeroVideo() {
     var dy = (e.touches[0].clientY - startY) / wrap.clientHeight * 100;
     posX = Math.max(0, Math.min(100, origX - dx));
     posY = Math.max(0, Math.min(100, origY - dy));
-    applyPos();
+    video.style.objectPosition = posX + '% ' + posY + '%';
   });
   document.addEventListener('touchend', function() {
     if (!dragging) return;
     dragging = false;
     localStorage.setItem(posKey, JSON.stringify({x: Math.round(posX), y: Math.round(posY)}));
   });
-
-  // Fade hint after 4s
   if (hint) setTimeout(function() { hint.style.opacity = '0'; }, 4000);
-
-  // Alternate videos every 8s
-  setInterval(function() {
-    if (dragging) return;
-    videos[activeIdx].classList.remove('active');
-    activeIdx = (activeIdx + 1) % 2;
-    videos[activeIdx].classList.add('active');
-  }, 8000);
 }
 
 // ========== Typewriter ==========
@@ -351,12 +323,11 @@ function createFocusCarousel(containerId, images) {
     if (!activeSlide) return;
     activeSlide.classList.add('zoomed');
     if (zoomBg) zoomBg.classList.add('show');
-    // Reposition zoomed slide to viewport center
     var rect = activeSlide.getBoundingClientRect();
     var vw = window.innerWidth, vh = window.innerHeight;
-    var zoomW = vw * 0.7, zoomH = vh * 0.65;
-    if (vw < 900) { zoomW = vw * 0.85; zoomH = vh * 0.55; }
-    if (vw < 600) { zoomW = vw * 0.9; zoomH = vh * 0.4; }
+    var zoomW = vw * 0.8, zoomH = vh * 0.8;
+    if (vw < 900) { zoomW = vw * 0.88; zoomH = vh * 0.7; }
+    if (vw < 600) { zoomW = vw * 0.92; zoomH = vh * 0.55; }
     var tx = (vw - zoomW) / 2 - rect.left;
     var ty = (vh - zoomH) / 2 - rect.top + (rect.height - zoomH) / 2;
     activeSlide.style.transform = 'translate('+tx.toFixed(0)+'px,'+ty.toFixed(0)+'px) scale(1)';
@@ -383,26 +354,23 @@ function createFocusCarousel(containerId, images) {
 
   function resetTimer(pauseMs) {
     if (timer) clearInterval(timer);
-    // Normal advance interval
-    var interval = 2200;
+    var interval = 1400;
     timer = setTimeout(function step() {
       advance();
-      // After zoom, pause extra 1000ms for viewing
-      var nextInterval = interval + 1000;
+      var nextInterval = interval + 800;
       timer = setTimeout(function() {
         unzoom();
         timer = setTimeout(function() {
           step();
-        }, 600);
+        }, 400);
       }, interval);
-    }, pauseMs || 300);
+    }, pauseMs || 200);
   }
 
   positionSlides(function() {
-    // Initial zoom after a small delay
-    setTimeout(function() { zoomActive(); }, 500);
+    setTimeout(function() { zoomActive(); }, 400);
   });
-  resetTimer(1800);
+  resetTimer(1200);
 
   track.addEventListener('mouseenter', function() {
     if (timer) clearTimeout(timer);
