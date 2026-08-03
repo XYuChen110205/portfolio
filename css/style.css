@@ -154,10 +154,6 @@ img { display:block; max-width:100%; }
 .hero-name .grad {
   color:#fff; -webkit-text-fill-color:#fff; position:relative;
 }
-.hero-name .grad::after {
-  content:'|'; position:absolute; right:-8px; color:#fff;
-  animation:cursor-blink 1s step-end infinite; -webkit-text-fill-color:#fff;
-}
 .video-drag-hint {
   position:absolute; bottom:8px; right:16px; z-index:2;
   font-size:0.6rem; color:rgba(255,255,255,0.3);
