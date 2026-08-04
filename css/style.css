@@ -128,7 +128,7 @@ img { display:block; max-width:100%; }
 
 /* ===== Hero ===== */
 .hero {
-  position:relative; z-index:1; height:33vh; min-height:240px;
+  position:relative; z-index:1; height:15vh; min-height:240px;
   display:flex; align-items:center; justify-content:center;
   overflow:hidden; text-align:center;
 }
