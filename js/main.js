@@ -317,10 +317,12 @@ function createFocusCarousel(containerId, images) {
     transitioning = true;
     var w = track.clientWidth || container.clientWidth || 900;
     var slideW = 380, slideH = 280;
-    if (w < 600) { slideW = 220; slideH = 160; }
-    else if (w < 900) { slideW = 280; slideH = 200; }
-    var spacing = slideW * 0.62;
+    if (w < 600) { slideW = 180; slideH = 140; }
+    else if (w < 900) { slideW = 240; slideH = 180; }
+    var spacing = slideW * 0.55;
     var centerX = w / 2 - slideW / 2;
+    var waveH = 100; // sine wave amplitude
+    if (w < 900) waveH = 60;
 
     for (var i = 0; i < N; i++) {
       var offset = i - active;
@@ -328,14 +330,16 @@ function createFocusCarousel(containerId, images) {
       if (offset < -N/2) offset += N;
       var absOff = Math.abs(offset);
       var x = centerX + offset * spacing;
-      var scale = Math.max(0.55, 1 - absOff * 0.2);
-      var rotY = offset * 22;
+      // Sine wave: y oscillates up/down based on position
+      var y = Math.sin(offset * Math.PI / 2.5) * waveH;
+      var scale = Math.max(0.5, 1 - absOff * 0.22);
+      var rot = offset * 12; // slight rotation for depth
       var z = absOff === 0 ? 3 : (absOff <= 1 ? 2 : 1);
-      var opacity = absOff <= 1 ? 1 : Math.max(0.25, 1 - (absOff - 1) * 0.6);
+      var opacity = absOff <= 1 ? 1 : Math.max(0.2, 1 - absOff * 0.5);
 
       slides[i].style.cssText =
         'width:'+slideW+'px;height:'+slideH+'px;' +
-        'transform:translateX('+x.toFixed(0)+'px) perspective(1200px) rotateY('+rotY+'deg) scale('+scale+');' +
+        'transform:translate('+x.toFixed(0)+'px,'+y.toFixed(0)+'px) perspective(1200px) rotateY('+rot+'deg) scale('+scale+');' +
         'z-index:'+z+';opacity:'+opacity+';' +
         'border-radius:'+(absOff === 0 ? '8px' : '4px')+';';
       slides[i].classList.remove('active', 'zoomed');
@@ -344,7 +348,7 @@ function createFocusCarousel(containerId, images) {
     setTimeout(function() {
       transitioning = false;
       if (cb) cb();
-    }, 600);
+    }, 500);
   }
 
   function zoomActive() {
