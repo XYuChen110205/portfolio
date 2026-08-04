@@ -271,7 +271,7 @@ function ptext(id, field) {
 }
 
 // ========== Focus Zoom Carousel ==========
-function createFocus..Carousel(containerId, images) {
+function createFocusCarousel(containerId, images) {
   var container = document.getElementById(containerId);
   if (!container || !images.length) return;
 
@@ -324,13 +324,10 @@ function createFocus..Carousel(containerId, images) {
   function positionSlides(cb) {
     transitioning = true;
     var w = track.clientWidth || container.clientWidth || 900;
-    // Actual element size — big enough for sharp zoom, small enough for spiral clarity
-    var slideW = 200, slideH = 140;
-    if (w < 900) { slideW = 150; slideH = 105; }
-    if (w < 600) { slideW = 120; slideH = 85; }
-
-    var phi = (1 + Math.sqrt(5)) / 2;
-    var goldenAngle = Math.PI * (3 - Math.sqrt(5));
+    // Actual element size — 50px for clear curve visibility
+    var slideW = 50, slideH = 35;
+    if (w < 900) { slideW = 40; slideH = 28; }
+    if (w < 600) { slideW = 30; slideH = 22; }
 
     for (var i = 0; i < N; i++) {
       var offset = i - active;
@@ -339,28 +336,32 @@ function createFocus..Carousel(containerId, images) {
       var absOff = Math.abs(offset);
       var sign = offset >= 0 ? 1 : -1;
 
-      var angle = sign * absOff * goldenAngle;
-      var radiusFactor = Math.pow(phi, absOff * 0.7);
-      var radius = (w * 0.3) * radiusFactor;
+      // ── Lissajous Curve: x=A·sin(a·t+δ), y=B·sin(b·t) ──
+      // a=5, b=3 → complex multi-lobe pattern, period=2π
+      var t = offset * (2 * Math.PI / N);  // spread slides evenly across full cycle
+      var a = 5, b = 3;
+      var ampX = w * 0.38, ampY = 160;
+      if (w < 900) ampY = 120;
+      if (w < 600) ampY = 90;
       var cx = w / 2 - slideW / 2;
       var cy = 200; if (w < 900) cy = 150; if (w < 600) cy = 110;
+      var x = cx + ampX * Math.sin(a * t);
+      var y = cy + ampY * Math.sin(b * t);
 
-      var x = cx + Math.cos(angle) * radius;
-      var y = cy + Math.sin(angle) * radius * 0.5;
-      // Scale: 0.04 at far edge → 1.0 at center → huge zoom via CSS class
-      var scale = Math.max(0.04, Math.pow(phi, -absOff * 0.9));
-      var rot = sign * absOff * 20;
+      var phi = (1 + Math.sqrt(5)) / 2;
+      var scale = Math.max(0.06, Math.pow(phi, -absOff * 0.9));
+      var rot = sign * absOff * 18;
       var z = absOff <= 1 ? Math.max(3 - absOff, 1) : 0;
-      var opacity = absOff <= 1 ? 1 : Math.max(0.05, Math.pow(phi, -absOff * 1.2));
+      var opacity = absOff <= 1 ? 1 : Math.max(0.1, Math.pow(phi, -absOff * 1.2));
 
       slides[i].style.cssText =
         'width:'+slideW+'px;height:'+slideH+'px;' +
-        'left:0;top:0;' +   /* anchor all at origin — translate-only, NO reflow */
-        'transform:translate('+(x).toFixed(0)+'px,'+(y).toFixed(0)+'px) perspective(1200px) rotateY('+rot+'deg) scale('+scale.toFixed(4)+');' +
+        'left:0;top:0;' +
+        'transform:translate('+x.toFixed(0)+'px,'+y.toFixed(0)+'px) perspective(1200px) rotateY('+rot+'deg) scale('+scale.toFixed(4)+');' +
         'z-index:'+z+';opacity:'+opacity.toFixed(3)+';border-radius:2px;';
       slides[i].classList.remove('active', 'zoomed', 'near');
       if (absOff === 0) slides[i].classList.add('active');
-      if (absOff >= 1 && absOff <= 2) slides[i].classList.add('near');  // only animate nearby
+      if (absOff >= 1 && absOff <= 2) slides[i].classList.add('near');
     }
     setTimeout(function() {
       transitioning = false;
@@ -375,34 +376,12 @@ function createFocus..Carousel(containerId, images) {
     });
     if (zoomBg) zoomBg.classList.remove('show');
   }
-    setTimeout(function() {
-      transitioning = false;
-      if (cb) cb();
-    }, 500);
-  }
 
   // Formula tooltip，公式
   var formulaEl = document.createElement('div');
   formulaEl.className = 'carousel-formula';
-  formulaEl.innerHTML = '<span>r = a &middot; &phi;<sup>&theta;/&pi;</sup></span><small>&phi; = ½(1+√5) &asymp; 1.618</small>';
+  formulaEl.innerHTML = '<span>x = A&middot;sin(5t) &nbsp; y = B&middot;sin(3t)</span><small>Lissajous Curve &mdash; Complex 5:3 ratio</small>';
   track.appendChild(formulaEl);
-
-  function zoomActive() {
-    var activeSlide = track.querySelector('.carousel-slide.active');
-    if (!activeSlide) return;
-    activeSlide.classList.add('zoomed');
-    if (zoomBg) zoomBg.classList.add('show');
-  }
-
-  function unzoom() {
-    slides.forEach(function(s) {
-      s.classList.remove('zoomed');
-      s.style.width = '';
-      s.style.height = '';
-      s.style.transform = '';
-    });
-    if (zoomBg) zoomBg.classList.remove('show');
-  }
 
   function advance() {
     if (transitioning) return;
