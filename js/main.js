@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initSchoolCarousel();
   renderFeaturedProjects();
   renderChallengesInterests();
+  renderResources();
   renderTimeline();
   renderContacts();
   applyTexts();
@@ -213,8 +214,8 @@ function initLangSwitch() {
 // ========== Text — Full i18n coverage ==========
 function applyTexts() {
   // Nav links (all 5)
-  var navIds = ['navHome','navHometown','navSchool','navChallenges','navPortfolio'];
-  var navKeys = ['nav_home','nav_hometown','nav_school','nav_challenges','nav_portfolio'];
+  var navIds = ['navHome','navHometown','navSchool','navChallenges','navPortfolio','navResources'];
+  var navKeys = ['nav_home','nav_hometown','nav_school','nav_challenges','nav_portfolio','Resources'];
   for (var i=0; i<navIds.length; i++) {
     var el = document.getElementById(navIds[i]);
     if (el) el.textContent = t(navKeys[i]);
@@ -239,6 +240,10 @@ function applyTexts() {
   document.getElementById('portfolioDesc').textContent = t('sec_portfolio_desc');
   document.getElementById('challengesCn').textContent = t('sec_challenges_title');
   document.getElementById('challengesDesc').textContent = t('sec_challenges_desc');
+  var resourcesCn = document.getElementById('resourcesCn');
+  if (resourcesCn) resourcesCn.textContent = '素材与中转站';
+  var resourcesDesc = document.getElementById('resourcesDesc');
+  if (resourcesDesc) resourcesDesc.textContent = '常用工具、学习资料与资源链接。';
   var aboutCn = document.getElementById('aboutCn');
   if (aboutCn) aboutCn.textContent = t('nav_about');
   document.getElementById('contactCn').textContent = t('sec_contact_title');
@@ -713,4 +718,25 @@ function animateCounters() {
   }
   window.addEventListener('scroll', check);
   check();
+}
+
+// ========== Resources ==========
+function renderResources() {
+  var grid = document.getElementById('resourcesGrid');
+  if (!grid) return;
+  var resources = [
+    {icon:'※',name:'粤嵌在线教育',link:'http://edu.yueqian.com.cn',tag:'学习'},
+    {icon:'◈',name:'labuladong 算法',link:'https://labuladong.online',tag:'算法'},
+    {icon:'⚿',name:'AI Code 中转站',link:'https://aicode007.com/keys',tag:'工具'},
+    {icon:'★',name:'Seeyu GitHub',link:'https://github.com/XYuChen110205',tag:'主页'},
+    {icon:'♢',name:'在线体验 Deploy',link:'https://seeyu.tofudog.top',tag:'站点'}
+  ];
+  grid.innerHTML = resources.map(function(r) {
+    return '<a class="resource-card fade-in" href="'+r.link+'" target="_blank" rel="noopener">' +
+      '<div class="rc-icon">'+r.icon+'</div>' +
+      '<h4>'+r.name+'</h4>' +
+      '<div class="rc-link">'+r.link+'</div>' +
+      '<span class="rc-tag">'+r.tag+'</span>' +
+    '</a>';
+  }).join('');
 }
