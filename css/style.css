@@ -338,24 +338,18 @@ img { display:block; max-width:100%; }
   backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px);
 }
 .carousel-zoom-bg.show { opacity:1; pointer-events:auto; }
-/* Active slide zoom — viewport level */
+/* Active slide zoom — centered full screen with 10px margin */
 .carousel-slide.zoomed {
   position:fixed !important; top:50% !important; left:50% !important;
   transform:translate(-50%,-50%) !important;
-  width:80vw !important; height:80vh !important;
+  width:calc(100vw - 20px) !important; height:calc(100vh - 20px) !important;
   z-index:100 !important; opacity:1 !important;
   border-radius:8px !important;
   box-shadow:0 20px 80px rgba(0,0,0,0.5) !important;
   transition:all 0.5s cubic-bezier(0.16,1,0.3,1);
 }
-@media(max-width:900px) {
-  .carousel-slide.zoomed { width:90vw !important; height:60vh !important; }
-}
-@media(max-width:600px) {
-  .carousel-slide.zoomed { width:94vw !important; height:45vh !important; }
-}
 
-/* Carousel formula tooltip */
+/* Formula tooltip */
 .carousel-formula {
   position:absolute; bottom:8px; right:16px; z-index:5;
   background:rgba(0,0,0,0.6); color:rgba(255,255,255,0.85);
