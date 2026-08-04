@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initScrollSpy();
   initLangSwitch();
   initHeroVideo();
+  initRoleCycle();
   initHometownCarousel();
   initSchoolCarousel();
   renderFeaturedProjects();
@@ -109,28 +110,25 @@ function initHeroVideo() {
   if (hint) setTimeout(function() { hint.style.opacity = '0'; }, 4000);
 }
 
-// ========== Typewriter ==========
-function initTypewriter() {
-  var el = document.getElementById('typewriter');
+// ========== Role Cycle — rotating subtitle ==========
+function initRoleCycle() {
+  var el = document.getElementById('heroRole');
   if (!el) return;
   var roles = (typeof i18nMap !== 'undefined' && i18nMap[currentLang] && i18nMap[currentLang].tw_roles_v2)
-    || ['AI探索者', '计算机视觉', 'Web 开发者'];
-  var texts = ['Seeyu'].concat(roles);
-  var ti = 0, ci = 0, deleting = false;
-  function tick() {
-    var t = texts[ti];
-    if (!deleting) {
-      el.textContent = t.substring(0, ci + 1);
-      ci++;
-      if (ci === t.length) { deleting = true; setTimeout(tick, 2000); return; }
-    } else {
-      el.textContent = t.substring(0, ci - 1);
-      ci--;
-      if (ci === 0) { deleting = false; ti = (ti + 1) % texts.length; }
-    }
-    setTimeout(tick, deleting ? 50 : 100);
+    || ['计算机视觉探索者', 'AI 爱好者', 'Web 开发者', '开源贡献者'];
+  var idx = 0;
+  function cycle() {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(8px)';
+    setTimeout(function() {
+      el.textContent = roles[idx];
+      idx = (idx + 1) % roles.length;
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    }, 500);
   }
-  tick();
+  cycle();
+  setInterval(cycle, 3000);
 }
 
 // ========== Background Circles ==========
