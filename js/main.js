@@ -289,6 +289,12 @@ function createFocusCarousel(containerId, images) {
 
   var track = document.createElement('div');
   track.className = 'carousel-track';
+
+  // Create zoom background INSIDE the carousel container
+  var zoomBg = document.createElement('div');
+  zoomBg.className = 'carousel-zoom-bg';
+  zoomBg.addEventListener('click', function() { unzoom(); });
+  container.appendChild(zoomBg);
   container.appendChild(track);
 
   var N = images.length;
@@ -296,10 +302,6 @@ function createFocusCarousel(containerId, images) {
   var timer = null;
   var slides = [];
   var transitioning = false;
-  var zoomBg = document.getElementById('carouselZoomBg');
-  if (zoomBg) {
-    zoomBg.addEventListener('click', function() { unzoom(); });
-  }
 
   for (var i = 0; i < N; i++) {
     var slide = document.createElement('div');
@@ -336,17 +338,19 @@ function createFocusCarousel(containerId, images) {
       var absOff = Math.abs(offset);
       var sign = offset >= 0 ? 1 : -1;
 
-      // ── Lissajous Curve: x=A·sin(a·t+δ), y=B·sin(b·t) ──
-      // a=5, b=3 → complex multi-lobe pattern, period=2π
-      var t = offset * (2 * Math.PI / N);  // spread slides evenly across full cycle
-      var a = 5, b = 3;
-      var ampX = w * 0.38, ampY = 160;
-      if (w < 900) ampY = 120;
-      if (w < 600) ampY = 90;
+      // ── Butterfly Curve ──
+      // r = e^cos(t) − 2cos(4t) − sin⁵(t/12)
+      // x = sin(t)·r, y = cos(t)·r
+      var step = (2 * Math.PI) / N;
+      var t = offset * step;
+      var r = Math.exp(Math.cos(t)) - 2 * Math.cos(4*t) - Math.pow(Math.sin(t/12), 5);
+      var sx = w * 0.25, sy = 140;
+      if (w < 900) sy = 100;
+      if (w < 600) sy = 70;
       var cx = w / 2 - slideW / 2;
       var cy = 200; if (w < 900) cy = 150; if (w < 600) cy = 110;
-      var x = cx + ampX * Math.sin(a * t);
-      var y = cy + ampY * Math.sin(b * t);
+      var x = cx + Math.sin(t) * r * sx;
+      var y = cy + Math.cos(t) * r * sy;
 
       var phi = (1 + Math.sqrt(5)) / 2;
       var scale = Math.max(0.06, Math.pow(phi, -absOff * 0.9));
@@ -380,7 +384,7 @@ function createFocusCarousel(containerId, images) {
   // Formula tooltip，公式
   var formulaEl = document.createElement('div');
   formulaEl.className = 'carousel-formula';
-  formulaEl.innerHTML = '<span>x = A&middot;sin(5t) &nbsp; y = B&middot;sin(3t)</span><small>Lissajous Curve &mdash; Complex 5:3 ratio</small>';
+  formulaEl.innerHTML = '<span>r = e<sup>cos&thinsp;t</sup> − 2cos(4t) − sin<sup>5</sup>(t/12)</span><small>Butterfly Curve</small>';
   track.appendChild(formulaEl);
 
   function advance() {
