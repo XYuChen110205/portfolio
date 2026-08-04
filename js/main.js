@@ -320,7 +320,7 @@ function createFocusCarousel(containerId, images) {
     if (w < 600) { slideW = 180; slideH = 140; }
     else if (w < 900) { slideW = 240; slideH = 180; }
 
-    // ── Fibonacci Spiral (golden ratio φ ≈ 1.618) ──
+    // ── 斐波那契Fibonacci Spiral (golden ratio φ ≈ 1.618) ──
     var phi = (1 + Math.sqrt(5)) / 2;           // φ = 1.6180339
     var goldenAngle = Math.PI * (3 - Math.sqrt(5)); // ≈ 137.508°
 
@@ -331,7 +331,7 @@ function createFocusCarousel(containerId, images) {
       var absOff = Math.abs(offset);
       var sign = offset >= 0 ? 1 : -1;
 
-      // Spiral: angle increases by golden angle, radius grows by φ^|offset|
+      // 螺旋坐标Spiral: angle increases by golden angle, radius grows by φ^|offset|
       var angle = sign * absOff * goldenAngle;
       var radiusFactor = Math.pow(phi, absOff * 0.55);
       var radius = (w * 0.18) * radiusFactor;
@@ -340,6 +340,7 @@ function createFocusCarousel(containerId, images) {
       var x = cx + Math.cos(angle) * radius;
       var y = cy + Math.sin(angle) * radius * 0.55; // elliptical compression
 
+      //缩放旋转不透明
       var scale = Math.max(0.45, Math.pow(phi, -absOff * 0.45));
       var rot = sign * absOff * 15;
       var z = absOff <= 1 ? Math.floor(10 - absOff * 3) : 1;
@@ -360,7 +361,7 @@ function createFocusCarousel(containerId, images) {
     }, 500);
   }
 
-  // Formula tooltip
+  // Formula tooltip，公式
   var formulaEl = document.createElement('div');
   formulaEl.className = 'carousel-formula';
   formulaEl.innerHTML = '<span>r = a &middot; &phi;<sup>&theta;/&pi;</sup></span><small>&phi; = ½(1+√5) &asymp; 1.618</small>';
