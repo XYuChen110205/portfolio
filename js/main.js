@@ -473,7 +473,13 @@ function initSchoolCarousel() {
     'images/BeiBuGulfUniversity/校园一角.jpg',
     'images/BeiBuGulfUniversity/night.jpg',
     'images/BeiBuGulfUniversity/flowersea-格桑.jpg',
-    'images/BeiBuGulfUniversity/sky.jpg'
+    'images/BeiBuGulfUniversity/sky.jpg',
+    'images/BeiBuGulfUniversity/road.jpg',
+    'images/BeiBuGulfUniversity/云.jpg',
+    'images/BeiBuGulfUniversity/学校南门.jpg',
+    'images/BeiBuGulfUniversity/学校美食城.jpg',
+    'images/BeiBuGulfUniversity/宿舍楼下风和日丽.jpg',
+    'images/BeiBuGulfUniversity/近期暴雨后的.jpg'
   ];
   filterExistingImages(imgs, function(existing) {
     createFocusCarousel('schoolCarousel', existing);
@@ -563,15 +569,18 @@ function renderChallengesInterests() {
     {src:'images/chanllenge/焊接电路.jpg', label:'焊接电路'},
     {src:'images/chanllenge/时间继电器.jpg', label:'时间继电器'},
     {src:'images/chanllenge/电工接线练习.jpg', label:'电工接线'},
-    {src:'images/chanllenge/electri-合照.jpg', label:'竞赛合照'}
+    {src:'images/chanllenge/electri-合照.jpg', label:'竞赛合照'},
+    {src:'images/chanllenge/焊接.png', label:'焊接'},
+    {src:'images/chanllenge/线图图接线-控制线路.jpg', label:'接线图'}
   ];
 
   var interestImgs = [
     {src:'images/interesting/book1.jpg', label:'阅读'},
     {src:'images/interesting/esp32.jpg', label:'ESP32'},
-    {src:'images/interesting/大头.jpg', label:'大头'},
+    {src:'images/interesting/大鼠.jpg', label:'大鼠'},
     {src:'images/interesting/头像.jpg', label:'头像'},
-    {src:'images/interesting/日常.jpg', label:'日常'}
+    {src:'images/interesting/日常.jpg', label:'日常'},
+    {src:'images/interesting/与硬件相关的无人驾驶实验小车.jpg', label:'实验小车'}
   ];
 
   function buildMarquee(list) {
