@@ -326,10 +326,10 @@ function createFocusCarousel(containerId, images) {
   function positionSlides(cb) {
     transitioning = true;
     var w = track.clientWidth || container.clientWidth || 900;
-    // Actual element size — 50px for clear curve visibility
-    var slideW = 50, slideH = 35;
-    if (w < 900) { slideW = 40; slideH = 28; }
-    if (w < 600) { slideW = 30; slideH = 22; }
+    // 10x base size — clearly visible on curve
+    var slideW = 500, slideH = 350;
+    if (w < 900) { slideW = 350; slideH = 245; }
+    if (w < 600) { slideW = 250; slideH = 175; }
 
     for (var i = 0; i < N; i++) {
       var offset = i - active;
