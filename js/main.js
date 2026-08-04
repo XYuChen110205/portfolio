@@ -271,7 +271,7 @@ function ptext(id, field) {
 }
 
 // ========== Focus Zoom Carousel ==========
-function createFocusCarousel(containerId, images) {
+function createFocus..Carousel(containerId, images) {
   var container = document.getElementById(containerId);
   if (!container || !images.length) return;
 
@@ -297,6 +297,9 @@ function createFocusCarousel(containerId, images) {
   var slides = [];
   var transitioning = false;
   var zoomBg = document.getElementById('carouselZoomBg');
+  if (zoomBg) {
+    zoomBg.addEventListener('click', function() { unzoom(); });
+  }
 
   for (var i = 0; i < N; i++) {
     var slide = document.createElement('div');
@@ -305,10 +308,13 @@ function createFocusCarousel(containerId, images) {
     slide.addEventListener('click', function(idx) {
       return function() {
         if (transitioning) return;
+        // If zoomed, clicking again dismisses zoom
+        if (slides[idx].classList.contains('zoomed')) { unzoom(); return; }
         if (idx === active) return;
         unzoom();
         active = idx;
         positionSlides(function() { zoomActive(); });
+        resetTimer();
       };
     }(i));
     track.appendChild(slide);
@@ -318,11 +324,11 @@ function createFocusCarousel(containerId, images) {
   function positionSlides(cb) {
     transitioning = true;
     var w = track.clientWidth || container.clientWidth || 900;
-    var slideW = 160, slideH = 110;               // tiny slides → wide canvas
-    if (w < 600) { slideW = 100; slideH = 70; }
-    else if (w < 900) { slideW = 130; slideH = 90; }
+    var slideW = 30, slideH = 20;               // 未到 C 位的图片极其小
+    if (w < 900) { slideW = 22; slideH = 15; }
+    if (w < 600) { slideW = 18; slideH = 12; }
 
-    // ── Fibonacci Spiral (golden ratio φ ≈ 1.618) ──
+    // ── Fibonacci Spiral ──
     var phi = (1 + Math.sqrt(5)) / 2;
     var goldenAngle = Math.PI * (3 - Math.sqrt(5));
 
@@ -334,31 +340,31 @@ function createFocusCarousel(containerId, images) {
       var sign = offset >= 0 ? 1 : -1;
 
       var angle = sign * absOff * goldenAngle;
-      var radiusFactor = Math.pow(phi, absOff * 0.9); // wider spread
-      var radius = (w * 0.22) * radiusFactor;
+      var radiusFactor = Math.pow(phi, absOff * 0.7);
+      var radius = (w * 0.28) * radiusFactor;
       var cx = w / 2;
-      var cy = 200; if (w < 900) cy = 150; if (w < 600) cy = 120;
+      var cy = 200; if (w < 900) cy = 150; if (w < 600) cy = 110;
       var x = cx + Math.cos(angle) * radius;
       var y = cy + Math.sin(angle) * radius * 0.5;
 
-      var scale = Math.max(0.35, Math.pow(phi, -absOff * 0.55));
-      var rot = sign * absOff * 18;
-      var z = absOff <= 1 ? Math.floor(10 - absOff * 3) : 1;
-      var opacity = absOff <= 1 ? 1 : Math.max(0.12, Math.pow(phi, -absOff * 0.8));
+      // Scale: center gets 1.0 (in JS, but zoomed in CSS), others tiny
+      var scale = Math.max(0.4, Math.pow(phi, -absOff * 0.6));
+      var rot = sign * absOff * 20;
+      var z = absOff === 0 ? 3 : (absOff <= 1 ? 2 : 1);
+      var opacity = absOff <= 1 ? 1 : Math.max(0.1, Math.pow(phi, -absOff * 0.9));
 
       slides[i].style.cssText =
         'width:'+slideW+'px;height:'+slideH+'px;' +
         'left:'+x.toFixed(0)+'px;top:'+y.toFixed(0)+'px;' +
         'transform:perspective(1200px) rotateY('+rot+'deg) scale('+scale.toFixed(2)+');' +
-        'z-index:'+z+';opacity:'+opacity.toFixed(2)+';' +
-        'border-radius:4px;';
+        'z-index:'+z+';opacity:'+opacity.toFixed(2)+';border-radius:2px;';
       slides[i].classList.remove('active', 'zoomed');
       if (absOff === 0) slides[i].classList.add('active');
     }
     setTimeout(function() {
       transitioning = false;
       if (cb) cb();
-    }, 500);
+    }, 450);
   }
     setTimeout(function() {
       transitioning = false;
