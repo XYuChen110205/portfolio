@@ -7,77 +7,52 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:#ffffff; --surface:#ffffff; --border:#e5e5e0; --border-light:#efeee9;
+    --bg:#ffffff; --border:#e5e5e0; --border-light:#efeee9;
     --text:#1a1a1a; --text2:#555; --text3:#999; --accent:#2d6a4f;
     --font-serif:"Noto Serif SC",Georgia,serif;
-    --shadow-sm:0 2px 12px rgba(0,0,0,.04);
-    --shadow-md:0 8px 32px rgba(0,0,0,.07);
   }
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-  body{
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","PingFang SC",sans-serif;
-    background:var(--bg);color:var(--text);line-height:1.75;
-    -webkit-font-smoothing:antialiased;
-  }
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","PingFang SC",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;-webkit-font-smoothing:antialiased}
   a{color:var(--accent);text-decoration:none}
   a:hover{color:#40916c}
 
-  .back-bar{
-    position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;
-    background:rgba(255,255,255,.78);backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-    border-bottom:1px solid var(--border-light);
-    display:flex;align-items:center;padding:0 28px;justify-content:space-between;
-  }
-  .back-link{
-    display:inline-flex;align-items:center;gap:8px;font-size:.88rem;
-    font-weight:600;color:var(--text2);transition:color .2s;
-    font-family:var(--font-serif);
-  }
+  .back-bar{position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;background:rgba(255,255,255,.78);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border-light);display:flex;align-items:center;padding:0 28px;justify-content:space-between}
+  .back-link{display:inline-flex;align-items:center;gap:8px;font-size:.88rem;font-weight:600;color:var(--text2);font-family:var(--font-serif)}
   .back-link:hover{color:var(--accent)}
   .back-link svg{width:18px;height:18px}
 
-  .page-wrapper{max-width:900px;margin:0 auto;padding:100px 28px 80px}
+  .page-wrapper{max-width:760px;margin:0 auto;padding:100px 28px 80px}
 
-  .page-header{margin-bottom:52px;text-align:center}
-  .page-num{
-    font-family:var(--font-serif);font-size:6rem;font-weight:900;
-    color:var(--border-light);line-height:1;display:block;
-    margin-bottom:-28px;letter-spacing:-2px;opacity:.6;
-  }
-  .page-label-en{
-    font-family:var(--font-serif);font-size:2rem;font-weight:900;
-    color:var(--text);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;
-  }
-  .page-label-cn{
-    font-family:var(--font-serif);font-size:1.05rem;color:var(--text3);font-weight:400;
-  }
+  .page-header{margin-bottom:48px;text-align:center}
+  .page-num{font-family:var(--font-serif);font-size:6rem;font-weight:900;color:var(--border-light);line-height:1;display:block;margin-bottom:-28px;letter-spacing:-2px;opacity:.6}
+  .page-label-en{font-family:var(--font-serif);font-size:2rem;font-weight:900;color:var(--text);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+  .page-label-cn{font-family:var(--font-serif);font-size:1.05rem;color:var(--text3);font-weight:400}
 
-  .res-grid{
-    display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-    gap:16px;
-  }
-  .res-card{
-    background:var(--surface);border:1px solid var(--border);
-    border-radius:4px;padding:22px 20px;
-    transition:all .25s;box-shadow:var(--shadow-sm);
-    text-decoration:none;display:block;color:var(--text);
-  }
-  .res-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--accent)}
-  .res-card .rc-icon{font-size:1.3rem;margin-bottom:10px;opacity:.6}
-  .res-card h4{font-family:var(--font-serif);font-size:.95rem;font-weight:700;margin-bottom:4px}
-  .res-card .rc-link{font-size:.73rem;color:var(--text3);word-break:break-all;margin-bottom:6px}
-  .res-card .rc-tag{
-    display:inline-block;padding:2px 8px;border-radius:2px;
-    font-size:.62rem;font-weight:600;letter-spacing:.4px;
-    background:rgba(45,106,79,.08);color:var(--accent);
-  }
+  /* Add form */
+  .add-form{max-width:500px;margin:0 auto 40px;padding:18px 20px;background:#f9f9f6;border:1px solid var(--border-light);border-radius:4px;display:none}
+  .add-form.show{display:block}
+  .add-form input,.add-form textarea{width:100%;padding:8px 10px;margin-bottom:8px;border:1px solid var(--border);border-radius:2px;font-size:.85rem;font-family:inherit;outline:none}
+  .add-form input:focus,.add-form textarea:focus{border-color:var(--accent)}
+  .add-form textarea{height:50px;resize:vertical}
+  .add-form .btn-row{display:flex;gap:8px}
+  .add-form button{padding:7px 18px;border:none;border-radius:3px;font-size:.82rem;font-weight:600;cursor:pointer}
+  .btn-save{background:var(--accent);color:#fff}
+  .btn-cancel{background:var(--border);color:var(--text2)}
+  .btn-add-toggle{display:inline-block;margin:0 auto 32px;padding:6px 16px;border:1px dashed var(--border);border-radius:3px;font-size:.78rem;color:var(--text3);cursor:pointer;background:none;text-align:center}
+  .btn-add-toggle:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* List */
+  .res-list{max-width:660px;margin:0 auto}
+  .res-item{display:flex;align-items:baseline;gap:12px;padding:14px 0;border-bottom:1px solid var(--border-light)}
+  .res-item .ri-arrow{color:var(--text3);flex-shrink:0;font-size:.8rem}
+  .res-item a{font-family:var(--font-serif);font-size:1rem;font-weight:600;color:var(--accent);flex-shrink:0}
+  .res-item a:hover{text-decoration:underline}
+  .res-item .ri-desc{font-size:.82rem;color:var(--text3)}
+  .res-item .ri-del{background:none;border:none;color:#ccc;cursor:pointer;font-size:.75rem;flex-shrink:0;margin-left:auto}
+  .res-item .ri-del:hover{color:#e74c3c}
 
   footer{text-align:center;padding:28px;border-top:1px solid var(--border-light);color:var(--text3);font-size:.78rem;background:var(--surface)}
-
-  @media(max-width:700px){
-    .page-wrapper{padding:80px 18px 60px}
-  }
+  @media(max-width:700px){.page-wrapper{padding:80px 18px 60px}.res-item{flex-wrap:wrap}}
 </style>
 </head>
 <body>
@@ -87,36 +62,91 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     Back to Portfolio
   </a>
-  <span style="font-size:.8rem;color:var(--text3)">Resources &amp; Links</span>
 </div>
 
 <div class="page-wrapper">
   <div class="page-header">
-    <span class="page-num">99</span>
+    <span class="page-num">+</span>
     <h1 class="page-label-en">RESOURCES</h1>
     <p class="page-label-cn">素材与中转站</p>
   </div>
-  <div class="res-grid" id="resGrid"></div>
+
+  <div style="text-align:center"><button class="btn-add-toggle" id="btnAdd" onclick="toggleForm()">+ 新增链接</button></div>
+
+  <div class="add-form" id="addForm">
+    <input type="url" id="inUrl" placeholder="链接 URL（如 https://example.com）">
+    <input type="text" id="inName" placeholder="名称（如 某某工具）">
+    <textarea id="inDesc" placeholder="一句话说明（可选）"></textarea>
+    <div class="btn-row">
+      <button class="btn-save" onclick="addResource()">保存</button>
+      <button class="btn-cancel" onclick="toggleForm()">取消</button>
+    </div>
+  </div>
+
+  <div class="res-list" id="resList"></div>
 </div>
 
 <footer><p>AI Assisted · Independent Work · &copy; 2026 Seeyu</p></footer>
 
-<script src="js/i18n.js"></script>
 <script>
 (function(){
-  var resources = [
-    {icon:'※',name:'Yueqian Online Edu',link:'http://edu.yueqian.com.cn',tag:'Learn'},
-    {icon:'◈',name:'labuladong Algo',link:'https://labuladong.online',tag:'Algo'},
-    {icon:'⚿',name:'AI Code Hub',link:'https://aicode007.com/keys',tag:'Tools'},
-    {icon:'★',name:'Seeyu GitHub',link:'https://github.com/XYuChen110205',tag:'Home'},
-    {icon:'♢',name:'Live Site',link:'https://seeyu.tofudog.top',tag:'Site'}
+  var STORAGE_KEY = 'seeyu_resources';
+  var defaults = [
+    {url:'https://echotype-v2.pages.dev/', name:'EchoType Demo', desc:'Roguelike 英语学习工具在线体验'},
+    {url:'http://edu.yueqian.com.cn', name:'粤嵌在线教育', desc:'嵌入式/物联网学习平台'},
+    {url:'https://labuladong.online', name:'labuladong 算法', desc:'数据结构与算法刷题笔记'},
+    {url:'https://aicode007.com/keys', name:'AI Code 中转站', desc:'API Key 中转服务'},
+    {url:'https://github.com/XYuChen110205', name:'Seeyu GitHub', desc:'个人项目仓库'},
+    {url:'https://seeyu.tofudog.top', name:'Seeyu Portfolio', desc:'个人主页'}
   ];
-  var grid = document.getElementById('resGrid');
-  grid.innerHTML = resources.map(function(r) {
-    return '<a class="res-card" href="'+r.link+'" target="_blank" rel="noopener">' +
-      '<div class="rc-icon">'+r.icon+'</div><h4>'+r.name+'</h4>' +
-      '<div class="rc-link">'+r.link+'</div><span class="rc-tag">'+r.tag+'</span></a>';
-  }).join('');
+
+  function load() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch(e){}
+    return null;
+  }
+  function save(data) { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+
+  var list = load() || defaults.slice();
+
+  function render() {
+    var container = document.getElementById('resList');
+    container.innerHTML = list.map(function(r, i) {
+      return '<div class="res-item">' +
+        '<span class="ri-arrow">→</span>' +
+        '<a href="' + r.url + '" target="_blank" rel="noopener">' + r.name + '</a>' +
+        (r.desc ? '<span class="ri-desc">' + r.desc + '</span>' : '') +
+        '<button class="ri-del" onclick="removeResource('+i+')" title="Delete">×</button>' +
+      '</div>';
+    }).join('');
+  }
+
+  window.toggleForm = function() {
+    document.getElementById('addForm').classList.toggle('show');
+    document.getElementById('inUrl').focus();
+  };
+
+  window.addResource = function() {
+    var url = document.getElementById('inUrl').value.trim();
+    var name = document.getElementById('inName').value.trim();
+    var desc = document.getElementById('inDesc').value.trim();
+    if (!url || !name) return alert('URL 和名称必填');
+    list.push({url:url, name:name, desc:desc});
+    save(list);
+    render();
+    document.getElementById('inUrl').value = '';
+    document.getElementById('inName').value = '';
+    document.getElementById('inDesc').value = '';
+    document.getElementById('addForm').classList.remove('show');
+  };
+
+  window.removeResource = function(i) {
+    if (!confirm('Delete "' + list[i].name + '"?')) return;
+    list.splice(i, 1);
+    save(list);
+    render();
+  };
+
+  render();
 })();
 </script>
 </body>
