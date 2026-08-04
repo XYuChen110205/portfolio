@@ -576,12 +576,10 @@ function renderChallengesInterests() {
 
   function buildMarquee(list) {
     var cards = list.map(function(item) {
-      return '<div class="ci-mq-card">' +
-        '<img src="'+item.src+'" loading="lazy" onerror="this.parentElement.style.display=\'none\'">' +
-        '<span>'+item.label+'</span></div>';
+      return '<div class="ci-mq-card"><img src="'+item.src+'" loading="lazy"><span>'+item.label+'</span></div>';
     }).join('');
     // Duplicate for seamless loop
-    return cards + cards;
+    return cards + cards + cards;  // duplicate 3x for visible scroll
   }
 
   layout.innerHTML =
