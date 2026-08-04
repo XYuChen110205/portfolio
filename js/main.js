@@ -212,7 +212,8 @@ function initLangSwitch() {
 
 // ========== Text — Full i18n coverage ==========
 function applyTexts() {
-  // Nav links (all 5)
+  var lang = currentLang;
+  // Nav links
   var navIds = ['navHome','navHometown','navSchool','navChallenges','navPortfolio'];
   var navKeys = ['nav_home','nav_hometown','nav_school','nav_challenges','nav_portfolio'];
   for (var i=0; i<navIds.length; i++) {
@@ -220,46 +221,54 @@ function applyTexts() {
     if (el) el.textContent = t(navKeys[i]);
   }
   var navRes = document.getElementById('navResources');
-  if (navRes) navRes.textContent = t('nav_home') === '首页' ? '素材' : 'Resources';
+  if (navRes) navRes.textContent = t('nav_resources');
 
   // Hero
-  document.getElementById('heroSubtitle').textContent = t('hero_title_v2');
-  document.getElementById('heroDesc').textContent = t('hero_desc_v2');
-  document.getElementById('heroYears').textContent = t('hero_stat_years_v2');
-  document.getElementById('heroStatProjects').textContent = t('hero_stat_projects');
-  document.getElementById('heroToolsLabel').textContent = t('hero_tools_label');
-  document.getElementById('heroToolsDesc').textContent = t('hero_tools_desc');
-  var scrollEl = document.getElementById('heroScroll');
-  if (scrollEl) scrollEl.textContent = t('hero_scroll');
+  var hl = document.getElementById('heroScrollLabel');
+  if (hl) hl.textContent = t('hero_scroll');
+  var sp = document.getElementById('heroStatProjects');
+  if (sp) sp.textContent = t('hero_stat_projects');
 
-  // Section labels
-  document.getElementById('hometownCn').textContent = t('sec_hometown_title');
-  document.getElementById('hometownDesc').textContent = t('sec_hometown_desc');
-  document.getElementById('schoolCn').textContent = t('sec_school_title');
-  document.getElementById('schoolDesc').textContent = t('sec_school_desc');
-  document.getElementById('portfolioCn').textContent = t('sec_portfolio_title');
-  document.getElementById('portfolioDesc').textContent = t('sec_portfolio_desc');
-  document.getElementById('challengesCn').textContent = t('sec_challenges_title');
-  document.getElementById('challengesDesc').textContent = t('sec_challenges_desc');
-  var resourcesCn = document.getElementById('resourcesCn');
-  if (resourcesCn) resourcesCn.textContent = '素材与中转站';
-  var resourcesDesc = document.getElementById('resourcesDesc');
-  if (resourcesDesc) resourcesDesc.textContent = '常用工具、学习资料与资源链接。';
-  var aboutCn = document.getElementById('aboutCn');
-  if (aboutCn) aboutCn.textContent = t('nav_about');
-  document.getElementById('contactCn').textContent = t('sec_contact_title');
-  document.getElementById('contactDesc').textContent = t('sec_contact_desc');
+  // Section English labels
+  var labels = {
+    hometownLabel:'sec_hometown_label', schoolLabel:'sec_school_label',
+    challengesLabel:'sec_challenges_label', portfolioLabel:'sec_portfolio_label',
+    aboutLabel:'sec_about_label', contactLabel:'sec_contact_label'
+  };
+  for (var id in labels) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = t(labels[id]);
+  }
 
-  // Footer + meta
+  // Section Chinese labels + descs
+  var cnLabels = {
+    hometownCn:'sec_hometown_title', schoolCn:'sec_school_title',
+    challengesCn:'sec_challenges_title', portfolioCn:'sec_portfolio_title',
+    aboutCn:'nav_about', contactCn:'sec_contact_title'
+  };
+  for (var id in cnLabels) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = t(cnLabels[id]);
+  }
+
+  var descs = {
+    hometownDesc:'sec_hometown_desc', schoolDesc:'sec_school_desc',
+    challengesDesc:'sec_challenges_desc', portfolioDesc:'sec_portfolio_desc',
+    contactDesc:'sec_contact_desc'
+  };
+  for (var id in descs) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = t(descs[id]);
+  }
+
   document.getElementById('footerText').innerHTML = t('footer_built_v2');
   document.title = t('page_title_v2');
   var metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) metaDesc.setAttribute('content', t('page_desc_v2'));
-  document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : currentLang;
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
 
-  // View all button
   var viewAll = document.querySelector('.btn-view-all');
-  if (viewAll) viewAll.textContent = t('view_all_projects') + ' →';
+  if (viewAll) viewAll.textContent = t('view_all_projects');
 }
 
 function ptext(id, field) {
@@ -544,7 +553,7 @@ function renderFeaturedProjects() {
   }).join('');
 }
 
-// ========== Challenges & Interests ==========
+// ========== Challenges & Interests — vertical marquee waterfall ==========
 function renderChallengesInterests() {
   var layout = document.getElementById('ciLayout');
   if (!layout) return;
@@ -553,37 +562,34 @@ function renderChallengesInterests() {
     {src:'images/chanllenge/磨铁.png', label:'磨铁'},
     {src:'images/chanllenge/焊接电路.jpg', label:'焊接电路'},
     {src:'images/chanllenge/时间继电器.jpg', label:'时间继电器'},
-    {src:'images/chanllenge/电子版本控制线路接线图.jpg', label:'控制线路'},
-    {src:'images/chanllenge/线图图接线-控制线路.jpg', label:'接线练习'},
     {src:'images/chanllenge/电工接线练习.jpg', label:'电工接线'},
     {src:'images/chanllenge/electri-合照.jpg', label:'竞赛合照'}
   ];
 
   var interestImgs = [
-    {src:'images/interesting/book1.jpg', label:'阅读'}
+    {src:'images/interesting/book1.jpg', label:'阅读'},
+    {src:'images/interesting/esp32.jpg', label:'ESP32'},
+    {src:'images/interesting/大头.jpg', label:'大头'},
+    {src:'images/interesting/头像.jpg', label:'头像'},
+    {src:'images/interesting/日常.jpg', label:'日常'}
   ];
 
-  function imgGrid(list) {
-    return list.map(function(item) {
-      return '<div>' +
-        '<img src="'+item.src+'" alt="'+item.label+'" loading="lazy" ' +
-          'onerror="this.parentElement.style.display=\'none\'" ' +
-          'style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:2px;">' +
-        '<div style="font-size:0.7rem;color:#999;text-align:center;padding:4px 0;">'+item.label+'</div>' +
-      '</div>';
+  function buildMarquee(list) {
+    var cards = list.map(function(item) {
+      return '<div class="ci-mq-card">' +
+        '<img src="'+item.src+'" loading="lazy" onerror="this.parentElement.style.display=\'none\'">' +
+        '<span>'+item.label+'</span></div>';
     }).join('');
+    // Duplicate for seamless loop
+    return cards + cards;
   }
 
   layout.innerHTML =
-    '<div class="ci-col">' +
-      '<h3>'+t('challenges_label')+'</h3>' +
-      '<p class="ci-desc">'+t('ci_challenges_desc')+'</p>' +
-      '<div class="ci-grid">'+imgGrid(challengeImgs)+'</div>' +
+    '<div class="ci-col"><h3>'+t('challenges_label')+'</h3>' +
+      '<div class="ci-marquee-wrap"><div class="ci-marquee-track">'+buildMarquee(challengeImgs)+'</div></div>' +
     '</div>' +
-    '<div class="ci-col">' +
-      '<h3>'+t('interests_label')+'</h3>' +
-      '<p class="ci-desc">'+t('ci_interests_desc')+'</p>' +
-      '<div class="ci-grid">'+imgGrid(interestImgs)+'</div>' +
+    '<div class="ci-col"><h3>'+t('interests_label')+'</h3>' +
+      '<div class="ci-marquee-wrap"><div class="ci-marquee-track reverse">'+buildMarquee(interestImgs)+'</div></div>' +
     '</div>';
 }
 

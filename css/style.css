@@ -512,6 +512,33 @@ img { display:block; max-width:100%; }
   font-size:0.7rem; color:var(--text3); text-align:center; padding:4px 0;
 }
 
+/* Vertical marquee waterfall */
+.ci-marquee-wrap {
+  height:420px; overflow:hidden; position:relative;
+  mask-image:linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+}
+.ci-marquee-track {
+  column-count:2; column-gap:10px;
+  animation:ci-scroll-up 25s linear infinite;
+}
+.ci-marquee-track.reverse { animation-direction:reverse; }
+@keyframes ci-scroll-up {
+  0% { transform:translateY(0); }
+  100% { transform:translateY(-50%); }
+}
+.ci-marquee-wrap:hover .ci-marquee-track { animation-play-state:paused; }
+.ci-mq-card {
+  break-inside:avoid; margin-bottom:10px; border-radius:3px; overflow:hidden;
+  transition:transform .3s; cursor:pointer;
+}
+.ci-mq-card:hover { transform:scale(1.03); }
+.ci-mq-card img { width:100%; display:block; object-fit:cover; }
+.ci-mq-card span {
+  display:block; text-align:center; font-size:.65rem; color:var(--text3);
+  padding:4px 0; background:var(--surface);
+}
+
 /* ===== Timeline ===== */
 .timeline {
   position:relative; max-width:760px; margin:0 auto; padding:10px 0;
