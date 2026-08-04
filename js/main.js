@@ -425,10 +425,26 @@ function createFocusCarousel(containerId, images) {
   });
 }
 
+// ========== Dynamic image filter ==========
+function filterExistingImages(list, callback) {
+  var result = [];
+  var pending = list.length;
+  if (pending === 0) { callback(result); return; }
+  list.forEach(function(src) {
+    var img = new Image();
+    img.onload = function() { result.push(src); check(); };
+    img.onerror = function() { check(); };
+    img.src = src;
+    function check() { pending--; if (pending === 0) callback(result); }
+  });
+}
+
 function initHometownCarousel() {
   var imgs = ['images/梧州/龙母庙.jpg'];
-  createFocusCarousel('hometownCarousel', imgs);
-  addWaterfall('hometownCarousel', imgs);
+  filterExistingImages(imgs, function(existing) {
+    createFocusCarousel('hometownCarousel', existing);
+    addWaterfall('hometownCarousel', existing);
+  });
 }
 
 function initSchoolCarousel() {
@@ -444,8 +460,10 @@ function initSchoolCarousel() {
     'images/BeiBuGulfUniversity/flowersea-格桑.jpg',
     'images/BeiBuGulfUniversity/sky.jpg'
   ];
-  createFocusCarousel('schoolCarousel', imgs);
-  addWaterfall('schoolCarousel', imgs);
+  filterExistingImages(imgs, function(existing) {
+    createFocusCarousel('schoolCarousel', existing);
+    addWaterfall('schoolCarousel', existing);
+  });
 }
 
 // ========== Waterfall Masonry for carousel sections ==========
@@ -468,7 +486,7 @@ function addWaterfall(carouselId, images) {
   wf.className = 'waterfall-container';
   wf.innerHTML = images.map(function(src, i) {
     return '<div class="waterfall-item">' +
-      '<img src="'+src+'" alt="Photo '+(i+1)+'" loading="lazy">' +
+      '<img src="'+src+'" alt="Photo '+(i+1)+'" loading="lazy" onerror="this.parentElement.style.display=\'none\'">' +
       '<div class="wf-label">'+(i+1)+' / '+images.length+'</div>' +
     '</div>';
   }).join('');
@@ -542,7 +560,9 @@ function renderChallengesInterests() {
   function imgGrid(list) {
     return list.map(function(item) {
       return '<div>' +
-        '<img src="'+item.src+'" alt="'+item.label+'" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:2px;">' +
+        '<img src="'+item.src+'" alt="'+item.label+'" loading="lazy" ' +
+          'onerror="this.parentElement.style.display=\'none\'" ' +
+          'style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:2px;">' +
         '<div style="font-size:0.7rem;color:#999;text-align:center;padding:4px 0;">'+item.label+'</div>' +
       '</div>';
     }).join('');
