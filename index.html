@@ -6,14 +6,15 @@
 <meta name="description" content="Seeyu 个人主页 — 计算机视觉探索者">
 <title>Seeyu · 个人主页</title>
 <link rel="stylesheet" href="css/style.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" async></script>
 <script>
-  mermaid.initialize({ startOnLoad:false, theme:'base',
-    themeVariables:{ primaryColor:'#eef2ff', primaryTextColor:'#1e293b', primaryBorderColor:'#c7d2fe', lineColor:'#6366f1', secondaryColor:'#f0f9ff', tertiaryColor:'#faf5ff', fontSize:'13px', fontFamily:'-apple-system,BlinkMacSystemFont,"Noto Sans SC",sans-serif' },
-    flowchart:{ useMaxWidth:true, htmlLabels:true, curve:'basis' }
+  window._mermaidReady = false;
+  document.querySelector('script[src*="mermaid"]').addEventListener('load', function() {
+    mermaid.initialize({ startOnLoad:false, theme:'base',
+      themeVariables:{ primaryColor:'#eef2ff', primaryTextColor:'#1e293b', primaryBorderColor:'#c7d2fe', lineColor:'#6366f1', secondaryColor:'#f0f9ff', tertiaryColor:'#faf5ff', fontSize:'13px', fontFamily:'-apple-system,BlinkMacSystemFont,"Noto Sans SC",sans-serif' },
+      flowchart:{ useMaxWidth:true, htmlLabels:true, curve:'basis' }
+    });
+    window._mermaidReady = true;
   });
 </script>
 </head>

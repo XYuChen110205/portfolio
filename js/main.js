@@ -358,8 +358,9 @@ function createFocus..Carousel(containerId, images) {
         'left:0;top:0;' +   /* anchor all at origin — translate-only, NO reflow */
         'transform:translate('+(x).toFixed(0)+'px,'+(y).toFixed(0)+'px) perspective(1200px) rotateY('+rot+'deg) scale('+scale.toFixed(4)+');' +
         'z-index:'+z+';opacity:'+opacity.toFixed(3)+';border-radius:2px;';
-      slides[i].classList.remove('active', 'zoomed');
+      slides[i].classList.remove('active', 'zoomed', 'near');
       if (absOff === 0) slides[i].classList.add('active');
+      if (absOff >= 1 && absOff <= 2) slides[i].classList.add('near');  // only animate nearby
     }
     setTimeout(function() {
       transitioning = false;
