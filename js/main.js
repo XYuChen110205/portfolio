@@ -139,11 +139,13 @@ function initBgCircles() {
   if (!box) return;
   var colors = ['#2d6a4f','#40916c','#52b788','#95d5b2','#b7e4c7','#d8f3dc','#74c69d'];
   var blobs = [
-    {c:'#52b788',size:500,top:-10,left:-8},
-    {c:'#95d5b2',size:440,top:20,left:76},
-    {c:'#40916c',size:380,top:62,left:-6},
-    {c:'#74c69d',size:340,top:80,left:68},
-    {c:'#b7e4c7',size:320,top:44,left:42}
+    {c:'#2f460ca6',size:500,top:-10,left:-8},
+    //c颜色，size是圆球直径，top是垂直位置，left是水平位置
+    //透明度由.bg-circle.blob控制，opacity目前是0.12，0是完全透明，1是完全不透明
+    {c:'#d595ca',size:440,top:20,left:76},
+    {c:'#cd528f7d',size:380,top:62,left:-6},
+    {c:'#7499c6',size:340,top:80,left:68},
+    {c:'#ba1c80',size:320,top:44,left:42}
   ];
   blobs.forEach(function(b,i) {
     var el = document.createElement('div');
@@ -316,13 +318,13 @@ function createFocusCarousel(containerId, images) {
   function positionSlides(cb) {
     transitioning = true;
     var w = track.clientWidth || container.clientWidth || 900;
-    var slideW = 380, slideH = 280;
-    if (w < 600) { slideW = 180; slideH = 140; }
-    else if (w < 900) { slideW = 240; slideH = 180; }
+    var slideW = 160, slideH = 110;               // tiny slides → wide canvas
+    if (w < 600) { slideW = 100; slideH = 70; }
+    else if (w < 900) { slideW = 130; slideH = 90; }
 
-    // ── 斐波那契Fibonacci Spiral (golden ratio φ ≈ 1.618) ──
-    var phi = (1 + Math.sqrt(5)) / 2;           // φ = 1.6180339
-    var goldenAngle = Math.PI * (3 - Math.sqrt(5)); // ≈ 137.508°
+    // ── Fibonacci Spiral (golden ratio φ ≈ 1.618) ──
+    var phi = (1 + Math.sqrt(5)) / 2;
+    var goldenAngle = Math.PI * (3 - Math.sqrt(5));
 
     for (var i = 0; i < N; i++) {
       var offset = i - active;
@@ -331,30 +333,33 @@ function createFocusCarousel(containerId, images) {
       var absOff = Math.abs(offset);
       var sign = offset >= 0 ? 1 : -1;
 
-      // 螺旋坐标Spiral: angle increases by golden angle, radius grows by φ^|offset|
       var angle = sign * absOff * goldenAngle;
-      var radiusFactor = Math.pow(phi, absOff * 0.55);
-      var radius = (w * 0.18) * radiusFactor;
+      var radiusFactor = Math.pow(phi, absOff * 0.9); // wider spread
+      var radius = (w * 0.22) * radiusFactor;
       var cx = w / 2;
-      var cy = 180; if (w < 900) cy = 130; if (w < 600) cy = 100;
+      var cy = 200; if (w < 900) cy = 150; if (w < 600) cy = 120;
       var x = cx + Math.cos(angle) * radius;
-      var y = cy + Math.sin(angle) * radius * 0.55; // elliptical compression
+      var y = cy + Math.sin(angle) * radius * 0.5;
 
-      //缩放旋转不透明
-      var scale = Math.max(0.45, Math.pow(phi, -absOff * 0.45));
-      var rot = sign * absOff * 15;
+      var scale = Math.max(0.35, Math.pow(phi, -absOff * 0.55));
+      var rot = sign * absOff * 18;
       var z = absOff <= 1 ? Math.floor(10 - absOff * 3) : 1;
-      var opacity = absOff <= 1 ? 1 : Math.max(0.15, Math.pow(phi, -absOff * 0.7));
+      var opacity = absOff <= 1 ? 1 : Math.max(0.12, Math.pow(phi, -absOff * 0.8));
 
       slides[i].style.cssText =
         'width:'+slideW+'px;height:'+slideH+'px;' +
         'left:'+x.toFixed(0)+'px;top:'+y.toFixed(0)+'px;' +
         'transform:perspective(1200px) rotateY('+rot+'deg) scale('+scale.toFixed(2)+');' +
         'z-index:'+z+';opacity:'+opacity.toFixed(2)+';' +
-        'border-radius:'+(absOff === 0 ? '8px' : '4px')+';';
+        'border-radius:4px;';
       slides[i].classList.remove('active', 'zoomed');
       if (absOff === 0) slides[i].classList.add('active');
     }
+    setTimeout(function() {
+      transitioning = false;
+      if (cb) cb();
+    }, 500);
+  }
     setTimeout(function() {
       transitioning = false;
       if (cb) cb();
