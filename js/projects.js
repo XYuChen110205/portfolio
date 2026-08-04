@@ -283,6 +283,7 @@ const projectsData = [
     icon: 'shield',
     difficulty: 3,
     thumb: 'images/suolvtu/echotype.png',
+    link: 'https://echotype-v2.pages.dev/',
     shortDesc: '将Roguelike地下城游戏机制与英语学习深度融合的渐进式Web应用。先学词，再临摹，闯地下城，顿悟英语。',
     detail: {
       overview: 'EchoType（回声打字）是一款创新性的英语学习工具，其核心设计理念是将Roguelike游戏的核心循环（挑战→成长→再挑战）与英语学习过程深度融合。用户通过学习单词积累"经验值"，通过文章临摹提升"技能等级"，然后在地下城系统中挑战随机生成的学习关卡，形成"学习输入 → 游戏输出 → 反馈激励"的正向循环。',

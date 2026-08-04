@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Resources · Seeyu</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#ffffff; --surface:#ffffff; --border:#e5e5e0; --border-light:#efeee9;
+    --text:#1a1a1a; --text2:#555; --text3:#999; --accent:#2d6a4f;
+    --font-serif:"Noto Serif SC",Georgia,serif;
+    --shadow-sm:0 2px 12px rgba(0,0,0,.04);
+    --shadow-md:0 8px 32px rgba(0,0,0,.07);
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","PingFang SC",sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:#40916c}
+
+  .back-bar{
+    position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;
+    background:rgba(255,255,255,.78);backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border-light);
+    display:flex;align-items:center;padding:0 28px;justify-content:space-between;
+  }
+  .back-link{
+    display:inline-flex;align-items:center;gap:8px;font-size:.88rem;
+    font-weight:600;color:var(--text2);transition:color .2s;
+    font-family:var(--font-serif);
+  }
+  .back-link:hover{color:var(--accent)}
+  .back-link svg{width:18px;height:18px}
+
+  .page-wrapper{max-width:900px;margin:0 auto;padding:100px 28px 80px}
+
+  .page-header{margin-bottom:52px;text-align:center}
+  .page-num{
+    font-family:var(--font-serif);font-size:6rem;font-weight:900;
+    color:var(--border-light);line-height:1;display:block;
+    margin-bottom:-28px;letter-spacing:-2px;opacity:.6;
+  }
+  .page-label-en{
+    font-family:var(--font-serif);font-size:2rem;font-weight:900;
+    color:var(--text);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;
+  }
+  .page-label-cn{
+    font-family:var(--font-serif);font-size:1.05rem;color:var(--text3);font-weight:400;
+  }
+
+  .res-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:16px;
+  }
+  .res-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:4px;padding:22px 20px;
+    transition:all .25s;box-shadow:var(--shadow-sm);
+    text-decoration:none;display:block;color:var(--text);
+  }
+  .res-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--accent)}
+  .res-card .rc-icon{font-size:1.3rem;margin-bottom:10px;opacity:.6}
+  .res-card h4{font-family:var(--font-serif);font-size:.95rem;font-weight:700;margin-bottom:4px}
+  .res-card .rc-link{font-size:.73rem;color:var(--text3);word-break:break-all;margin-bottom:6px}
+  .res-card .rc-tag{
+    display:inline-block;padding:2px 8px;border-radius:2px;
+    font-size:.62rem;font-weight:600;letter-spacing:.4px;
+    background:rgba(45,106,79,.08);color:var(--accent);
+  }
+
+  footer{text-align:center;padding:28px;border-top:1px solid var(--border-light);color:var(--text3);font-size:.78rem;background:var(--surface)}
+
+  @media(max-width:700px){
+    .page-wrapper{padding:80px 18px 60px}
+  }
+</style>
+</head>
+<body>
+
+<div class="back-bar">
+  <a href="index.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    Back to Portfolio
+  </a>
+  <span style="font-size:.8rem;color:var(--text3)">Resources &amp; Links</span>
+</div>
+
+<div class="page-wrapper">
+  <div class="page-header">
+    <span class="page-num">99</span>
+    <h1 class="page-label-en">RESOURCES</h1>
+    <p class="page-label-cn">素材与中转站</p>
+  </div>
+  <div class="res-grid" id="resGrid"></div>
+</div>
+
+<footer><p>AI Assisted · Independent Work · &copy; 2026 Seeyu</p></footer>
+
+<script src="js/i18n.js"></script>
+<script>
+(function(){
+  var resources = [
+    {icon:'※',name:'Yueqian Online Edu',link:'http://edu.yueqian.com.cn',tag:'Learn'},
+    {icon:'◈',name:'labuladong Algo',link:'https://labuladong.online',tag:'Algo'},
+    {icon:'⚿',name:'AI Code Hub',link:'https://aicode007.com/keys',tag:'Tools'},
+    {icon:'★',name:'Seeyu GitHub',link:'https://github.com/XYuChen110205',tag:'Home'},
+    {icon:'♢',name:'Live Site',link:'https://seeyu.tofudog.top',tag:'Site'}
+  ];
+  var grid = document.getElementById('resGrid');
+  grid.innerHTML = resources.map(function(r) {
+    return '<a class="res-card" href="'+r.link+'" target="_blank" rel="noopener">' +
+      '<div class="rc-icon">'+r.icon+'</div><h4>'+r.name+'</h4>' +
+      '<div class="rc-link">'+r.link+'</div><span class="rc-tag">'+r.tag+'</span></a>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

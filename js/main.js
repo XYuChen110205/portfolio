@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
   initSchoolCarousel();
   renderFeaturedProjects();
   renderChallengesInterests();
-  renderResources();
   renderTimeline();
   renderContacts();
   applyTexts();
@@ -214,12 +213,14 @@ function initLangSwitch() {
 // ========== Text — Full i18n coverage ==========
 function applyTexts() {
   // Nav links (all 5)
-  var navIds = ['navHome','navHometown','navSchool','navChallenges','navPortfolio','navResources'];
-  var navKeys = ['nav_home','nav_hometown','nav_school','nav_challenges','nav_portfolio','Resources'];
+  var navIds = ['navHome','navHometown','navSchool','navChallenges','navPortfolio'];
+  var navKeys = ['nav_home','nav_hometown','nav_school','nav_challenges','nav_portfolio'];
   for (var i=0; i<navIds.length; i++) {
     var el = document.getElementById(navIds[i]);
     if (el) el.textContent = t(navKeys[i]);
   }
+  var navRes = document.getElementById('navResources');
+  if (navRes) navRes.textContent = t('nav_home') === '首页' ? '素材' : 'Resources';
 
   // Hero
   document.getElementById('heroSubtitle').textContent = t('hero_title_v2');
@@ -718,25 +719,4 @@ function animateCounters() {
   }
   window.addEventListener('scroll', check);
   check();
-}
-
-// ========== Resources ==========
-function renderResources() {
-  var grid = document.getElementById('resourcesGrid');
-  if (!grid) return;
-  var resources = [
-    {icon:'※',name:'粤嵌在线教育',link:'http://edu.yueqian.com.cn',tag:'学习'},
-    {icon:'◈',name:'labuladong 算法',link:'https://labuladong.online',tag:'算法'},
-    {icon:'⚿',name:'AI Code 中转站',link:'https://aicode007.com/keys',tag:'工具'},
-    {icon:'★',name:'Seeyu GitHub',link:'https://github.com/XYuChen110205',tag:'主页'},
-    {icon:'♢',name:'在线体验 Deploy',link:'https://seeyu.tofudog.top',tag:'站点'}
-  ];
-  grid.innerHTML = resources.map(function(r) {
-    return '<a class="resource-card fade-in" href="'+r.link+'" target="_blank" rel="noopener">' +
-      '<div class="rc-icon">'+r.icon+'</div>' +
-      '<h4>'+r.name+'</h4>' +
-      '<div class="rc-link">'+r.link+'</div>' +
-      '<span class="rc-tag">'+r.tag+'</span>' +
-    '</a>';
-  }).join('');
 }
