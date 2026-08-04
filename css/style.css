@@ -355,11 +355,21 @@ img { display:block; max-width:100%; }
   .carousel-slide.zoomed { width:94vw !important; height:45vh !important; }
 }
 
+/* Carousel formula tooltip */
+.carousel-formula {
+  position:absolute; bottom:8px; right:16px; z-index:5;
+  background:rgba(0,0,0,0.6); color:rgba(255,255,255,0.85);
+  padding:5px 12px; border-radius:4px; font-family:"Georgia",var(--font-serif);
+  font-size:0.7rem; line-height:1.5; pointer-events:none;
+  opacity:0.55; transition:opacity 0.4s;
+}
+.carousel-formula small { display:block; font-size:0.6rem; opacity:0.55; margin-top:1px; }
+
 /* ===== Staggered Scroll Reveal ===== */
 .carousel-slide {
   position:absolute; width:380px; height:280px; cursor:pointer;
-  transition: transform 0.65s cubic-bezier(0.4,0,0.2,1), opacity 0.5s, z-index 0s;
-  will-change:transform; border-radius:4px; overflow:hidden;
+  transition: all 0.55s cubic-bezier(0.4,0,0.2,1);
+  will-change:transform,left,top,opacity; border-radius:4px; overflow:hidden;
   box-shadow: 0 4px 24px rgba(0,0,0,0.12);
 }
 .carousel-slide img {

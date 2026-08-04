@@ -319,28 +319,37 @@ function createFocusCarousel(containerId, images) {
     var slideW = 380, slideH = 280;
     if (w < 600) { slideW = 180; slideH = 140; }
     else if (w < 900) { slideW = 240; slideH = 180; }
-    var spacing = slideW * 0.55;
-    var centerX = w / 2 - slideW / 2;
-    var waveH = 100; // sine wave amplitude
-    if (w < 900) waveH = 60;
+
+    // ── Fibonacci Spiral (golden ratio φ ≈ 1.618) ──
+    var phi = (1 + Math.sqrt(5)) / 2;           // φ = 1.6180339
+    var goldenAngle = Math.PI * (3 - Math.sqrt(5)); // ≈ 137.508°
 
     for (var i = 0; i < N; i++) {
       var offset = i - active;
       if (offset > N/2) offset -= N;
       if (offset < -N/2) offset += N;
       var absOff = Math.abs(offset);
-      var x = centerX + offset * spacing;
-      // Sine wave: y oscillates up/down based on position
-      var y = Math.sin(offset * Math.PI / 2.5) * waveH;
-      var scale = Math.max(0.5, 1 - absOff * 0.22);
-      var rot = offset * 12; // slight rotation for depth
-      var z = absOff === 0 ? 3 : (absOff <= 1 ? 2 : 1);
-      var opacity = absOff <= 1 ? 1 : Math.max(0.2, 1 - absOff * 0.5);
+      var sign = offset >= 0 ? 1 : -1;
+
+      // Spiral: angle increases by golden angle, radius grows by φ^|offset|
+      var angle = sign * absOff * goldenAngle;
+      var radiusFactor = Math.pow(phi, absOff * 0.55);
+      var radius = (w * 0.18) * radiusFactor;
+      var cx = w / 2;
+      var cy = 180; if (w < 900) cy = 130; if (w < 600) cy = 100;
+      var x = cx + Math.cos(angle) * radius;
+      var y = cy + Math.sin(angle) * radius * 0.55; // elliptical compression
+
+      var scale = Math.max(0.45, Math.pow(phi, -absOff * 0.45));
+      var rot = sign * absOff * 15;
+      var z = absOff <= 1 ? Math.floor(10 - absOff * 3) : 1;
+      var opacity = absOff <= 1 ? 1 : Math.max(0.15, Math.pow(phi, -absOff * 0.7));
 
       slides[i].style.cssText =
         'width:'+slideW+'px;height:'+slideH+'px;' +
-        'transform:translate('+x.toFixed(0)+'px,'+y.toFixed(0)+'px) perspective(1200px) rotateY('+rot+'deg) scale('+scale+');' +
-        'z-index:'+z+';opacity:'+opacity+';' +
+        'left:'+x.toFixed(0)+'px;top:'+y.toFixed(0)+'px;' +
+        'transform:perspective(1200px) rotateY('+rot+'deg) scale('+scale.toFixed(2)+');' +
+        'z-index:'+z+';opacity:'+opacity.toFixed(2)+';' +
         'border-radius:'+(absOff === 0 ? '8px' : '4px')+';';
       slides[i].classList.remove('active', 'zoomed');
       if (absOff === 0) slides[i].classList.add('active');
@@ -350,6 +359,12 @@ function createFocusCarousel(containerId, images) {
       if (cb) cb();
     }, 500);
   }
+
+  // Formula tooltip
+  var formulaEl = document.createElement('div');
+  formulaEl.className = 'carousel-formula';
+  formulaEl.innerHTML = '<span>r = a &middot; &phi;<sup>&theta;/&pi;</sup></span><small>&phi; = ½(1+√5) &asymp; 1.618</small>';
+  track.appendChild(formulaEl);
 
   function zoomActive() {
     var activeSlide = track.querySelector('.carousel-slide.active');
