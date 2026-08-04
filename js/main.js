@@ -324,11 +324,11 @@ function createFocus..Carousel(containerId, images) {
   function positionSlides(cb) {
     transitioning = true;
     var w = track.clientWidth || container.clientWidth || 900;
-    var slideW = 30, slideH = 20;               // 未到 C 位的图片极其小
-    if (w < 900) { slideW = 22; slideH = 15; }
-    if (w < 600) { slideW = 18; slideH = 12; }
+    // Actual element size — big enough for sharp zoom, small enough for spiral clarity
+    var slideW = 200, slideH = 140;
+    if (w < 900) { slideW = 150; slideH = 105; }
+    if (w < 600) { slideW = 120; slideH = 85; }
 
-    // ── Fibonacci Spiral ──
     var phi = (1 + Math.sqrt(5)) / 2;
     var goldenAngle = Math.PI * (3 - Math.sqrt(5));
 
@@ -341,30 +341,38 @@ function createFocus..Carousel(containerId, images) {
 
       var angle = sign * absOff * goldenAngle;
       var radiusFactor = Math.pow(phi, absOff * 0.7);
-      var radius = (w * 0.28) * radiusFactor;
-      var cx = w / 2;
+      var radius = (w * 0.3) * radiusFactor;
+      var cx = w / 2 - slideW / 2;
       var cy = 200; if (w < 900) cy = 150; if (w < 600) cy = 110;
+
       var x = cx + Math.cos(angle) * radius;
       var y = cy + Math.sin(angle) * radius * 0.5;
-
-      // Scale: center gets 1.0 (in JS, but zoomed in CSS), others tiny
-      var scale = Math.max(0.4, Math.pow(phi, -absOff * 0.6));
+      // Scale: 0.04 at far edge → 1.0 at center → huge zoom via CSS class
+      var scale = Math.max(0.04, Math.pow(phi, -absOff * 0.9));
       var rot = sign * absOff * 20;
-      var z = absOff === 0 ? 3 : (absOff <= 1 ? 2 : 1);
-      var opacity = absOff <= 1 ? 1 : Math.max(0.1, Math.pow(phi, -absOff * 0.9));
+      var z = absOff <= 1 ? Math.max(3 - absOff, 1) : 0;
+      var opacity = absOff <= 1 ? 1 : Math.max(0.05, Math.pow(phi, -absOff * 1.2));
 
       slides[i].style.cssText =
         'width:'+slideW+'px;height:'+slideH+'px;' +
-        'left:'+x.toFixed(0)+'px;top:'+y.toFixed(0)+'px;' +
-        'transform:perspective(1200px) rotateY('+rot+'deg) scale('+scale.toFixed(2)+');' +
-        'z-index:'+z+';opacity:'+opacity.toFixed(2)+';border-radius:2px;';
+        'left:0;top:0;' +   /* anchor all at origin — translate-only, NO reflow */
+        'transform:translate('+(x).toFixed(0)+'px,'+(y).toFixed(0)+'px) perspective(1200px) rotateY('+rot+'deg) scale('+scale.toFixed(4)+');' +
+        'z-index:'+z+';opacity:'+opacity.toFixed(3)+';border-radius:2px;';
       slides[i].classList.remove('active', 'zoomed');
       if (absOff === 0) slides[i].classList.add('active');
     }
     setTimeout(function() {
       transitioning = false;
       if (cb) cb();
-    }, 450);
+    }, 400);
+  }
+
+  // ── Fixed: unzoom only removes class, keeps inline styles ──
+  function unzoom() {
+    slides.forEach(function(s) {
+      s.classList.remove('zoomed');
+    });
+    if (zoomBg) zoomBg.classList.remove('show');
   }
     setTimeout(function() {
       transitioning = false;
