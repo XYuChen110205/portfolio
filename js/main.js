@@ -119,16 +119,18 @@ function initRoleCycle() {
   var idx = 0;
   function cycle() {
     el.style.opacity = '0';
-    el.style.transform = 'translateY(8px)';
+    el.style.transform = 'translateY(10px)';
+    // Force reflow so browser picks up the start state
+    el.offsetHeight;
     setTimeout(function() {
       el.textContent = roles[idx];
       idx = (idx + 1) % roles.length;
       el.style.opacity = '1';
       el.style.transform = 'translateY(0)';
-    }, 500);
+    }, 400);
   }
   cycle();
-  setInterval(cycle, 3000);
+  setInterval(cycle, 3200);
 }
 
 // ========== Background Circles ==========
