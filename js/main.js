@@ -112,19 +112,17 @@ function initHeroVideo() {
 
 // ========== Role Cycle — rotating subtitle ==========
 function initRoleCycle() {
-  var el = document.getElementById('heroRole');
+  var el = document.querySelector('.hero-name .grad');
   if (!el) return;
-  var roles = (typeof i18nMap !== 'undefined' && i18nMap[currentLang] && i18nMap[currentLang].tw_roles_v2)
-    || ['计算机视觉探索者', 'AI 爱好者', 'Web 开发者', '开源贡献者'];
+  var titles = ['&lt;Seeyu/&gt;', '&lt;CV Engineer/&gt;', '&lt;AI Explorer/&gt;', '&lt;Web Dev/&gt;'];
   var idx = 0;
   function cycle() {
     el.style.opacity = '0';
     el.style.transform = 'translateY(10px)';
-    // Force reflow so browser picks up the start state
     el.offsetHeight;
     setTimeout(function() {
-      el.textContent = roles[idx];
-      idx = (idx + 1) % roles.length;
+      el.innerHTML = titles[idx];
+      idx = (idx + 1) % titles.length;
       el.style.opacity = '1';
       el.style.transform = 'translateY(0)';
     }, 400);
