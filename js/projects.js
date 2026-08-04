@@ -15,7 +15,7 @@ const projectsData = [
     icon: 'water',
     difficulty: 2,
     thumbs: ['images/suolvtu/平陆.png','images/suolvtu/平陆水畔.png'],
-    link: 'https://xyuchen110205.github.io/Canal_Pinglu/',
+    link: 'https://canal-pinglu.pages.dev/',
     shortDesc: '以沉浸式数字叙事手法展现平陆运河世纪工程的全貌，融合Three.js 3D渲染与GSAP动画的交互式展览网站。',
     detail: {
       overview: '平陆运河数字叙事网站是一个集多媒体展示、交互体验、信息传播于一体的综合性数字化展览平台。项目采用"数字叙事"（Digital Storytelling）理念，通过Web技术将平陆运河的历史背景、建设历程、工程特点与未来愿景进行艺术化呈现，构建沉浸式的知识传播体验。',
