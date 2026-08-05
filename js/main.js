@@ -366,10 +366,11 @@ function createFocusCarousel(containerId, images, opts) {
       var z = absOff <= 1 ? Math.max(3 - absOff, 1) : 0;
       var opacity = absOff <= 1 ? 1 : Math.max(0.1, Math.pow(phi, -absOff * 1.2));
 
-      slides[i].style.cssText =
-        'width:'+slideW+'px;height:'+slideH+'px;left:0;top:0;' +
-        'transform:translate('+x.toFixed(0)+'px,'+y.toFixed(0)+'px) perspective(1200px) rotateY('+rot+'deg) scale('+scale.toFixed(4)+');' +
-        'z-index:'+z+';opacity:'+opacity.toFixed(3)+';border-radius:2px;';
+      // Only update changing properties — no flicker from full style reset
+      var s = slides[i].style;
+      s.width = slideW + 'px'; s.height = slideH + 'px';
+      s.transform = 'translate('+x.toFixed(0)+'px,'+y.toFixed(0)+'px) perspective(1200px) rotateY('+rot+'deg) scale('+scale.toFixed(4)+')';
+      s.zIndex = z; s.opacity = opacity.toFixed(3);
       slides[i].classList.remove('active', 'zoomed', 'near');
       if (absOff === 0) slides[i].classList.add('active');
       if (absOff >= 1 && absOff <= 2) slides[i].classList.add('near');
