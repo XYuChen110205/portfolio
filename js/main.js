@@ -399,6 +399,13 @@ function createFocusCarousel(containerId, images) {
   formulaEl.innerHTML = '<span>r = a &middot; &phi;<sup>&theta;/&pi;</sup></span><small>&phi; = ½(1+√5) &asymp; 1.618  |  Golden Spiral</small>';
   track.appendChild(formulaEl);
 
+  function zoomActive() {
+    var activeSlide = track.querySelector('.carousel-slide.active');
+    if (!activeSlide) return;
+    activeSlide.classList.add('zoomed');
+    if (zoomBg) zoomBg.classList.add('show');
+  }
+
   function advance() {
     if (transitioning) return;
     unzoom();
