@@ -93,7 +93,7 @@ img{display:block;max-width:100%}
 
 /* ===== School Lissajous ===== */
 .school-lissajous{position:relative;width:100%;max-width:1000px;margin:0 auto;padding:20px 0}
-.lissa-track{position:relative;height:350px;width:100%;display:flex;align-items:center;justify-content:center}
+.lissa-track{position:relative;height:400px;width:100%;display:flex;align-items:center;justify-content:center}
 .lissa-item{position:absolute;width:200px;height:140px;border-radius:var(--radius);overflow:hidden;cursor:pointer;box-shadow:var(--shadow-sm);transition:box-shadow 0.3s ease;will-change:transform,opacity}
 .lissa-item img{width:100%;height:100%;object-fit:cover;display:block}
 .lissa-item.lissa-center{width:320px;height:220px;box-shadow:0 12px 40px rgba(0,0,0,0.2);border:2px solid var(--accent)}

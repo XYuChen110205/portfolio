@@ -465,7 +465,7 @@ const projectsData = [
     tags: ['Vue3','Flask','YOLOv8','PostgreSQL','Cesium','Qwen-VL','Docker'],
     icon: 'sun',
     difficulty: 5,
-    thumbs: ['images/项目/缺陷光伏-红外图.jpg','images/项目/缺陷光伏可见光图.jpg'],
+    thumbs: ['images/项目/缺陷光伏-红外图.jpg','images/项目/缺陷光伏可见光图.jpg','images/项目/光伏检测结果.jpg','images/项目/光伏系统1.jpg'],
     shortDesc: '大型光伏电站智能巡检SaaS平台。YOLO深度学习检测10类缺陷，热成像+可见光双光联动，Cesium GIS地图+无人机航线管理。',
     detail: {
       overview: 'BGF（光伏智检平台）是一个面向大型光伏电站的智能巡检全流程SaaS平台。系统利用无人机采集光伏板的红外热成像和可见光图像，通过YOLO深度学习模型自动检测热斑、裂纹、异物遮盖等10类缺陷。检测结果关联到Cesium三维GIS地图上的具体光伏板位置，生成缺陷工单并通过闭环系统跟踪处理过程。平台还集成了阳光云(iSolarCloud)的发电数据，实现发电效率与设备健康状态的关联分析。',
@@ -581,6 +581,7 @@ const projectsData = [
     tags: ['Python','YOLOv8','OpenCV','PyTorch','报告生成','挑战杯'],
     icon: 'building',
     difficulty: 3,
+    thumbs: ['images/项目/裂缝检测系统.jpg','images/项目/裂缝检测掩码.jpg','images/项目/裂缝结果可视化.jpg'],
     shortDesc: '基于改进YOLOv8的混凝土裂缝智能检测与评估系统。支持裂缝测量、颜色分析、报告自动生成，挑战杯参赛项目。',
     detail: {
       overview: '面向土木工程基础设施检测的AI系统，利用改进版YOLOv8模型对混凝土表面的裂缝进行自动检测、分割和量化测量。系统同时支持检测（detect）和分割（segment）两种模式，可以测量裂缝长度、分析颜色特征、计算破损面积占比，并自动生成包含图表和结论的PDF/Word检测报告。项目为挑战杯大学生课外学术科技作品竞赛参赛项目，含完整商业计划书。',

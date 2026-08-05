@@ -203,7 +203,7 @@ function initSchoolLissajous() {
   imgs.forEach(function(item,i){var e=document.createElement('div');e.className='lissa-item';e.dataset.index=i;e.innerHTML='<img src="'+item.src+'" alt="'+item.label+'" loading="lazy" data-lightbox="'+item.src+'">';track.appendChild(e);});
   var items=track.querySelectorAll('.lissa-item'),angle=0,ci=0,fA=3,fB=2,spd=0.008,running=true;
   function layout(){
-    var w=c.clientWidth,A=Math.min(380,w*.38),B=Math.min(80,w*.08);
+    var w=c.clientWidth,A=Math.max(500,w*.45),B=Math.max(100,w*.1);
     items.forEach(function(el,i){
       var t=angle+(i/total)*Math.PI*2,x=A*Math.sin(fA*t),y=B*Math.sin(fB*t),z=Math.cos(fA*t);
       var sc=0.5+0.5*((z+1)/2),op=0.4+0.6*((z+1)/2);
