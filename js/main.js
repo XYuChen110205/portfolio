@@ -583,20 +583,20 @@ function renderChallengesInterests() {
     {src:'images/interesting/与硬件相关的无人驾驶实验小车.jpg', label:'实验小车'}
   ];
 
-  function buildMarquee(list) {
-    var cards = list.map(function(item) {
-      return '<div class="ci-mq-card"><img src="'+item.src+'" loading="lazy"><span>'+item.label+'</span></div>';
+  function buildGrid(list) {
+    return list.map(function(item) {
+      return '<div class="ci-item">' +
+        '<img src="'+item.src+'" loading="lazy" onerror="this.parentElement.style.display=\'none\'">' +
+        '<span>'+item.label+'</span></div>';
     }).join('');
-    // Duplicate for seamless loop
-    return cards + cards + cards;  // duplicate 3x for visible scroll
   }
 
   layout.innerHTML =
     '<div class="ci-col"><h3>'+t('challenges_label')+'</h3>' +
-      '<div class="ci-marquee-wrap"><div class="ci-marquee-track">'+buildMarquee(challengeImgs)+'</div></div>' +
+      '<div class="ci-columns">'+buildGrid(challengeImgs)+'</div>' +
     '</div>' +
     '<div class="ci-col"><h3>'+t('interests_label')+'</h3>' +
-      '<div class="ci-marquee-wrap"><div class="ci-marquee-track reverse">'+buildMarquee(interestImgs)+'</div></div>' +
+      '<div class="ci-columns">'+buildGrid(interestImgs)+'</div>' +
     '</div>';
 }
 
