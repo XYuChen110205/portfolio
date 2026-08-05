@@ -593,10 +593,21 @@ function renderChallengesInterests() {
   function buildGrid(list) {
     return list.map(function(item) {
       return '<div class="ci-item">' +
-        '<img src="'+item.src+'" loading="lazy" onerror="this.parentElement.style.display=\'none\'">' +
+        '<img src="'+item.src+'" loading="lazy">' +
         '<span>'+item.label+'</span></div>';
     }).join('');
   }
+  // Hide broken images after render
+  setTimeout(function() {
+    document.querySelectorAll('.ci-item img').forEach(function(img) {
+      if (img.naturalWidth === 0 && img.complete) {
+        img.parentElement.style.display = 'none';
+      }
+      img.addEventListener('error', function() {
+        this.parentElement.style.display = 'none';
+      });
+    });
+  }, 500);
 
   layout.innerHTML =
     '<div class="ci-col"><h3>'+t('challenges_label')+'</h3>' +

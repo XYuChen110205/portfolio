@@ -514,12 +514,12 @@ img { display:block; max-width:100%; }
 
 /* Challenges & Interests — waterfall */
 .ci-columns {
-  column-count:2; column-gap:10px;
+  column-count:3; column-gap:10px;
 }
 .ci-item {
   break-inside:avoid; margin-bottom:10px; border-radius:3px; overflow:hidden;
 }
-.ci-item img { width:100%; display:block; object-fit:cover; }
+.ci-item img { width:100%; max-width:100%; display:block; object-fit:cover; }
 .ci-item span {
   display:block; text-align:center; font-size:.65rem; color:var(--text3);
   padding:4px 0; background:var(--surface);
