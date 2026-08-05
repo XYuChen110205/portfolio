@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
   renderContacts();
   applyTexts();
   initFadeIn();
+  initLightbox();
 });
 
 // ===== Hero Video =====
@@ -167,7 +168,7 @@ function initHometownShowcase() {
   var themes=HOMETOWN_THEMES,cur=0,isEn=(currentLang==='en');
   c.innerHTML='<div class="ht-location" id="htLocation"></div><div class="ht-desc" id="htDesc"></div>'+
     '<div class="ht-main-wrap"><button class="carousel-btn prev" id="htPrev">&#8249;</button>'+
-    '<div class="ht-main-img-wrap"><img id="htMainImg" src="" alt=""></div>'+
+    '<div class="ht-main-img-wrap"><img id="htMainImg" src="" alt="" data-lightbox></div>'+
     '<button class="carousel-btn next" id="htNext">&#8250;</button></div>'+
     '<div class="carousel-dots" id="htDots"></div><div class="ht-sub-gallery" id="htSubGallery"></div>';
   var dots=document.getElementById('htDots');
@@ -179,7 +180,7 @@ function initHometownShowcase() {
     var mi=document.getElementById('htMainImg');mi.style.opacity='0';
     setTimeout(function(){mi.src=t.mainImg;mi.alt=isEn?t.nameEn:t.name;mi.onload=function(){mi.style.opacity='1';};},200);
     var s=document.getElementById('htSubGallery');s.innerHTML='';
-    if(t.subImgs&&t.subImgs.length)t.subImgs.forEach(function(v){var im=document.createElement('img');im.src=v;im.alt=isEn?t.nameEn:t.name;im.loading='lazy';s.appendChild(im);});
+    if(t.subImgs&&t.subImgs.length)t.subImgs.forEach(function(v){var im=document.createElement('img');im.src=v;im.alt=isEn?t.nameEn:t.name;im.loading='lazy';im.setAttribute('data-lightbox',v);s.appendChild(im);});
     dots.querySelectorAll('span').forEach(function(d,i){d.className=(i===cur)?'active':'';});
   }
   function go(i){cur=((i%themes.length)+themes.length)%themes.length;render();}
@@ -199,7 +200,7 @@ function initSchoolLissajous() {
   var imgs=SCHOOL_IMAGES,total=imgs.length;
   c.innerHTML='<div class="lissa-track" id="lissaTrack"></div><div class="lissa-info"><h3 id="lissaLabel"></h3><p>北部湾大学 · Beibu Gulf University</p><p class="lissa-addr">中国 · 广西 · 钦州</p></div>';
   var track=document.getElementById('lissaTrack');
-  imgs.forEach(function(item,i){var e=document.createElement('div');e.className='lissa-item';e.dataset.index=i;e.innerHTML='<img src="'+item.src+'" alt="'+item.label+'" loading="lazy">';track.appendChild(e);});
+  imgs.forEach(function(item,i){var e=document.createElement('div');e.className='lissa-item';e.dataset.index=i;e.innerHTML='<img src="'+item.src+'" alt="'+item.label+'" loading="lazy" data-lightbox="'+item.src+'">';track.appendChild(e);});
   var items=track.querySelectorAll('.lissa-item'),angle=0,ci=0,fA=3,fB=2,spd=0.008,running=true;
   function layout(){
     var w=c.clientWidth,A=Math.min(380,w*.38),B=Math.min(80,w*.08);
@@ -261,7 +262,7 @@ function renderChallengesInterests(){
   var interests=[{src:'images/interesting/esp32.jpg',label:'ESP32'},{src:'images/interesting/与硬件相关的无人驾驶实验小车.jpg',label:'无人驾驶小车'},{src:'images/interesting/book1.jpg',label:'读书日常'},{src:'images/interesting/run.jpg',label:'跑步'},{src:'images/interesting/日常.jpg',label:'日常生活'}];
   function build(title,items,cls){
     var h='<div class="ci-col '+cls+'"><h3>'+title+'</h3><div class="ci-scroll-wrap"><div class="ci-scroll-track">';
-    for(var copy=0;copy<2;copy++){h+='<div class="ci-waterfall">';items.forEach(function(it){h+='<div class="ci-wf-item"><img src="'+it.src+'" alt="'+it.label+'" loading="lazy"><span>'+it.label+'</span></div>';});h+='</div>';}
+    for(var copy=0;copy<2;copy++){h+='<div class="ci-waterfall">';items.forEach(function(it){h+='<div class="ci-wf-item"><img src="'+it.src+'" alt="'+it.label+'" loading="lazy" data-lightbox="'+it.src+'"><span>'+it.label+'</span></div>';});h+='</div>';}
     h+='</div></div></div>';return h;
   }
   var isEn=(currentLang==='en');
@@ -299,7 +300,20 @@ window.addEventListener('langchange', function() {
   renderChallengesInterests();
   renderTimeline();
   renderContacts();
-  // Re-init hometown with new language texts
   var hs=document.getElementById('hometownShowcase');
   if(hs) initHometownShowcase();
 });
+
+// ===== Lightbox =====
+function initLightbox(){
+  var o=document.getElementById('lightboxOverlay'),ib=document.getElementById('lightboxImg'),cb=document.getElementById('lightboxClose');
+  if(!o||!ib)return;
+  var sc=1;
+  function open(src,alt){ib.src=src;ib.alt=alt||'Full view';o.style.display='flex';sc=1;ib.style.transform='scale(1)';requestAnimationFrame(function(){requestAnimationFrame(function(){o.classList.add('active');});});document.body.style.overflow='hidden';}
+  function close(){o.classList.remove('active');setTimeout(function(){o.style.display='none';ib.src='';document.body.style.overflow='';},300);}
+  document.addEventListener('click',function(e){var img=e.target.closest('img[data-lightbox]');if(!img)return;e.preventDefault();e.stopPropagation();open(img.dataset.lightbox||img.src,img.alt);});
+  cb.addEventListener('click',close);
+  o.addEventListener('click',function(e){if(e.target===o)close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&o.classList.contains('active'))close();});
+  o.addEventListener('wheel',function(e){e.preventDefault();var d=e.deltaY>0?-0.1:0.1;sc=Math.max(0.5,Math.min(4,sc+d));ib.style.transform='scale('+sc+')';},{passive:false});
+}
