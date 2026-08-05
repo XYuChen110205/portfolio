@@ -451,7 +451,12 @@ function filterExistingImages(list, callback) {
 }
 
 function initHometownCarousel() {
-  var imgs = ['images/梧州/龙母庙.jpg'];
+  var imgs = [
+    'images/梧州/龙母庙.jpg','images/梧州/中国梧州骑楼城.jpg','images/梧州/宝石手链.jpg',
+    'images/梧州/宝石手链2.jpg','images/梧州/宝石节-展品.jpg','images/梧州/梧州冰泉豆浆.jpg',
+    'images/梧州/梧州细粉.jpg','images/梧州/梧州龟苓膏.jpg','images/梧州/白云山顶-西江明珠塔.jpg',
+    'images/梧州/骑楼夜1.jpg','images/梧州/骑楼白1.jpg','images/梧州/龟苓膏.jpg'
+  ];
   filterExistingImages(imgs, function(existing) {
     createFocusCarousel('hometownCarousel', existing);
     addWaterfall('hometownCarousel', existing);
@@ -460,22 +465,21 @@ function initHometownCarousel() {
 
 function initSchoolCarousel() {
   var imgs = [
-    'images/BeiBuGulfUniversity/晚霞.jpg',
-    'images/BeiBuGulfUniversity/学校的湖.jpg',
-    'images/BeiBuGulfUniversity/校园图.jpg',
-    'images/BeiBuGulfUniversity/非常美丽的晚霞，三年只见过一次.jpg',
-    'images/BeiBuGulfUniversity/树.jpg',
-    'images/BeiBuGulfUniversity/蓝调时刻.jpg',
-    'images/BeiBuGulfUniversity/校园一角.jpg',
-    'images/BeiBuGulfUniversity/night.jpg',
-    'images/BeiBuGulfUniversity/flowersea-格桑.jpg',
-    'images/BeiBuGulfUniversity/sky.jpg',
-    'images/BeiBuGulfUniversity/road.jpg',
-    'images/BeiBuGulfUniversity/云.jpg',
-    'images/BeiBuGulfUniversity/学校南门.jpg',
-    'images/BeiBuGulfUniversity/学校美食城.jpg',
-    'images/BeiBuGulfUniversity/宿舍楼下风和日丽.jpg',
-    'images/BeiBuGulfUniversity/近期暴雨后的.jpg'
+    'images/BeiBuGulfUniversity/晚霞.jpg','images/BeiBuGulfUniversity/学校的湖.jpg',
+    'images/BeiBuGulfUniversity/校园图.jpg','images/BeiBuGulfUniversity/非常美丽的晚霞，三年只见过一次.jpg',
+    'images/BeiBuGulfUniversity/树.jpg','images/BeiBuGulfUniversity/蓝调时刻.jpg',
+    'images/BeiBuGulfUniversity/校园一角.jpg','images/BeiBuGulfUniversity/night.jpg',
+    'images/BeiBuGulfUniversity/flowersea-格桑.jpg','images/BeiBuGulfUniversity/sky.jpg',
+    'images/BeiBuGulfUniversity/road.jpg','images/BeiBuGulfUniversity/云.jpg',
+    'images/BeiBuGulfUniversity/学校南门.jpg','images/BeiBuGulfUniversity/学校美食城.jpg',
+    'images/BeiBuGulfUniversity/宿舍楼下风和日丽.jpg','images/BeiBuGulfUniversity/近期暴雨后的.jpg',
+    'images/BeiBuGulfUniversity/图书滚.jpg','images/BeiBuGulfUniversity/图书馆-网传.jpg',
+    'images/BeiBuGulfUniversity/图书馆-网传2.jpg','images/BeiBuGulfUniversity/图书馆.jpg',
+    'images/BeiBuGulfUniversity/学校印章.jpg','images/BeiBuGulfUniversity/学校的树开花.jpg',
+    'images/BeiBuGulfUniversity/完美落日.jpg','images/BeiBuGulfUniversity/广场.jpg',
+    'images/BeiBuGulfUniversity/广西钦州三娘湾.jpg','images/BeiBuGulfUniversity/建筑.jpg',
+    'images/BeiBuGulfUniversity/日出.jpg','images/BeiBuGulfUniversity/钦nixingtao.jpg',
+    'images/BeiBuGulfUniversity/钦州nixingtao.jpg'
   ];
   filterExistingImages(imgs, function(existing) {
     createFocusCarousel('schoolCarousel', existing);
@@ -567,7 +571,12 @@ function renderChallengesInterests() {
     {src:'images/chanllenge/电工接线练习.jpg', label:'电工接线'},
     {src:'images/chanllenge/electri-合照.jpg', label:'竞赛合照'},
     {src:'images/chanllenge/焊接.png', label:'焊接'},
-    {src:'images/chanllenge/线图图接线-控制线路.jpg', label:'接线图'}
+    {src:'images/chanllenge/焊接铁.jpg', label:'焊接铁'},
+    {src:'images/chanllenge/线图图接线-控制线路.jpg', label:'接线图'},
+    {src:'images/chanllenge/最简单的双联灯泡电路.jpg', label:'双联电路'},
+    {src:'images/chanllenge/电子版本控制线路接线图.jpg', label:'接线图2'},
+    {src:'images/chanllenge/英语竞赛-小品.jpg', label:'竞赛小品'},
+    {src:'images/chanllenge/英语竞赛合照.jpg', label:'英语竞赛'}
   ];
 
   var interestImgs = [
@@ -576,7 +585,8 @@ function renderChallengesInterests() {
     {src:'images/interesting/大鼠.jpg', label:'大鼠'},
     {src:'images/interesting/头像.jpg', label:'头像'},
     {src:'images/interesting/日常.jpg', label:'日常'},
-    {src:'images/interesting/与硬件相关的无人驾驶实验小车.jpg', label:'实验小车'}
+    {src:'images/interesting/与硬件相关的无人驾驶实验小车.jpg', label:'实验小车'},
+    {src:'images/interesting/run.jpg', label:'跑步'}
   ];
 
   function buildGrid(list) {
