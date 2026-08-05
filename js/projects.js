@@ -159,7 +159,7 @@ const projectsData = [
     tags: ['Python','FastAPI','Ollama','LangChain','LangGraph','PyQt6','WebSocket'],
     icon: 'robot',
     difficulty: 5,
-    thumb: 'images/suolvtu/小怪兽bagbag.png',
+    thumbs: ['images/项目/小怪兽.jpg','images/项目/小怪真实.jpg','images/suolvtu/小怪兽bagbag.png'],
     shortDesc: '基于多智能体协作架构的Windows桌面AI助手，支持语音唤醒、自然语言交互、PC自动化控制与微信消息自动化。',
     detail: {
       overview: '小怪兽帮帮是一个面向Windows桌面的AI多智能体协作系统。它以大语言模型为核心，通过LangGraph编排多个专业Agent协同工作，实现从语音指令到桌面操作的端到端自动化。用户只需说"Hey Jarvis"唤醒助手，即可通过自然语言控制电脑完成文件处理、微信消息、系统设置等复杂操作。',
@@ -465,6 +465,7 @@ const projectsData = [
     tags: ['Vue3','Flask','YOLOv8','PostgreSQL','Cesium','Qwen-VL','Docker'],
     icon: 'sun',
     difficulty: 5,
+    thumbs: ['images/项目/缺陷光伏-红外图.jpg','images/项目/缺陷光伏可见光图.jpg'],
     shortDesc: '大型光伏电站智能巡检SaaS平台。YOLO深度学习检测10类缺陷，热成像+可见光双光联动，Cesium GIS地图+无人机航线管理。',
     detail: {
       overview: 'BGF（光伏智检平台）是一个面向大型光伏电站的智能巡检全流程SaaS平台。系统利用无人机采集光伏板的红外热成像和可见光图像，通过YOLO深度学习模型自动检测热斑、裂纹、异物遮盖等10类缺陷。检测结果关联到Cesium三维GIS地图上的具体光伏板位置，生成缺陷工单并通过闭环系统跟踪处理过程。平台还集成了阳光云(iSolarCloud)的发电数据，实现发电效率与设备健康状态的关联分析。',

@@ -1,7 +1,7 @@
 // ========== Main.js — Portfolio v2 ==========
 
-var FEATURED_IDS = [1, 3, 8, 10];
-// 1=平陆, 3=小怪兽, 8=BGF光伏, 10=混凝土
+var FEATURED_IDS = [1, 3, 5, 8, 10];
+// 1=平陆, 3=小怪兽, 5=EchoType, 8=BGF光伏, 10=混凝土
 
 var HOMETOWN_THEMES = [
   {name:'骑楼城',nameEn:'Qilou Old Street',location:'中国 . 广西 . 梧州',locationEn:'Wuzhou, Guangxi, China',desc:'梧州骑楼城是中国规模最大的骑楼建筑群，始建于上世纪20年代，融合了中西建筑风格。',descEn:'The largest arcade complex in China, dating back to the 1920s, blending Chinese and Western styles.',mainImg:'images/梧州/中国梧州骑楼城.jpg',subImgs:['images/梧州/骑楼夜1.jpg','images/梧州/骑楼白1.jpg']},
@@ -200,7 +200,7 @@ function initSchoolLissajous() {
   c.innerHTML='<div class="lissa-track" id="lissaTrack"></div><div class="lissa-info"><h3 id="lissaLabel"></h3><p>北部湾大学 · Beibu Gulf University</p><p class="lissa-addr">中国 · 广西 · 钦州</p></div>';
   var track=document.getElementById('lissaTrack');
   imgs.forEach(function(item,i){var e=document.createElement('div');e.className='lissa-item';e.dataset.index=i;e.innerHTML='<img src="'+item.src+'" alt="'+item.label+'" loading="lazy">';track.appendChild(e);});
-  var items=track.querySelectorAll('.lissa-item'),angle=0,ci=0,fA=3,fB=2,spd=0.004,running=true;
+  var items=track.querySelectorAll('.lissa-item'),angle=0,ci=0,fA=3,fB=2,spd=0.008,running=true;
   function layout(){
     var w=c.clientWidth,A=Math.min(380,w*.38),B=Math.min(80,w*.08);
     items.forEach(function(el,i){
