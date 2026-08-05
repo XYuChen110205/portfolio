@@ -1,7 +1,27 @@
-// ========== Main.js — Portfolio v2: Magazine Style ==========
+// ========== Main.js — Portfolio v2 ==========
 
-var FEATURED_IDS = [1, 2, 3, 5, 6, 8, 10, 11];
-// 1=平陆, 2=车牌, 3=小怪兽, 5=EchoType, 6=FilmGenome, 8=BGF光伏, 10=混凝土, 11=牛油果
+var FEATURED_IDS = [1, 3, 8, 10];
+// 1=平陆, 3=小怪兽, 8=BGF光伏, 10=混凝土
+
+var HOMETOWN_THEMES = [
+  {name:'骑楼城',nameEn:'Qilou Old Street',location:'中国 . 广西 . 梧州',locationEn:'Wuzhou, Guangxi, China',desc:'梧州骑楼城是中国规模最大的骑楼建筑群，始建于上世纪20年代，融合了中西建筑风格。',descEn:'The largest arcade complex in China, dating back to the 1920s, blending Chinese and Western styles.',mainImg:'images/梧州/中国梧州骑楼城.jpg',subImgs:['images/梧州/骑楼夜1.jpg','images/梧州/骑楼白1.jpg']},
+  {name:'龙母庙',nameEn:'Dragon Mother Temple',location:'中国 . 广西 . 梧州',locationEn:'Wuzhou, Guangxi, China',desc:'龙母庙是珠江流域最古老的庙宇之一，始建于北宋，纪念龙母——西江流域的守护神。',descEn:'One of the oldest temples along the Pearl River, dating to the Northern Song Dynasty.',mainImg:'images/梧州/龙母庙.jpg',subImgs:[]},
+  {name:'宝石节',nameEn:'Gemstone Festival',location:'中国 . 广西 . 梧州',locationEn:'Wuzhou, Guangxi, China',desc:'梧州是世界人工宝石之都，全球70%以上人工宝石在此加工。每年宝石节展示璀璨工艺。',descEn:'The world capital of artificial gemstones, processing over 70% of global production.',mainImg:'images/梧州/宝石节-展品.jpg',subImgs:['images/梧州/宝石手链.jpg','images/梧州/宝石手链2.jpg']},
+  {name:'白云山',nameEn:'Baiyun Mountain',location:'中国 . 广西 . 梧州',locationEn:'Wuzhou, Guangxi, China',desc:'白云山是梧州市最高峰，山顶西江明珠塔可俯瞰三江汇流壮丽景观。',descEn:'The highest peak in Wuzhou, with the Pearl Tower overlooking three converging rivers.',mainImg:'images/梧州/白云山顶-西江明珠塔.jpg',subImgs:[]},
+  {name:'龟苓膏',nameEn:'Guilinggao',location:'中国 . 广西 . 梧州',locationEn:'Wuzhou, Guangxi, China',desc:'龟苓膏是梧州传统药膳美食，以鹰嘴龟和土茯苓为原料，清热祛湿，广西非遗。',descEn:'A traditional medicinal dessert with cooling properties, Guangxi intangible heritage.',mainImg:'images/梧州/龟苓膏.jpg',subImgs:['images/梧州/梧州龟苓膏.jpg']}
+];
+
+var SCHOOL_IMAGES = [
+  {src:'images/BeiBuGulfUniversity/校园图.jpg',label:'校园全景'},
+  {src:'images/BeiBuGulfUniversity/night.jpg',label:'夜色'},
+  {src:'images/BeiBuGulfUniversity/sky.jpg',label:'天空'},
+  {src:'images/BeiBuGulfUniversity/road.jpg',label:'校道'},
+  {src:'images/BeiBuGulfUniversity/flowersea-格桑.jpg',label:'格桑花海'},
+  {src:'images/BeiBuGulfUniversity/校园一角.jpg',label:'校园一角'},
+  {src:'images/BeiBuGulfUniversity/云.jpg',label:'云'},
+  {src:'images/BeiBuGulfUniversity/学校的湖.jpg',label:'学校湖'},
+  {src:'images/BeiBuGulfUniversity/树.jpg',label:'树'}
+];
 
 document.addEventListener('DOMContentLoaded', function() {
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -11,737 +31,256 @@ document.addEventListener('DOMContentLoaded', function() {
   initScrollSpy();
   initLangSwitch();
   initHeroVideo();
-  initRoleCycle();
-  initHometownCarousel();
-  initSchoolCarousel();
+  initHeroTypewriter();
+  initHometownShowcase();
+  initSchoolLissajous();
   renderFeaturedProjects();
+  renderMarquee();
   renderChallengesInterests();
   renderTimeline();
   renderContacts();
   applyTexts();
   initFadeIn();
-  initImageSkeletons();
-  renderExpandedProjects();
 });
 
-function toggleMoreProjects() {
-  var grid = document.getElementById('expandedProjects');
-  var btn = document.getElementById('btnViewAll');
-  if (!grid || !btn) return;
-  var open = grid.style.display === 'none' || !grid.style.display;
-  grid.style.display = open ? 'grid' : 'none';
-  btn.textContent = open ? 'Collapse \u25B2' : 'View All Projects \u25BC';
-  if (open) { setTimeout(function(){ grid.classList.add('visible'); }, 50); }
-}
-
-function renderExpandedProjects() {
-  var grid = document.getElementById('expandedProjects');
-  if (!grid) return;
-  var others = projectsData.filter(function(p) { return FEATURED_IDS.indexOf(p.id) === -1; });
-  grid.innerHTML = others.map(function(p) {
-    var img = getProjectImg(p);
-    var name = ptext(p.id, 'name');
-    var badge = p.badge || '';
-    var iconSvg = (typeof svg === 'function' && p.icon) ? svg(p.icon, 40) : '';
-    return '<div class="more-item fade-in" onclick="window.location.href=\'project-detail.html?id='+p.id+'\'">' +
-      '<div class="more-thumb">' +
-        (img ? '<img src="'+img+'" alt="'+name+'" loading="lazy">' : '<div class="thumb-icon">'+iconSvg+'</div>') +
-      '</div>' +
-      '<div class="more-name">'+name+'</div>' +
-    '</div>';
-  }).join('');
-}
-
-// ========== Hero Video — pan & scan on single video ==========
+// ===== Hero Video =====
 function initHeroVideo() {
-  var video = document.getElementById('heroVideo');
-  var wrap = document.getElementById('heroVideoWrap');
+  var video = document.getElementById('heroVideo'), wrap = document.getElementById('heroVideoWrap');
   if (!video || !wrap) return;
   var hint = wrap.querySelector('.video-drag-hint');
-
-  var posKey = 'hero_video_pos';
-  var saved = null;
+  var posKey = 'hero_video_pos', saved = null;
   try { saved = JSON.parse(localStorage.getItem(posKey)); } catch(e){}
-  var posX = (saved && saved.x) || 50;
-  var posY = (saved && saved.y) || 50;
+  var posX = (saved && saved.x) || 50, posY = (saved && saved.y) || 50;
   video.style.objectPosition = posX + '% ' + posY + '%';
-
   var dragging = false, startX, startY, origX, origY;
   wrap.addEventListener('mousedown', function(e) {
     if (e.target.tagName !== 'VIDEO') return;
-    dragging = true; origX = posX; origY = posY;
-    startX = e.clientX; startY = e.clientY;
-    video.classList.add('grabbing');
-    if (hint) hint.style.opacity = '0';
-    e.preventDefault();
+    dragging = true; origX = posX; origY = posY; startX = e.clientX; startY = e.clientY;
+    video.classList.add('grabbing'); if (hint) hint.style.opacity = '0'; e.preventDefault();
   });
   document.addEventListener('mousemove', function(e) {
     if (!dragging) return;
-    var dx = (e.clientX - startX) / wrap.clientWidth * 100;
-    var dy = (e.clientY - startY) / wrap.clientHeight * 100;
-    posX = Math.max(0, Math.min(100, origX - dx));
-    posY = Math.max(0, Math.min(100, origY - dy));
+    posX = Math.max(0, Math.min(100, origX - (e.clientX - startX) / wrap.clientWidth * 100));
+    posY = Math.max(0, Math.min(100, origY - (e.clientY - startY) / wrap.clientHeight * 100));
     video.style.objectPosition = posX + '% ' + posY + '%';
   });
   document.addEventListener('mouseup', function() {
-    if (!dragging) return;
-    dragging = false; video.classList.remove('grabbing');
-    localStorage.setItem(posKey, JSON.stringify({x: Math.round(posX), y: Math.round(posY)}));
-  });
-  wrap.addEventListener('touchstart', function(e) {
-    if (e.target.tagName !== 'VIDEO') return;
-    dragging = true; origX = posX; origY = posY;
-    startX = e.touches[0].clientX; startY = e.touches[0].clientY;
-    e.preventDefault();
-  }, {passive: false});
-  document.addEventListener('touchmove', function(e) {
-    if (!dragging) return;
-    var dx = (e.touches[0].clientX - startX) / wrap.clientWidth * 100;
-    var dy = (e.touches[0].clientY - startY) / wrap.clientHeight * 100;
-    posX = Math.max(0, Math.min(100, origX - dx));
-    posY = Math.max(0, Math.min(100, origY - dy));
-    video.style.objectPosition = posX + '% ' + posY + '%';
-  });
-  document.addEventListener('touchend', function() {
-    if (!dragging) return;
-    dragging = false;
-    localStorage.setItem(posKey, JSON.stringify({x: Math.round(posX), y: Math.round(posY)}));
+    if (!dragging) return; dragging = false; video.classList.remove('grabbing');
+    localStorage.setItem(posKey, JSON.stringify({x:Math.round(posX),y:Math.round(posY)}));
   });
   if (hint) setTimeout(function() { hint.style.opacity = '0'; }, 4000);
 }
 
-// ========== Role Cycle — rotating subtitle ==========
-function initRoleCycle() {
+// ===== Hero Typewriter =====
+function initHeroTypewriter() {
   var el = document.querySelector('.hero-name .grad');
   if (!el) return;
-  var titles = ['&lt;Seeyu/&gt;', '&lt;CV Engineer/&gt;', '&lt;AI Explorer/&gt;', '&lt;Web Dev/&gt;'];
-  var idx = 0;
-  function cycle() {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(10px)';
-    el.offsetHeight;
-    setTimeout(function() {
-      el.innerHTML = titles[idx];
-      idx = (idx + 1) % titles.length;
-      el.style.opacity = '1';
-      el.style.transform = 'translateY(0)';
-    }, 400);
-  }
-  cycle();
-  setInterval(cycle, 3200);
+  var text = el.textContent;
+  el.textContent = '';
+  el.style.borderRight = '2px solid rgba(255,255,255,0.7)';
+  var i = 0;
+  var timer = setInterval(function() {
+    el.textContent += text[i]; i++;
+    if (i >= text.length) { clearInterval(timer); setTimeout(function(){el.style.borderRight='none';},2000); }
+  }, 120);
 }
 
-// ========== Background Circles ==========
+// ===== Background Circles =====
 function initBgCircles() {
   var box = document.getElementById('bgDecoration');
   if (!box) return;
-  var colors = ['#2d6a4f','#40916c','#52b788','#95d5b2','#b7e4c7','#d8f3dc','#74c69d'];
   var blobs = [
-    {c:'#2f460ca6',size:500,top:-10,left:-8},
-    //c颜色，size是圆球直径，top是垂直位置，left是水平位置
-    //透明度由.bg-circle.blob控制，opacity目前是0.12，0是完全透明，1是完全不透明
-    {c:'#d595ca',size:440,top:20,left:76},
-    {c:'#cd528f7d',size:380,top:62,left:-6},
-    {c:'#7499c6',size:340,top:80,left:68},
-    {c:'#ba1c80',size:320,top:44,left:42}
+    {c:'rgba(45,106,79,0.08)',size:500,top:-10,left:-8},
+    {c:'rgba(82,183,136,0.06)',size:440,top:20,left:76},
+    {c:'rgba(45,106,79,0.05)',size:380,top:62,left:-6}
   ];
   blobs.forEach(function(b,i) {
     var el = document.createElement('div');
-    el.className = 'bg-circle';
+    el.className = 'bg-circle blob';
     el.style.cssText = 'width:'+b.size+'px;height:'+b.size+'px;background:'+b.c+
       ';top:'+b.top+'%;left:'+b.left+'%;'+
       '--dx:'+(Math.random()*60-30).toFixed(0)+'px;--dy:'+(Math.random()*60-30).toFixed(0)+'px;'+
-      'animation:float-blob '+(16+i*3)+'s ease-in-out infinite;animation-delay:'+(-i*2)+'s';
+      'animation:float-blob '+(20+i*5)+'s ease-in-out infinite;animation-delay:'+(-i*2)+'s';
     box.appendChild(el);
   });
 }
 
-// ========== Mobile Nav ==========
+// ===== Mobile Nav =====
 function initMobileNav() {
-  var toggle = document.getElementById('navToggle');
-  var links = document.getElementById('navLinks');
-  var overlay = document.getElementById('sidebarOverlay');
-  var navbar = document.getElementById('navbar');
-  function open() { links.classList.add('open'); overlay.classList.add('open'); document.body.style.overflow='hidden'; }
-  function close() { links.classList.remove('open'); overlay.classList.remove('open'); document.body.style.overflow=''; }
-  toggle.addEventListener('click', function() { links.classList.contains('open') ? close() : open(); });
-  overlay.addEventListener('click', close);
-  links.querySelectorAll('a').forEach(function(a) {
-    a.addEventListener('click', function() { if (window.innerWidth <= 900) close(); });
-  });
-  window.addEventListener('resize', function() { if (window.innerWidth > 900) close(); });
-  window.addEventListener('scroll', function() {
-    navbar.classList.toggle('scrolled', window.scrollY > 10);
-  });
+  var t=document.getElementById('navToggle'),l=document.getElementById('navLinks'),
+      o=document.getElementById('sidebarOverlay'),n=document.getElementById('navbar');
+  function op(){l.classList.add('open');o.classList.add('open');document.body.style.overflow='hidden';}
+  function cl(){l.classList.remove('open');o.classList.remove('open');document.body.style.overflow='';}
+  t.addEventListener('click',function(){l.classList.contains('open')?cl():op();});
+  o.addEventListener('click',cl);
+  l.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){if(window.innerWidth<=900)cl();});});
+  window.addEventListener('scroll',function(){n.classList.toggle('scrolled',window.scrollY>10);});
 }
 
-// ========== Scroll Spy ==========
+// ===== Scroll Spy =====
 function initScrollSpy() {
-  var navLinks = document.querySelectorAll('#navLinks a');
-  var sections = document.querySelectorAll('section[id]');
-  window.addEventListener('scroll', function() {
-    var current = 'home';
-    sections.forEach(function(s) {
-      if (window.scrollY >= s.offsetTop - 120) current = s.id;
-    });
-    navLinks.forEach(function(l) {
-      l.classList.toggle('active', l.getAttribute('data-section') === current);
-    });
-    document.querySelectorAll('.fade-in:not(.visible)').forEach(function(el) {
-      var r = el.getBoundingClientRect();
-      if (r.top < window.innerHeight * 0.88) el.classList.add('visible');
-    });
+  var n=document.querySelectorAll('#navLinks a[data-section]'),s=document.querySelectorAll('section[id]');
+  window.addEventListener('scroll',function(){
+    var c='home';s.forEach(function(v){if(window.scrollY>=v.offsetTop-120)c=v.id;});
+    n.forEach(function(l){l.classList.toggle('active',l.getAttribute('data-section')===c);});
+    document.querySelectorAll('.fade-in:not(.visible)').forEach(function(e){var r=e.getBoundingClientRect();if(r.top<window.innerHeight*.88)e.classList.add('visible');});
   });
-  setTimeout(function() {
-    document.querySelectorAll('.fade-in:not(.visible)').forEach(function(el) {
-      var r = el.getBoundingClientRect();
-      if (r.top < window.innerHeight * 0.88) el.classList.add('visible');
-    });
-  }, 200);
+  setTimeout(function(){document.querySelectorAll('.fade-in:not(.visible)').forEach(function(e){var r=e.getBoundingClientRect();if(r.top<window.innerHeight*.88)e.classList.add('visible');});},200);
 }
 
-// ========== Language ==========
+// ===== Language =====
 function initLangSwitch() {
-  var sel = document.getElementById('langSelect');
-  if (!sel) return;
-  sel.value = currentLang;
-  sel.addEventListener('change', function() {
-    if (sel.value !== currentLang) setLang(sel.value);
-  });
+  var s=document.getElementById('langSelect');if(!s)return;s.value=currentLang;
+  s.addEventListener('change',function(){if(s.value!==currentLang)setLang(s.value);});
 }
 
-// ========== Text — Full i18n coverage ==========
+// ===== Text i18n =====
 function applyTexts() {
-  var lang = currentLang;
-  // Nav links
-  var navIds = ['navHome','navHometown','navSchool','navChallenges','navPortfolio'];
-  var navKeys = ['nav_home','nav_hometown','nav_school','nav_challenges','nav_portfolio'];
-  for (var i=0; i<navIds.length; i++) {
-    var el = document.getElementById(navIds[i]);
-    if (el) el.textContent = t(navKeys[i]);
-  }
-  var navRes = document.getElementById('navResources');
-  if (navRes) navRes.textContent = t('nav_resources');
-
-  // Hero
-  var hl = document.getElementById('heroScrollLabel');
-  if (hl) hl.textContent = t('hero_scroll');
-  var sp = document.getElementById('heroStatProjects');
-  if (sp) sp.textContent = t('hero_stat_projects');
-
-  // Section Chinese labels + descs
-  var cnLabels = {
-    hometownCn:'sec_hometown_title', schoolCn:'sec_school_title',
-    challengesCn:'sec_challenges_title', portfolioCn:'sec_portfolio_title',
-    aboutCn:'nav_about', contactCn:'sec_contact_title'
-  };
-  for (var id in cnLabels) {
-    var el = document.getElementById(id);
-    if (el) el.textContent = t(cnLabels[id]);
-  }
-
-  var descs = {
-    hometownDesc:'sec_hometown_desc', schoolDesc:'sec_school_desc',
-    challengesDesc:'sec_challenges_desc', portfolioDesc:'sec_portfolio_desc',
-    contactDesc:'sec_contact_desc'
-  };
-  for (var id in descs) {
-    var el = document.getElementById(id);
-    if (el) el.textContent = t(descs[id]);
-  }
-
-  document.getElementById('footerText').innerHTML = t('footer_built_v2');
-  document.title = t('page_title_v2');
-  var metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) metaDesc.setAttribute('content', t('page_desc_v2'));
-  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
-
-  var viewAll = document.querySelector('.btn-view-all');
-  if (viewAll) viewAll.textContent = t('view_all_projects');
+  var ids=['navHome','navHometown','navSchool','navChallenges','navPortfolio','navAbout'];
+  var keys=['nav_home','nav_hometown','nav_school','nav_challenges','nav_portfolio','nav_about'];
+  for(var i=0;i<ids.length;i++){var e=document.getElementById(ids[i]);if(e)e.textContent=t(keys[i]);}
+  var r=document.getElementById('navResources');if(r)r.textContent=t('nav_resources');
+  var labels={hometownCn:'sec_hometown_title',schoolCn:'sec_school_title',challengesCn:'sec_challenges_title',portfolioCn:'sec_portfolio_title',aboutCn:'nav_about',contactCn:'sec_contact_title'};
+  for(var id in labels){var e=document.getElementById(id);if(e)e.textContent=t(labels[id]);}
+  var descs={hometownDesc:'sec_hometown_desc',schoolDesc:'sec_school_desc',challengesDesc:'sec_challenges_desc',portfolioDesc:'sec_portfolio_desc',contactDesc:'sec_contact_desc'};
+  for(var id in descs){var e=document.getElementById(id);if(e)e.textContent=t(descs[id]);}
+  document.getElementById('footerText').innerHTML=t('footer_built_v2');
+  document.title=t('page_title_v2');
+  var m=document.querySelector('meta[name="description"]');if(m)m.setAttribute('content',t('page_desc_v2'));
+  document.documentElement.lang=currentLang==='zh'?'zh-CN':currentLang;
 }
 
 function ptext(id, field) {
-  var loc = (typeof projLocale !== 'undefined') && projLocale[currentLang] && projLocale[currentLang][id];
-  if (loc && loc[field] !== undefined && loc[field] !== null &&
-      !(Array.isArray(loc[field]) && loc[field].length === 0)) {
-    return loc[field];
-  }
-  var p = projectsData.find(function(x) { return x.id === id; });
-  if (!p) return field === 'name' ? '' : (['features', 'innovation'].indexOf(field) >= 0 ? [] : '');
-  if (field === 'name') return p.name;
-  return p.detail ? p.detail[field] : undefined;
+  var loc=(typeof projLocale!=='undefined')&&projLocale[currentLang]&&projLocale[currentLang][id];
+  if(loc&&loc[field]!==undefined&&loc[field]!==null&&!(Array.isArray(loc[field])&&loc[field].length===0))return loc[field];
+  var p=projectsData.find(function(x){return x.id===id;});
+  if(!p)return field==='name'?'':(['features','innovation'].indexOf(field)>=0?[]:'');
+  if(field==='name')return p.name;
+  return p.detail?p.detail[field]:undefined;
 }
 
-// ========== Focus Zoom Carousel ==========
-function createFocusCarousel(containerId, images, opts) {
-  opts = opts || {};
-  var curveType = opts.curve || 'spiral'; // 'spiral' | 'flat'
-  var speed = opts.speed || 1400;         // ms between slides
-  var container = document.getElementById(containerId);
-  if (!container || !images.length) return;
+function getProjectImg(p){if(p.thumbs&&p.thumbs.length)return p.thumbs[0];if(p.thumb)return p.thumb;return null;}
 
-  if (images.length === 1) {
-    container.classList.add('single');
-    var el = document.createElement('div');
-    el.className = 'carousel-track';
-    el.innerHTML = '<div class="carousel-slide" style="position:relative;width:100%;max-width:500px;height:320px;margin:0 auto;cursor:default;border-radius:8px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.12);">' +
-      '<img src="'+images[0]+'" alt="" style="width:100%;height:100%;object-fit:cover;">' +
-      '</div>';
-    container.appendChild(el);
-    container.insertAdjacentHTML('afterend', '<p class="single-img-hint">'+t('hometown_more')+'</p>');
-    return;
+// ===== Hometown Showcase =====
+function initHometownShowcase() {
+  var c=document.getElementById('hometownShowcase');if(!c)return;
+  var themes=HOMETOWN_THEMES,cur=0,isEn=(currentLang==='en');
+  c.innerHTML='<div class="ht-location" id="htLocation"></div><div class="ht-desc" id="htDesc"></div>'+
+    '<div class="ht-main-wrap"><button class="carousel-btn prev" id="htPrev">&#8249;</button>'+
+    '<div class="ht-main-img-wrap"><img id="htMainImg" src="" alt=""></div>'+
+    '<button class="carousel-btn next" id="htNext">&#8250;</button></div>'+
+    '<div class="carousel-dots" id="htDots"></div><div class="ht-sub-gallery" id="htSubGallery"></div>';
+  var dots=document.getElementById('htDots');
+  themes.forEach(function(_,i){var d=document.createElement('span');d.addEventListener('click',function(){go(i);});dots.appendChild(d);});
+  function render(){
+    var t=themes[cur];
+    document.getElementById('htLocation').textContent=(isEn?t.locationEn:t.location)+' : '+(isEn?t.nameEn:t.name);
+    document.getElementById('htDesc').textContent=isEn?t.descEn:t.desc;
+    var mi=document.getElementById('htMainImg');mi.style.opacity='0';
+    setTimeout(function(){mi.src=t.mainImg;mi.alt=isEn?t.nameEn:t.name;mi.onload=function(){mi.style.opacity='1';};},200);
+    var s=document.getElementById('htSubGallery');s.innerHTML='';
+    if(t.subImgs&&t.subImgs.length)t.subImgs.forEach(function(v){var im=document.createElement('img');im.src=v;im.alt=isEn?t.nameEn:t.name;im.loading='lazy';s.appendChild(im);});
+    dots.querySelectorAll('span').forEach(function(d,i){d.className=(i===cur)?'active':'';});
   }
+  function go(i){cur=((i%themes.length)+themes.length)%themes.length;render();}
+  document.getElementById('htPrev').addEventListener('click',function(){go(cur-1);});
+  document.getElementById('htNext').addEventListener('click',function(){go(cur+1);});
+  var at=setInterval(function(){go(cur+1);},6000);
+  c.addEventListener('mouseenter',function(){clearInterval(at);});
+  c.addEventListener('mouseleave',function(){at=setInterval(function(){go(cur+1);},6000);});
+  var ts=0;c.addEventListener('touchstart',function(e){ts=e.touches[0].clientX;},{passive:true});
+  c.addEventListener('touchend',function(e){var d=ts-e.changedTouches[0].clientX;if(Math.abs(d)>50)d>0?go(cur+1):go(cur-1);},{passive:true});
+  render();
+}
 
-  var track = document.createElement('div');
-  track.className = 'carousel-track';
-
-  // Create zoom background at body level (needs position:fixed)
-  var zoomBg = document.createElement('div');
-  zoomBg.className = 'carousel-zoom-bg';
-  zoomBg.addEventListener('click', function() { unzoom(); });
-  document.body.appendChild(zoomBg);
-  container.appendChild(track);
-
-  var N = images.length;
-  var active = 0;
-  var timer = null;
-  var slides = [];
-  var transitioning = false;
-
-  for (var i = 0; i < N; i++) {
-    var slide = document.createElement('div');
-    slide.className = 'carousel-slide';
-    slide.innerHTML = '<img src="'+images[i]+'" alt="Slide '+(i+1)+'"><div class="slide-label">'+(i+1)+' / '+N+'</div>';
-    slide.addEventListener('click', function(idx) {
-      return function() {
-        if (transitioning) return;
-        // If zoomed, clicking again dismisses zoom
-        if (slides[idx].classList.contains('zoomed')) { unzoom(); return; }
-        if (idx === active) return;
-        unzoom();
-        active = idx;
-        positionSlides(function() { zoomActive(); });
-        resetTimer();
-      };
-    }(i));
-    track.appendChild(slide);
-    slides.push(slide);
-  }
-
-  function positionSlides(cb) {
-    transitioning = true;
-    var w = track.clientWidth || container.clientWidth || 900;
-    var slideW = 500, slideH = 350;
-    if (w < 900) { slideW = 350; slideH = 245; }
-    if (w < 600) { slideW = 250; slideH = 175; }
-
-    var phi = (1 + Math.sqrt(5)) / 2;
-    var cx = w / 2 - slideW / 2;
-    var cy = 200; if (w < 900) cy = 150; if (w < 600) cy = 110;
-
-    for (var i = 0; i < N; i++) {
-      var offset = i - active;
-      if (offset > N/2) offset -= N;
-      if (offset < -N/2) offset += N;
-      var absOff = Math.abs(offset);
-      var sign = offset >= 0 ? 1 : -1;
-
-      var x, y;
-      if (curveType === 'flat') {
-        // Simple horizontal carousel with slight vertical curve
-        var spacing = slideW * 0.6;
-        x = cx + offset * spacing;
-        y = cy + Math.sin(offset * 0.6) * 30;
-      } else {
-        // Fibonacci spiral
-        var goldenAngle = Math.PI * (3 - Math.sqrt(5));
-        var angle = sign * absOff * goldenAngle;
-        var radius = (w * 0.3) * Math.pow(phi, absOff * 0.7);
-        x = cx + Math.cos(angle) * radius;
-        y = cy + Math.sin(angle) * radius * 0.5;
-      }
-
-      var scale = Math.max(0.04, Math.pow(phi, -absOff * 0.85));
-      var rot = sign * absOff * 18;
-      var z = absOff <= 1 ? Math.max(3 - absOff, 1) : 0;
-      var opacity = absOff <= 1 ? 1 : Math.max(0.1, Math.pow(phi, -absOff * 1.2));
-
-      // Only update changing properties — no flicker from full style reset
-      var s = slides[i].style;
-      s.width = slideW + 'px'; s.height = slideH + 'px';
-      s.transform = 'translate('+x.toFixed(0)+'px,'+y.toFixed(0)+'px) perspective(1200px) rotateY('+rot+'deg) scale('+scale.toFixed(4)+')';
-      s.zIndex = z; s.opacity = opacity.toFixed(3);
-      slides[i].classList.remove('active', 'zoomed', 'near');
-      if (absOff === 0) slides[i].classList.add('active');
-      if (absOff >= 1 && absOff <= 2) slides[i].classList.add('near');
-    }
-    setTimeout(function() { transitioning = false; if (cb) cb(); }, 400);
-  }
-
-  // ── Fixed: unzoom only removes class, keeps inline styles ──
-  function unzoom() {
-    slides.forEach(function(s) {
-      s.classList.remove('zoomed');
+// ===== School Lissajous =====
+function initSchoolLissajous() {
+  var c=document.getElementById('schoolLissajous');if(!c)return;
+  var imgs=SCHOOL_IMAGES,total=imgs.length;
+  c.innerHTML='<div class="lissa-track" id="lissaTrack"></div><div class="lissa-info"><h3 id="lissaLabel"></h3><p>北部湾大学 · Beibu Gulf University</p><p class="lissa-addr">中国 · 广西 · 钦州</p></div>';
+  var track=document.getElementById('lissaTrack');
+  imgs.forEach(function(item,i){var e=document.createElement('div');e.className='lissa-item';e.dataset.index=i;e.innerHTML='<img src="'+item.src+'" alt="'+item.label+'" loading="lazy">';track.appendChild(e);});
+  var items=track.querySelectorAll('.lissa-item'),angle=0,ci=0,fA=3,fB=2,spd=0.004,running=true;
+  function layout(){
+    var w=c.clientWidth,A=Math.min(380,w*.38),B=Math.min(80,w*.08);
+    items.forEach(function(el,i){
+      var t=angle+(i/total)*Math.PI*2,x=A*Math.sin(fA*t),y=B*Math.sin(fB*t),z=Math.cos(fA*t);
+      var sc=0.5+0.5*((z+1)/2),op=0.4+0.6*((z+1)/2);
+      el.style.transform='translate('+x+'px,'+y+'px) scale('+sc.toFixed(3)+')';
+      el.style.opacity=op.toFixed(2);el.style.zIndex=Math.round(z*100)+100;
+      if(sc>0.95){el.classList.add('lissa-center');ci=i;}else el.classList.remove('lissa-center');
     });
-    if (zoomBg) zoomBg.classList.remove('show');
+    var l=document.getElementById('lissaLabel');if(l)l.textContent=imgs[ci].label;
   }
-
-  // Formula tooltip，公式
-  var formulaEl = document.createElement('div');
-  formulaEl.className = 'carousel-formula';
-  formulaEl.innerHTML = '<span>r = a &middot; &phi;<sup>&theta;/&pi;</sup></span><small>&phi; = ½(1+√5) &asymp; 1.618  |  Golden Spiral</small>';
-  track.appendChild(formulaEl);
-
-  function zoomActive() {
-    var activeSlide = track.querySelector('.carousel-slide.active');
-    if (!activeSlide) return;
-    activeSlide.classList.add('zoomed');
-    if (zoomBg) zoomBg.classList.add('show');
-  }
-
-  function advance() {
-    if (transitioning) return;
-    unzoom();
-    active = (active + 1) % N;
-    positionSlides(function() { zoomActive(); });
-  }
-
-  function resetTimer(pauseMs) {
-    if (timer) clearInterval(timer);
-    timer = setTimeout(function step() {
-      advance();
-      timer = setTimeout(function() { unzoom(); timer = setTimeout(function() { step(); }, 400); }, speed + 800);
-    }, pauseMs || 200);
-  }
-
-  positionSlides(function() {
-    setTimeout(function() { zoomActive(); }, 400);
+  function anim(){if(running)angle+=spd;layout();requestAnimationFrame(anim);}
+  c.addEventListener('mouseenter',function(){running=false;});
+  c.addEventListener('mouseleave',function(){running=true;});
+  track.addEventListener('click',function(e){var it=e.target.closest('.lissa-item');if(!it)return;
+    var idx=parseInt(it.dataset.index),targetA=Math.PI/2-(idx/total)*Math.PI*2;
+    var diff=targetA-angle;diff-=Math.round(diff/(2*Math.PI))*2*Math.PI;
+    var sa=angle,st=performance.now(),dur=600;running=false;
+    function tw(now){var et=now-st,prog=Math.min(et/dur,1);angle=sa+diff*(1-Math.pow(1-prog,3));layout();if(prog<1)requestAnimationFrame(tw);else running=true;}
+    requestAnimationFrame(tw);
   });
-  resetTimer(1200);
-
-  track.addEventListener('mouseenter', function() {
-    if (timer) clearTimeout(timer);
-  });
-  track.addEventListener('mouseleave', function() {
-    resetTimer(800);
-  });
-
-  window.addEventListener('resize', function() {
-    unzoom();
-    clearTimeout(window._fcrTO);
-    window._fcrTO = setTimeout(function() { positionSlides(function(){zoomActive();}); }, 200);
-  });
+  layout();anim();
 }
 
-// ========== Dynamic image filter ==========
-function filterExistingImages(list, callback) {
-  var result = [];
-  var pending = list.length;
-  if (pending === 0) { callback(result); return; }
-  list.forEach(function(src) {
-    var img = new Image();
-    img.onload = function() { result.push(src); check(); };
-    img.onerror = function() { check(); };
-    img.src = src;
-    function check() { pending--; if (pending === 0) callback(result); }
-  });
-}
-
-function initHometownCarousel() {
-  var imgs = [
-    'images/梧州/龙母庙.jpg','images/梧州/中国梧州骑楼城.jpg','images/梧州/宝石手链.jpg',
-    'images/梧州/宝石手链2.jpg','images/梧州/宝石节-展品.jpg','images/梧州/梧州冰泉豆浆.jpg',
-    'images/梧州/梧州细粉.jpg','images/梧州/梧州龟苓膏.jpg','images/梧州/白云山顶-西江明珠塔.jpg',
-    'images/梧州/骑楼夜1.jpg','images/梧州/骑楼白1.jpg','images/梧州/龟苓膏.jpg'
-  ];
-  filterExistingImages(imgs, function(existing) {
-    createFocusCarousel('hometownCarousel', existing, {curve:'flat', speed:3000});
-    addWaterfall('hometownCarousel', existing);
-  });
-}
-
-function initSchoolCarousel() {
-  var imgs = [
-    'images/BeiBuGulfUniversity/晚霞.jpg','images/BeiBuGulfUniversity/学校的湖.jpg',
-    'images/BeiBuGulfUniversity/校园图.jpg','images/BeiBuGulfUniversity/非常美丽的晚霞，三年只见过一次.jpg',
-    'images/BeiBuGulfUniversity/树.jpg','images/BeiBuGulfUniversity/蓝调时刻.jpg',
-    'images/BeiBuGulfUniversity/校园一角.jpg','images/BeiBuGulfUniversity/night.jpg',
-    'images/BeiBuGulfUniversity/flowersea-格桑.jpg','images/BeiBuGulfUniversity/sky.jpg',
-    'images/BeiBuGulfUniversity/road.jpg','images/BeiBuGulfUniversity/云.jpg',
-    'images/BeiBuGulfUniversity/学校南门.jpg','images/BeiBuGulfUniversity/学校美食城.jpg',
-    'images/BeiBuGulfUniversity/宿舍楼下风和日丽.jpg','images/BeiBuGulfUniversity/近期暴雨后的.jpg',
-    'images/BeiBuGulfUniversity/图书滚.jpg','images/BeiBuGulfUniversity/图书馆-网传.jpg',
-    'images/BeiBuGulfUniversity/图书馆-网传2.jpg','images/BeiBuGulfUniversity/图书馆.jpg',
-    'images/BeiBuGulfUniversity/学校印章.jpg','images/BeiBuGulfUniversity/学校的树开花.jpg',
-    'images/BeiBuGulfUniversity/完美落日.jpg','images/BeiBuGulfUniversity/广场.jpg',
-    'images/BeiBuGulfUniversity/广西钦州三娘湾.jpg','images/BeiBuGulfUniversity/建筑.jpg',
-    'images/BeiBuGulfUniversity/日出.jpg','images/BeiBuGulfUniversity/钦nixingtao.jpg',
-    'images/BeiBuGulfUniversity/钦州nixingtao.jpg'
-  ];
-  filterExistingImages(imgs, function(existing) {
-    createFocusCarousel('schoolCarousel', existing, {curve:'spiral', speed:2500});
-    addWaterfall('schoolCarousel', existing);
-  });
-}
-
-// ========== Waterfall Masonry for carousel sections ==========
-function addWaterfall(carouselId, images) {
-  var container = document.getElementById(carouselId);
-  if (!container) return;
-  if (images.length < 3) return; // 只有 ≥3 张才显示瀑布流按钮
-
-  var section = container.closest('.section') || container.parentElement;
-
-  // Toggle button
-  var toggleWrap = document.createElement('div');
-  toggleWrap.className = 'waterfall-toggle';
-  var btn = document.createElement('button');
-  btn.textContent = '▦ ' + t('view_all_photos');
-  toggleWrap.appendChild(btn);
-
-  // Waterfall container
-  var wf = document.createElement('div');
-  wf.className = 'waterfall-container';
-  wf.innerHTML = images.map(function(src, i) {
-    return '<div class="waterfall-item">' +
-      '<img src="'+src+'" alt="Photo '+(i+1)+'" loading="lazy" onerror="this.parentElement.style.display=\'none\'">' +
-      '<div class="wf-label">'+(i+1)+' / '+images.length+'</div>' +
-    '</div>';
-  }).join('');
-
-  var open = false;
-  btn.addEventListener('click', function() {
-    open = !open;
-    wf.classList.toggle('show', open);
-    btn.textContent = open ? '▤ ' + t('collapse_photos') : '▦ ' + t('view_all_photos');
-  });
-
-  container.parentElement.insertBefore(wf, container.nextSibling);
-  container.parentElement.insertBefore(toggleWrap, wf);
-}
-
-// ========== Featured Projects ==========
-function getProjectImg(p) {
-  if (p.thumbs && p.thumbs.length) return p.thumbs[0];
-  if (p.thumb) return p.thumb;
-  return null;
-}
-
+// ===== Featured Projects =====
 function renderFeaturedProjects() {
-  var grid = document.getElementById('featuredProjects');
-  if (!grid) return;
-  var projects = FEATURED_IDS.map(function(id) {
-    return projectsData.find(function(p) { return p.id === id; });
-  }).filter(Boolean);
-
-  grid.innerHTML = projects.map(function(p) {
-    var img = getProjectImg(p);
-    var name = ptext(p.id, 'name');
-    var link = p.link || '';
-    var badge = p.badge || '';
-    var iconSvg = (typeof svg === 'function' && p.icon) ? svg(p.icon, 48) : '';
-    return '<div class="project-item fade-in stagger" onclick="window.location.href=\'project-detail.html?id='+p.id+'\'">' +
-      '<div class="project-thumb'+(img ? ' has-img' : '')+'">' +
-        (img ? '<img src="'+img+'" alt="'+name+'" loading="lazy">' :
-         '<div class="thumb-icon">'+iconSvg+'</div>') +
-      '</div>' +
-      '<div class="project-info">' +
-        (badge ? '<span class="project-tag">'+badge+'</span>' : '') +
-        '<h3>'+name+'</h3>' +
-        (link ? '<a href="'+link+'" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">' +
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>' +
-          t('proj_demo_link')+'</a>' : '') +
-      '</div>' +
-    '</div>';
+  var grid=document.getElementById('featuredProjects');if(!grid)return;
+  var projects=FEATURED_IDS.map(function(id){return projectsData.find(function(p){return p.id===id;});}).filter(Boolean);
+  grid.innerHTML=projects.map(function(p){
+    var img=getProjectImg(p),name=ptext(p.id,'name'),link=p.link||'',badge=p.badge||'';
+    var iconSvg=(typeof svg==='function'&&p.icon)?svg(p.icon,48):'';
+    var linkBtn='';if(link){linkBtn='<a href="'+link+'" target="_blank" rel="noopener" class="project-demo-link" onclick="event.stopPropagation()">'+
+      ((typeof svg==='function')?svg('play',12):'')+' '+(currentLang==='en'?'Live Demo':'在线体验')+'</a>';}
+    return '<div class="project-item fade-in stagger" onclick="window.location.href=\'project-detail.html?id='+p.id+'\'">'+
+      '<div class="project-thumb'+(img?' has-img':'')+'">'+(img?'<img src="'+img+'" alt="'+name+'" loading="lazy">':'<div class="thumb-icon">'+iconSvg+'</div>')+'</div>'+
+      '<div class="project-info">'+(badge?'<span class="project-tag">'+badge+'</span>':'')+'<h3>'+name+'</h3>'+linkBtn+'</div></div>';
   }).join('');
 }
 
-// ========== Challenges & Interests — vertical marquee waterfall ==========
-function renderChallengesInterests() {
-  var layout = document.getElementById('ciLayout');
-  if (!layout) return;
+// ===== Marquee (走马灯) =====
+function renderMarquee(){
+  var track=document.getElementById('marqueeTrack');if(!track)return;
+  var others=projectsData.filter(function(p){return FEATURED_IDS.indexOf(p.id)===-1;});if(!others.length)return;
+  var html='';for(var copy=0;copy<3;copy++){others.forEach(function(p){
+    var img=getProjectImg(p),name=ptext(p.id,'name');
+    var iconSvg=(typeof svg==='function'&&p.icon)?svg(p.icon,32):'';
+    html+='<div class="marquee-card" onclick="window.location.href=\'project-detail.html?id='+p.id+'\'">'+
+      '<div class="marquee-thumb">'+(img?'<img src="'+img+'" alt="'+name+'" loading="lazy">':'<div class="marquee-icon">'+iconSvg+'</div>')+'</div>'+
+      '<div class="marquee-name">'+name+'</div>'+(p.link?'<span class="marquee-link-badge">DEMO</span>':'')+'</div>';
+  });}
+  track.innerHTML=html;
+}
 
-  var challengeImgs = [
-    {src:'images/chanllenge/磨铁.png', label:'磨铁'},
-    {src:'images/chanllenge/焊接电路.jpg', label:'焊接电路'},
-    {src:'images/chanllenge/时间继电器.jpg', label:'时间继电器'},
-    {src:'images/chanllenge/电工接线练习.jpg', label:'电工接线'},
-    {src:'images/chanllenge/焊接铁.jpg', label:'焊接铁'},
-    {src:'images/chanllenge/线图图接线-控制线路.jpg', label:'接线图'},
-    {src:'images/chanllenge/最简单的双联灯泡电路.jpg', label:'双联电路'},
-    {src:'images/chanllenge/电子版本控制线路接线图.jpg', label:'接线图2'},
-    {src:'images/chanllenge/英语竞赛-小品.jpg', label:'英语竞赛小品'},
-    {src:'images/chanllenge/英语竞赛合照.jpg', label:'英语竞赛'}
-  ];
-
-  var interestImgs = [
-    {src:'images/interesting/book1.jpg', label:'阅读'},
-    {src:'images/interesting/esp32.jpg', label:'ESP32'},
-    {src:'images/interesting/大鼠.jpg', label:'大鼠'},
-    {src:'images/interesting/头像.jpg', label:'头像'},
-    {src:'images/interesting/日常.jpg', label:'日常'},
-    {src:'images/interesting/与硬件相关的无人驾驶实验小车.jpg', label:'实验小车'},
-    {src:'images/interesting/run.jpg', label:'跑步'}
-  ];
-
-  function buildGrid(list) {
-    return list.map(function(item) {
-      return '<div class="ci-item">' +
-        '<img src="'+item.src+'" loading="lazy">' +
-        '<span>'+item.label+'</span></div>';
-    }).join('');
+// ===== Challenges & Interests — Waterfall =====
+function renderChallengesInterests(){
+  var container=document.getElementById('ciLayout');if(!container)return;
+  var challenges=[{src:'images/chanllenge/时间继电器.jpg',label:'时间继电器'},{src:'images/chanllenge/焊接电路.jpg',label:'焊接电路板'},{src:'images/chanllenge/焊接铁.jpg',label:'焊接实操'},{src:'images/chanllenge/电工接线练习.jpg',label:'电工接线'},{src:'images/chanllenge/磨铁.png',label:'钳工磨铁'},{src:'images/chanllenge/最简单的双联灯泡电路.jpg',label:'双联电路'},{src:'images/chanllenge/英语竞赛-小品.jpg',label:'英语小品'},{src:'images/chanllenge/英语竞赛合照.jpg',label:'英语竞赛合照'}];
+  var interests=[{src:'images/interesting/esp32.jpg',label:'ESP32'},{src:'images/interesting/与硬件相关的无人驾驶实验小车.jpg',label:'无人驾驶小车'},{src:'images/interesting/book1.jpg',label:'读书日常'},{src:'images/interesting/run.jpg',label:'跑步'},{src:'images/interesting/日常.jpg',label:'日常生活'}];
+  function build(title,items,cls){
+    var h='<div class="ci-col '+cls+'"><h3>'+title+'</h3><div class="ci-scroll-wrap"><div class="ci-scroll-track">';
+    for(var copy=0;copy<2;copy++){h+='<div class="ci-waterfall">';items.forEach(function(it){h+='<div class="ci-wf-item"><img src="'+it.src+'" alt="'+it.label+'" loading="lazy"><span>'+it.label+'</span></div>';});h+='</div>';}
+    h+='</div></div></div>';return h;
   }
-  // Hide broken images after render
-  setTimeout(function() {
-    document.querySelectorAll('.ci-item img').forEach(function(img) {
-      if (img.naturalWidth === 0 && img.complete) {
-        img.parentElement.style.display = 'none';
-      }
-      img.addEventListener('error', function() {
-        this.parentElement.style.display = 'none';
-      });
-    });
-  }, 500);
-
-  layout.innerHTML =
-    '<div class="ci-col"><h3>'+t('challenges_label')+'</h3>' +
-      '<div class="ci-columns">'+buildGrid(challengeImgs)+'</div>' +
-    '</div>' +
-    '<div class="ci-col"><h3>'+t('interests_label')+'</h3>' +
-      '<div class="ci-columns">'+buildGrid(interestImgs)+'</div>' +
-    '</div>';
+  var isEn=(currentLang==='en');
+  container.innerHTML=build(isEn?'Challenges':'挑战',challenges,'ci-challenges')+build(isEn?'Interests':'兴趣',interests,'ci-interests');
 }
 
-// ========== Timeline ==========
-function renderTimeline() {
-  var tl = document.getElementById('timeline');
-  if (!tl) return;
-  var items = [
-    {period:'2024 – '+t('diff_1'), title:t('timeline_stage4_title'), desc:t('timeline_stage4_desc')},
-    {period:'2023 – 2024', title:t('timeline_stage3_title'), desc:t('timeline_stage3_desc')},
-    {period:'2022 – 2023', title:t('timeline_stage2_title'), desc:t('timeline_stage2_desc')},
-    {period:'2021', title:t('timeline_stage1_title'), desc:t('timeline_stage1_desc')}
-  ];
-  tl.innerHTML = items.map(function(item) {
-    return '<div class="tl-item">' +
-      '<div class="tl-period">'+item.period+'</div>' +
-      '<div class="tl-title">'+item.title+'</div>' +
-      '<div class="tl-desc">'+item.desc+'</div>' +
-    '</div>';
-  }).join('');
+// ===== Timeline =====
+function renderTimeline(){
+  var tl=document.getElementById('timeline');if(!tl)return;
+  var items=[{period:'2024 – '+t('diff_1'),title:t('timeline_stage4_title'),desc:t('timeline_stage4_desc')},{period:'2023 – 2024',title:t('timeline_stage3_title'),desc:t('timeline_stage3_desc')},{period:'2022 – 2023',title:t('timeline_stage2_title'),desc:t('timeline_stage2_desc')},{period:'2021',title:t('timeline_stage1_title'),desc:t('timeline_stage1_desc')}];
+  tl.innerHTML=items.map(function(i){return '<div class="tl-item"><div class="tl-period">'+i.period+'</div><div class="tl-title">'+i.title+'</div><div class="tl-desc">'+i.desc+'</div></div>';}).join('');
 }
 
-// ========== Contacts ==========
-function renderContacts() {
-  var grid = document.getElementById('contactGrid');
-  if (!grid) return;
-  var contacts = [
-    {icon:'github', name:t('contact_github'), desc:'XYuChen110205', link:'https://github.com/XYuChen110205', linkText:'github.com/XYuChen110205'},
-    {icon:'mail', name:t('contact_mail'), desc:t('contact_github_desc'), link:'https://github.com/XYuChen110205', linkText:t('contact_github_link')},
-    {icon:'star', name:t('contact_about'), desc:t('contact_about_desc')}
-  ];
-  grid.innerHTML = contacts.map(function(c) {
-    var iconSvg = typeof svg === 'function' ? svg(c.icon, 36) : '';
-    return '<div class="contact-card fade-in">' +
-      '<span class="cc-icon">'+iconSvg+'</span>' +
-      '<h3>'+c.name+'</h3>' +
-      '<p>'+c.desc+'</p>' +
-      (c.link ? '<p style="margin-top:6px"><a href="'+c.link+'" target="_blank">'+c.linkText+'</a></p>' : '') +
-    '</div>';
-  }).join('');
+// ===== Contacts =====
+function renderContacts(){
+  var grid=document.getElementById('contactGrid');if(!grid)return;
+  var contacts=[{icon:'github',name:t('contact_github'),desc:'XYuChen110205',link:'https://github.com/XYuChen110205',linkText:'github.com/XYuChen110205'},{icon:'mail',name:t('contact_mail'),desc:t('contact_github_desc'),link:'https://github.com/XYuChen110205',linkText:t('contact_github_link')},{icon:'star',name:t('contact_about'),desc:t('contact_about_desc')}];
+  grid.innerHTML=contacts.map(function(c){var ic=(typeof svg==='function')?svg(c.icon,36):'';return '<div class="contact-card fade-in"><span class="cc-icon">'+ic+'</span><h3>'+c.name+'</h3><p>'+c.desc+'</p>'+(c.link?'<p style="margin-top:6px"><a href="'+c.link+'" target="_blank">'+c.linkText+'</a></p>':'')+'</div>';}).join('');
 }
 
-// ========== Fade In ==========
-function initFadeIn() {
-  window.addEventListener('scroll', function() {
-    document.querySelectorAll('.fade-in:not(.visible)').forEach(function(el) {
-      var r = el.getBoundingClientRect();
-      if (r.top < window.innerHeight * 0.88) el.classList.add('visible');
-    });
-  });
-}
-
-// ========== Hero Glow — mouse tracking ==========
-function initHeroGlow() {
-  var glow = document.createElement('div');
-  glow.className = 'hero-glow';
-  document.body.appendChild(glow);
-  var hero = document.getElementById('home');
-  var visible = false;
-
-  hero.addEventListener('mouseenter', function() { visible = true; glow.classList.add('visible'); });
-  hero.addEventListener('mouseleave', function() { visible = false; glow.classList.remove('visible'); });
-  document.addEventListener('mousemove', function(e) {
-    if (!visible) return;
-    glow.style.left = e.clientX + 'px';
-    glow.style.top = e.clientY + 'px';
-  });
-}
-
-// ========== Parallax — hero video scroll ==========
-function initParallax() {
-  var videoWrap = document.getElementById('heroVideoWrap');
-  if (!videoWrap) return;
-  window.addEventListener('scroll', function() {
-    var scrollY = window.scrollY || window.pageYOffset;
-    if (scrollY > window.innerHeight) return;
-    videoWrap.style.transform = 'translateY(' + (scrollY * 0.35) + 'px)';
-  });
-}
-
-// ========== Image skeletons — shimmer until loaded ==========
-function initImageSkeletons() {
-  var processed = new WeakSet();
-  function process() {
-    document.querySelectorAll('.project-thumb img, .ci-grid img, .carousel-slide img').forEach(function(img) {
-      if (processed.has(img)) return;
-      processed.add(img);
-      var parent = img.parentElement;
-      if (img.complete && img.naturalWidth > 0) {
-        if (parent) parent.classList.add('loaded');
-        return;
-      }
-      if (parent) parent.classList.add('img-skeleton');
-      img.addEventListener('load', function() {
-        if (parent) parent.classList.add('loaded');
-      });
-      img.addEventListener('error', function() {
-        if (parent) parent.classList.add('loaded');
-      });
-    });
-  }
-  process();
-  // Observe for dynamically added images, but debounced
-  var obsTO = null;
-  if (window.MutationObserver) {
-    var obs = new MutationObserver(function() {
-      if (obsTO) return;
-      obsTO = setTimeout(function() { obsTO = null; process(); }, 300);
-    });
-    obs.observe(document.body, { childList: true, subtree: true });
-  }
-}
-
-// ========== Animated counters ==========
-function animateCounters() {
-  var el = document.getElementById('countProjects');
-  if (!el) return;
-  var target = projectsData.length;
-  var count = 0;
-  var speed = Math.max(20, Math.floor(800 / target));
-  var started = false;
-  function check() {
-    if (started) return;
-    var rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight) {
-      started = true;
-      var iv = setInterval(function() {
-        count++;
-        el.textContent = count;
-        if (count >= target) clearInterval(iv);
-      }, speed);
-    }
-  }
-  window.addEventListener('scroll', check);
-  check();
-}
+// ===== Fade In =====
+function initFadeIn(){window.addEventListener('scroll',function(){document.querySelectorAll('.fade-in:not(.visible)').forEach(function(e){var r=e.getBoundingClientRect();if(r.top<window.innerHeight*.88)e.classList.add('visible');});});}

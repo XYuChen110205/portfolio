@@ -6,15 +6,6 @@
 <meta name="description" content="Seeyu 个人主页">
 <title>Seeyu</title>
 <link rel="stylesheet" href="css/style.css">
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" async></script>
-<script>
-  document.querySelector('script[src*="mermaid"]').addEventListener('load',function(){
-    mermaid.initialize({startOnLoad:false,theme:'base',
-      themeVariables:{primaryColor:'#eef2ff',primaryTextColor:'#1e293b',primaryBorderColor:'#c7d2fe',lineColor:'#6366f1',secondaryColor:'#f0f9ff',tertiaryColor:'#faf5ff',fontSize:'13px',fontFamily:'-apple-system,BlinkMacSystemFont,"Noto Sans SC",sans-serif'},
-      flowchart:{useMaxWidth:true,htmlLabels:true,curve:'basis'}
-    });
-  });
-</script>
 </head>
 <body>
 <div class="bg-decoration" id="bgDecoration"></div>
@@ -29,6 +20,7 @@
       <a href="#challenges" data-section="challenges" id="navChallenges">Challenges</a>
       <a href="#portfolio" data-section="portfolio" id="navPortfolio">Portfolio</a>
       <a href="resources.html" id="navResources">Resources</a>
+      <a href="#about" data-section="about" id="navAbout">About</a>
     </nav>
     <div class="nav-actions">
       <div class="lang-switch" id="langSwitch">
@@ -57,7 +49,6 @@
   </div>
 </section>
 
-<!-- Floating mascot -->
 <img src="images/项目/小怪兽.jpg" class="hero-mascot" alt="Mascot" onerror="this.style.display='none'">
 
 <section class="section" id="hometown">
@@ -66,7 +57,7 @@
     <h2 class="section-label-en" id="hometownLabel">HOMETOWN</h2>
     <p class="section-label-cn" id="hometownCn">我的家乡</p>
   </div>
-  <div class="focus-carousel fade-in" id="hometownCarousel"></div>
+  <div class="hometown-showcase fade-in" id="hometownShowcase"></div>
 </section>
 
 <section class="section" id="school">
@@ -75,7 +66,7 @@
     <h2 class="section-label-en" id="schoolLabel">ALMA MATER</h2>
     <p class="section-label-cn" id="schoolCn">北部湾大学</p>
   </div>
-  <div class="focus-carousel fade-in" id="schoolCarousel"></div>
+  <div class="school-lissajous fade-in" id="schoolLissajous"></div>
 </section>
 
 <section class="section" id="challenges">
@@ -94,10 +85,9 @@
     <p class="section-label-cn" id="portfolioCn">项目作品集</p>
   </div>
   <div class="projects-grid fade-in stagger" id="featuredProjects"></div>
-  <div style="text-align:center;margin-top:32px;">
-    <button class="btn-view-all" id="btnViewAll" onclick="toggleMoreProjects()">View All</button>
+  <div class="marquee-section fade-in" id="marqueeSection">
+    <div class="marquee-track" id="marqueeTrack"></div>
   </div>
-  <div class="more-grid fade-in" id="expandedProjects" style="display:none;margin-top:32px;"></div>
 </section>
 
 <section class="section" id="about">
