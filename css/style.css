@@ -27,7 +27,7 @@ img{display:block;max-width:100%}
 @keyframes float-blob{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(var(--dx,30px),var(--dy,-20px)) scale(1.05)}}
 
 /* ===== Navbar ===== */
-.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-h);background:rgba(255,255,255,0.78);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border-light);display:flex;align-items:center;transition:height 0.3s ease,background 0.3s ease,box-shadow 0.3s ease}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-h);background:rgba(255,255,255,0.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border-light);display:flex;align-items:center;transition:height 0.3s ease,background 0.3s ease,box-shadow 0.3s ease}
 .navbar.scrolled{box-shadow:var(--shadow-sm);background:rgba(255,255,255,0.95);height:52px}
 .nav-inner{width:100%;max-width:1240px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:20px}
 .nav-logo{font-family:var(--font-serif);font-size:1.3rem;font-weight:800;color:var(--ink);flex-shrink:0}
@@ -57,7 +57,7 @@ img{display:block;max-width:100%}
 .hero-video-overlay{position:absolute;inset:0;z-index:1;background:rgba(0,0,0,0.45)}
 .hero-content{position:relative;z-index:2}
 .hero-name{font-family:var(--font-serif);font-size:clamp(2.5rem,8vw,6rem);font-weight:900;color:#fff;line-height:1;letter-spacing:4px}
-.hero-name .grad{color:#fff;-webkit-text-fill-color:#fff;position:relative;transition:opacity 0.5s,transform 0.5s}
+.hero-name .grad{color:#fff;position:relative;transition:opacity 0.5s,transform 0.5s}
 .video-drag-hint{position:absolute;bottom:8px;right:16px;z-index:2;font-size:0.6rem;color:rgba(255,255,255,0.3);pointer-events:none;transition:opacity 0.8s}
 
 /* ===== Floating Mascot ===== */
@@ -173,8 +173,9 @@ img{display:block;max-width:100%}
 @keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
 
 /* ===== Fade In ===== */
-.fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.8s cubic-bezier(0.25,0.1,0.25,1),transform 0.8s cubic-bezier(0.25,0.1,0.25,1);will-change:opacity,transform}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.8s cubic-bezier(0.25,0.1,0.25,1),transform 0.8s cubic-bezier(0.25,0.1,0.25,1)}
 .fade-in.visible{opacity:1;transform:translateY(0)}
+section:first-of-type + section .fade-in.visible{transition-delay:0s}
 
 /* ===== Responsive ===== */
 @media(max-width:900px){

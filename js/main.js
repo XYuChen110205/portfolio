@@ -283,4 +283,23 @@ function renderContacts(){
 }
 
 // ===== Fade In =====
-function initFadeIn(){window.addEventListener('scroll',function(){document.querySelectorAll('.fade-in:not(.visible)').forEach(function(e){var r=e.getBoundingClientRect();if(r.top<window.innerHeight*.88)e.classList.add('visible');});});}
+function initFadeIn(){
+  function check(){document.querySelectorAll('.fade-in:not(.visible)').forEach(function(e){var r=e.getBoundingClientRect();if(r.top<window.innerHeight*.92)e.classList.add('visible');});}
+  window.addEventListener('scroll',check);
+  // First visible elements appear immediately
+  setTimeout(check,50);
+  setTimeout(check,300);
+}
+
+// ===== Language change — re-render without page reload =====
+window.addEventListener('langchange', function() {
+  applyTexts();
+  renderFeaturedProjects();
+  renderMarquee();
+  renderChallengesInterests();
+  renderTimeline();
+  renderContacts();
+  // Re-init hometown with new language texts
+  var hs=document.getElementById('hometownShowcase');
+  if(hs) initHometownShowcase();
+});

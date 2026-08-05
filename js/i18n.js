@@ -12,9 +12,7 @@ function t(key) {
 function setLang(lang) {
   currentLang = lang;
   localStorage.setItem(LANG_KEY, lang);
-  // Re-render everything
-  location.reload();
-  // In production we'd do: renderAll(); but reload is cleaner
+  window.dispatchEvent(new Event('langchange'));
 }
 
 function langLabel(lang) {
