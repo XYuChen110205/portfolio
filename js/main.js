@@ -565,13 +565,11 @@ function renderChallengesInterests() {
     {src:'images/chanllenge/焊接电路.jpg', label:'焊接电路'},
     {src:'images/chanllenge/时间继电器.jpg', label:'时间继电器'},
     {src:'images/chanllenge/电工接线练习.jpg', label:'电工接线'},
-    {src:'images/chanllenge/electri-合照.jpg', label:'竞赛合照'},
-    {src:'images/chanllenge/焊接.png', label:'焊接'},
     {src:'images/chanllenge/焊接铁.jpg', label:'焊接铁'},
     {src:'images/chanllenge/线图图接线-控制线路.jpg', label:'接线图'},
     {src:'images/chanllenge/最简单的双联灯泡电路.jpg', label:'双联电路'},
     {src:'images/chanllenge/电子版本控制线路接线图.jpg', label:'接线图2'},
-    {src:'images/chanllenge/英语竞赛-小品.jpg', label:'竞赛小品'},
+    {src:'images/chanllenge/英语竞赛-小品.jpg', label:'英语竞赛小品'},
     {src:'images/chanllenge/英语竞赛合照.jpg', label:'英语竞赛'}
   ];
 
