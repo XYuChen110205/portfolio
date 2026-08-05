@@ -273,7 +273,10 @@ function ptext(id, field) {
 }
 
 // ========== Focus Zoom Carousel ==========
-function createFocusCarousel(containerId, images) {
+function createFocusCarousel(containerId, images, opts) {
+  opts = opts || {};
+  var curveType = opts.curve || 'spiral'; // 'spiral' | 'flat'
+  var speed = opts.speed || 1400;         // ms between slides
   var container = document.getElementById(containerId);
   if (!container || !images.length) return;
 
@@ -328,10 +331,13 @@ function createFocusCarousel(containerId, images) {
   function positionSlides(cb) {
     transitioning = true;
     var w = track.clientWidth || container.clientWidth || 900;
-    // 10x base size — clearly visible on curve
     var slideW = 500, slideH = 350;
     if (w < 900) { slideW = 350; slideH = 245; }
     if (w < 600) { slideW = 250; slideH = 175; }
+
+    var phi = (1 + Math.sqrt(5)) / 2;
+    var cx = w / 2 - slideW / 2;
+    var cy = 200; if (w < 900) cy = 150; if (w < 600) cy = 110;
 
     for (var i = 0; i < N; i++) {
       var offset = i - active;
@@ -340,38 +346,35 @@ function createFocusCarousel(containerId, images) {
       var absOff = Math.abs(offset);
       var sign = offset >= 0 ? 1 : -1;
 
-    // ── Fibonacci Spiral (φ≈1.618, golden angle≈137.5°) ──
-    var phi = (1 + Math.sqrt(5)) / 2;
-    var goldenAngle = Math.PI * (3 - Math.sqrt(5));
-    var angle = sign * absOff * goldenAngle;
-    var radiusFactor = Math.pow(phi, absOff * 0.7);
-    var radius = (w * 0.3) * radiusFactor;
-    var cx = w / 2 - slideW / 2;
-    var cy = 200; if (w < 900) cy = 150; if (w < 600) cy = 110;
-    var x = cx + Math.cos(angle) * radius;
-    var y = cy + Math.sin(angle) * radius * 0.5;
+      var x, y;
+      if (curveType === 'flat') {
+        // Simple horizontal carousel with slight vertical curve
+        var spacing = slideW * 0.6;
+        x = cx + offset * spacing;
+        y = cy + Math.sin(offset * 0.6) * 30;
+      } else {
+        // Fibonacci spiral
+        var goldenAngle = Math.PI * (3 - Math.sqrt(5));
+        var angle = sign * absOff * goldenAngle;
+        var radius = (w * 0.3) * Math.pow(phi, absOff * 0.7);
+        x = cx + Math.cos(angle) * radius;
+        y = cy + Math.sin(angle) * radius * 0.5;
+      }
 
-      var phi = (1 + Math.sqrt(5)) / 2;
-      // Scale: 1.0 at center (offset=0), drops by φ per step to ~0.04 at far
       var scale = Math.max(0.04, Math.pow(phi, -absOff * 0.85));
-      var rot = sign * absOff * 18;
       var rot = sign * absOff * 18;
       var z = absOff <= 1 ? Math.max(3 - absOff, 1) : 0;
       var opacity = absOff <= 1 ? 1 : Math.max(0.1, Math.pow(phi, -absOff * 1.2));
 
       slides[i].style.cssText =
-        'width:'+slideW+'px;height:'+slideH+'px;' +
-        'left:0;top:0;' +
+        'width:'+slideW+'px;height:'+slideH+'px;left:0;top:0;' +
         'transform:translate('+x.toFixed(0)+'px,'+y.toFixed(0)+'px) perspective(1200px) rotateY('+rot+'deg) scale('+scale.toFixed(4)+');' +
         'z-index:'+z+';opacity:'+opacity.toFixed(3)+';border-radius:2px;';
       slides[i].classList.remove('active', 'zoomed', 'near');
       if (absOff === 0) slides[i].classList.add('active');
       if (absOff >= 1 && absOff <= 2) slides[i].classList.add('near');
     }
-    setTimeout(function() {
-      transitioning = false;
-      if (cb) cb();
-    }, 400);
+    setTimeout(function() { transitioning = false; if (cb) cb(); }, 400);
   }
 
   // ── Fixed: unzoom only removes class, keeps inline styles ──
@@ -404,16 +407,9 @@ function createFocusCarousel(containerId, images) {
 
   function resetTimer(pauseMs) {
     if (timer) clearInterval(timer);
-    var interval = 1400;
     timer = setTimeout(function step() {
       advance();
-      var nextInterval = interval + 800;
-      timer = setTimeout(function() {
-        unzoom();
-        timer = setTimeout(function() {
-          step();
-        }, 400);
-      }, interval);
+      timer = setTimeout(function() { unzoom(); timer = setTimeout(function() { step(); }, 400); }, speed + 800);
     }, pauseMs || 200);
   }
 
@@ -458,7 +454,7 @@ function initHometownCarousel() {
     'images/梧州/骑楼夜1.jpg','images/梧州/骑楼白1.jpg','images/梧州/龟苓膏.jpg'
   ];
   filterExistingImages(imgs, function(existing) {
-    createFocusCarousel('hometownCarousel', existing);
+    createFocusCarousel('hometownCarousel', existing, {curve:'flat', speed:3000});
     addWaterfall('hometownCarousel', existing);
   });
 }
@@ -482,7 +478,7 @@ function initSchoolCarousel() {
     'images/BeiBuGulfUniversity/钦州nixingtao.jpg'
   ];
   filterExistingImages(imgs, function(existing) {
-    createFocusCarousel('schoolCarousel', existing);
+    createFocusCarousel('schoolCarousel', existing, {curve:'spiral', speed:2500});
     addWaterfall('schoolCarousel', existing);
   });
 }
