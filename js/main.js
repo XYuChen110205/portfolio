@@ -198,7 +198,7 @@ function initHometownShowcase() {
 function initSchoolLissajous() {
   var c=document.getElementById('schoolLissajous');if(!c)return;
   var imgs=SCHOOL_IMAGES,total=imgs.length;
-  c.innerHTML='<div class="lissa-track" id="lissaTrack"></div><div class="lissa-info"><h3 id="lissaLabel"></h3><p>北部湾大学 · Beibu Gulf University</p><p class="lissa-addr">中国 · 广西 · 钦州</p></div>';
+  c.innerHTML='<div class="lissa-track" id="lissaTrack"></div><div class="lissa-info"><h3 id="lissaLabel"></h3><p>北部湾大学 · Beibu Gulf University</p><p class="lissa-addr">中国钦州 · 北部湾大学 · 3A景区</p></div>';
   var track=document.getElementById('lissaTrack');
   imgs.forEach(function(item,i){var e=document.createElement('div');e.className='lissa-item';e.dataset.index=i;e.innerHTML='<img src="'+item.src+'" alt="'+item.label+'" loading="lazy" data-lightbox="'+item.src+'">';track.appendChild(e);});
   var items=track.querySelectorAll('.lissa-item'),angle=0,ci=0,fA=3,fB=2,spd=0.008,running=true;
