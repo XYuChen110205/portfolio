@@ -229,17 +229,6 @@ function applyTexts() {
   var sp = document.getElementById('heroStatProjects');
   if (sp) sp.textContent = t('hero_stat_projects');
 
-  // Section English labels
-  var labels = {
-    hometownLabel:'sec_hometown_label', schoolLabel:'sec_school_label',
-    challengesLabel:'sec_challenges_label', portfolioLabel:'sec_portfolio_label',
-    aboutLabel:'sec_about_label', contactLabel:'sec_contact_label'
-  };
-  for (var id in labels) {
-    var el = document.getElementById(id);
-    if (el) el.textContent = t(labels[id]);
-  }
-
   // Section Chinese labels + descs
   var cnLabels = {
     hometownCn:'sec_hometown_title', schoolCn:'sec_school_title',
